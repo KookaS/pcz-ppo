@@ -1,0 +1,84 @@
+# docker-compose.train.yml — Training and evaluation
+#
+# Usage (from devcontainer or host):
+#   # Start MLflow stack first (if not running)
+#   docker compose --env-file .env.mlflow -f docker-compose.mlflow.yml up -d
+#
+#   # Build training image
+#   docker compose -f docker-compose.train.yml build
+#
+#   # Single algorithm training
+#   docker compose -f docker-compose.train.yml run --rm train \
+#     core.train --algorithm=pcz-ppo --total-timesteps=50000
+#
+#   # Compare algorithms
+#   docker compose -f docker-compose.train.yml run --rm train \
+#     core.compare --algorithms ppo pcz-ppo ppo-znorm grpo-pcz \
+#       --total-timesteps=100000 --n-envs=4
+#
+#   # Evaluation only
+#   docker compose -f docker-compose.train.yml run --rm train \
+#     core.train --eval-only --checkpoint=runs/best_model/best_model.zip
+#
+#   # Interactive shell
+#   docker compose -f docker-compose.train.yml run --rm --entrypoint bash train
+#
+#   # With GPU (requires nvidia-container-toolkit):
+#   docker compose -f docker-compose.train.yml \
+#     -f docker-compose.train.gpu.yml run --rm train \
+#     core.train --algorithm=pcz-ppo --total-timesteps=50000
+#
+# HOST_PROJECT_DIR is auto-set by devcontainer.json containerEnv.
+# No .env.train file needed.
+
+services:
+  train:
+    build:
+      context: .
+      dockerfile: Dockerfile.train
+    container_name: rl-train
+    image: rl-train:latest
+
+    # Mount source code (live editing) + persistent artifacts
+    # Uses HOST_PROJECT_DIR for devcontainer ↔ host path translation
+    volumes:
+      # Source code — bind mount for live editing
+      - ${HOST_PROJECT_DIR:-.}/core:/app/core:ro
+      - ${HOST_PROJECT_DIR:-.}/pyproject.toml:/app/pyproject.toml:ro
+      - ${HOST_PROJECT_DIR:-.}/uv.lock:/app/uv.lock:ro
+
+      # Persistent output directories (read-write)
+      - ${HOST_PROJECT_DIR:-.}/runs:/app/runs
+      - ${HOST_PROJECT_DIR:-.}/artifacts:/app/artifacts
+      - ${HOST_PROJECT_DIR:-.}/data:/app/data
+
+      # X11 forwarding (WSLg / Linux host)
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+
+    environment:
+      # MLflow — use container name on the shared Docker network
+      - MLFLOW_TRACKING_URI=http://mlflow-server:5050
+
+      # X11 display (inherit from host)
+      - DISPLAY=${DISPLAY:-:0}
+
+      # GPU / CUDA env vars (effective only with gpu overlay)
+      - NVIDIA_VISIBLE_DEVICES=${NVIDIA_VISIBLE_DEVICES:-all}
+      - NVIDIA_DRIVER_CAPABILITIES=${NVIDIA_DRIVER_CAPABILITIES:-compute,utility,graphics}
+
+      # Python
+      - PYTHONUNBUFFERED=1
+
+    # GPU: add -f docker-compose.train.gpu.yml for NVIDIA passthrough
+
+    # Join MLflow network so train container can reach postgres/minio/mlflow
+    networks:
+      - mlflow-network
+
+    # Keep stdin open for interactive debugging
+    stdin_open: true
+    tty: true
+
+networks:
+  mlflow-network:
+    external: true

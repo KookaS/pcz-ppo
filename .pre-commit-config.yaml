@@ -1,0 +1,78 @@
+# Layer 1: Deterministic checks that run on every commit.
+# These catch classes of errors that don't need AI judgment.
+# Install: pre-commit install (run once after cloning)
+
+repos:
+  # Secrets detection — blocks commits containing passwords, API keys, tokens
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.2
+    hooks:
+      - id: gitleaks
+
+  # Ruff — linting + formatting (replaces flake8, isort, black)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.10
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  # General hygiene
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: detect-private-key
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+
+  # Paper numerical claims ↔ data consistency
+  # If any .tex in the paper or results.csv is staged, re-run render_claims
+  # in --check mode.  Fails if committed fragments under generated/ are stale
+  # with respect to the current results.csv.
+  - repo: local
+    hooks:
+      - id: pcz-render-claims-check
+        name: PCZ paper claims match data (render_claims --check)
+        entry: uv run python paper/render_claims.py --check
+        language: system
+        pass_filenames: false
+        files: '^(paper/.*\.tex|paper/render_claims\.py|paper/fig_data\.py|data/results\.csv)$'
+
+      # Second layer: flag any hand-typed mean±std or N× ratio outside \cnum{}.
+      # Catches residual drift risk in prose that render_claims cannot see.
+      - id: pcz-lint-hardcoded-numbers
+        name: PCZ paper has no hand-typed numerical claims (lint)
+        entry: uv run python paper/lint_hardcoded_numbers.py
+        language: system
+        pass_filenames: false
+        files: '^paper/.*\.tex$'
+
+      # Second-and-a-half layer: catch caption text that claims a seed
+      # count (e.g. "3--5 seeds", "n=3") when the table body pulls
+      # \cnum{*_seeds} fragments resolving to values outside that claim.
+      - id: pcz-lint-caption-drift
+        name: PCZ paper table captions match fragment seed counts
+        entry: uv run python paper/lint_caption_drift.py
+        language: system
+        pass_filenames: false
+        files: '^(paper/.*\.tex|paper/generated/.*_seeds\.tex)$'
+
+      # Third layer: full paper-build DAG staleness check.  Extends the
+      # claims check to figures: each fig_*.py declares INPUTS; any
+      # change to a figure script, fig_data.py, results.csv, or any
+      # parquet/JSON referenced by a figure's INPUTS invalidates the
+      # corresponding output hash and fails the commit.
+      # PDF compile is intentionally OFF (too slow/flaky for pre-commit).
+      - id: pcz-paper-build-check
+        name: PCZ paper figures + fragments match data (paper_build --check)
+        entry: uv run python paper/paper_build.py --check
+        language: system
+        pass_filenames: false
+        files: '^(paper/fig_.*\.py|paper/fig_data\.py|paper/render_claims\.py|paper/paper_build\.py|paper/paper_build\.lock\.json|paper/generated/.*\.tex|paper/fig_.*\.(pdf|png)|data/results\.csv|data/metrics/.*\.parquet|llm_alignment/runs/.*\.json)$'

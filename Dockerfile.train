@@ -1,0 +1,69 @@
+# Dockerfile.train — Training and evaluation container
+#
+# Lean image with Python 3.12, uv, project deps, X11/SDL2 for visualization.
+# Source code is bind-mounted at runtime (not copied).
+#
+# Build:  docker compose -f docker-compose.train.yml build
+# Run:    docker compose -f docker-compose.train.yml run --rm train <command>
+
+FROM python:3.12-slim AS base
+
+ARG USERNAME=trainer
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# System deps: build tools, X11/SDL2 (visualization), SWIG (Box2D), git
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    curl \
+    ca-certificates \
+    # SWIG (required by Box2D / LunarLander)
+    swig \
+    # X11 client libs (WSLg / X forwarding)
+    libx11-6 \
+    libxext6 \
+    libxrender1 \
+    x11-utils \
+    # SDL2 (SuperMario rendering)
+    libsdl2-2.0-0 \
+    libsdl2-dev \
+    # OpenGL (PyTorch / rendering)
+    libgl1 \
+    libglib2.0-0 \
+    # Video encoding (optional: record eval episodes)
+    ffmpeg \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && mkdir -p /app /home/$USERNAME/.local/bin \
+    && chown -R $USERNAME:$USERNAME /app /home/$USERNAME
+
+USER $USERNAME
+ENV PATH="/home/$USERNAME/.local/bin:$PATH"
+
+# Install uv
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+
+WORKDIR /app
+
+# Copy only dependency files first (cache-friendly layer)
+COPY --chown=$USERNAME:$USERNAME pyproject.toml uv.lock* ./
+
+# Install dependencies (baked into image for fast startup)
+# Core deps include gymnasium[box2d] (LunarLander) + mo-gymnasium
+# --extra mario adds gym-super-mario-bros (pins numpy<2.0)
+RUN uv sync --extra mario 2>/dev/null || uv sync
+
+# Source code is bind-mounted at runtime — don't COPY it
+# This keeps the image small and allows live editing
+
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+
+ENTRYPOINT ["uv", "run", "python", "-m"]
+CMD ["core.train", "--help"]

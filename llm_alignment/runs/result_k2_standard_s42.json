@@ -1,0 +1,23 @@
+{
+  "k": 2,
+  "mode": "standard",
+  "seed": 42,
+  "steps": 200,
+  "model": "Qwen/Qwen2.5-0.5B",
+  "device": "cuda",
+  "training_loss": 0.12251373171806336,
+  "final_train_reward": 2.688,
+  "training_time_s": 2303.8,
+  "peak_vram_gb": 1.06,
+  "eval_rewards": {
+    "sentiment": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "format_rating": {
+      "mean": 0.0,
+      "std": 0.0
+    }
+  },
+  "total_reward": 0.0
+}

@@ -1,0 +1,1318 @@
+{
+  "LLM_k2_delta": {
+    "sha256": "739ceac734f2ad48653753a7ea3a931797cb08a28605c8e6fcadbb3942359fa4",
+    "source": "PCZ mean - Standard mean (LLM K=2)"
+  },
+  "LLM_k2_pcz_stat": {
+    "sha256": "897ad6411d50f33deccb48a178359d3e155625f18795c021f1018c87418976f4",
+    "source": "llm_alignment/runs/result_k2_{mode}_s{42,43,44}.json"
+  },
+  "LLM_k2_standard_stat": {
+    "sha256": "897ad6411d50f33deccb48a178359d3e155625f18795c021f1018c87418976f4",
+    "source": "llm_alignment/runs/result_k2_{mode}_s{42,43,44}.json"
+  },
+  "LLMfact_k4_main_critic": {
+    "sha256": "55fad8b8f6fe1cf0829528166472f6c88fb0259b6aee1036f17e01f026aff0b1",
+    "source": "LLM factorial K=4 main-effect critic"
+  },
+  "LLMfact_k4_main_critic_p": {
+    "sha256": "cac16a39a8ba18f16af526bd547f625e88e6771280b5f3e0feb57f51196d57e0",
+    "source": "LLM factorial K=4 Welch p critic"
+  },
+  "LLMfact_k4_main_pcz": {
+    "sha256": "a5e8cfc7f671f4bb80052193f88505f5616ca67411ea9946ecf48da1d3872f4d",
+    "source": "LLM factorial K=4 main-effect PCZ"
+  },
+  "LLMfact_k4_main_pcz_p": {
+    "sha256": "0ca356685ecccde1b12f745820e7cc12a6c81be21f1deb0bb35742f8dc734d37",
+    "source": "LLM factorial K=4 Welch p PCZ"
+  },
+  "LLMfact_k4_ppo_pcz_stat": {
+    "sha256": "f8b49ca1d7cf3092a0d170d833c78a75ab72295ef55fdf1b3737ae9e9c2c253e",
+    "source": "LLM factorial K=4 critic=ppo mode=pcz n=3"
+  },
+  "LLMfact_k4_ppo_standard_stat": {
+    "sha256": "f8b49ca1d7cf3092a0d170d833c78a75ab72295ef55fdf1b3737ae9e9c2c253e",
+    "source": "LLM factorial K=4 critic=ppo mode=standard n=3"
+  },
+  "LLMfact_k4_rloo_pcz_stat": {
+    "sha256": "ca36d73273deca2a4d2a8a997bc4e0774a5074cdf2511137d560493471242475",
+    "source": "LLM factorial K=4 critic=rloo mode=pcz n=3"
+  },
+  "LLMfact_k4_rloo_standard_stat": {
+    "sha256": "ca36d73273deca2a4d2a8a997bc4e0774a5074cdf2511137d560493471242475",
+    "source": "LLM factorial K=4 critic=rloo mode=standard n=3"
+  },
+  "LLMfact_k4_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "LLM factorial K=4 min seeds per cell"
+  },
+  "LLMppo_500_k6_delta": {
+    "sha256": "3cec9911606aa7ee2e81c5cee2808dd8887689e70af3130e369e3bed00a9e2df",
+    "source": "PCZ mean - Standard mean (LLM PPO K=6)"
+  },
+  "LLMppo_500_k6_pcz_stat": {
+    "sha256": "8f0e1b7a0022e1c7d70621a05d4a2d9a94baa97fdca8a3615597890e91d1bcfe",
+    "source": "llm_alignment/runs/result_ppo_k6_{mode}_s{42,43,44,45,46}.json"
+  },
+  "LLMppo_500_k6_standard_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "llm_alignment/runs/result_ppo_k6_{mode}_s{42,43,44,45,46}.json"
+  },
+  "LLMppo_500_k6_standard_stat": {
+    "sha256": "f8ee3efda628a8a1ad472a7b452449249b8324b51d3bae98cebd7f92f51e0717",
+    "source": "llm_alignment/runs/result_ppo_k6_{mode}_s{42,43,44,45,46}.json"
+  },
+  "LLMppo_500_k6_var_ratio": {
+    "sha256": "88930bd051d214a973581b9492a5ca110aea3fdd5dc65a68bc444b6173877bbd",
+    "source": "Standard / PCZ variance ratio (LLM PPO K=6)"
+  },
+  "LLMppo_500_k6_welch_p": {
+    "sha256": "40838b5ac57fe515798f2fa3a5e0c710516df8795414275db8174a58e0044bf7",
+    "source": "Welch p (LLM PPO K=6)"
+  },
+  "LLMppo_k4_delta": {
+    "sha256": "aecbc3b92d920497109c966ce82257940c9bf8eb35837210d0d95854bd3d87bd",
+    "source": "PCZ mean - Standard mean (LLM PPO K=4)"
+  },
+  "LLMppo_k4_pcz_stat": {
+    "sha256": "e00363a720a47063ab821a5014eb7ad927207698e6af013119f6b8c5e1e2a240",
+    "source": "llm_alignment/runs/result_ppo_k4_{mode}_s{42,43,44}.json"
+  },
+  "LLMppo_k4_standard_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "llm_alignment/runs/result_ppo_k4_{mode}_s{42,43,44}.json"
+  },
+  "LLMppo_k4_standard_stat": {
+    "sha256": "d8e31100b12ce7223f9776322fea022ec2e387f0be72949282cb4833e22db64f",
+    "source": "llm_alignment/runs/result_ppo_k4_{mode}_s{42,43,44}.json"
+  },
+  "LLMppo_k6_delta": {
+    "sha256": "c2795fad12f88960158b9851660c282795befb6326a75cdb4ca47ca30cd66504",
+    "source": "PCZ mean - Standard mean (LLM PPO K=6)"
+  },
+  "LLMppo_k6_pcz_stat": {
+    "sha256": "4a7a672d718d58387c891c21d659d3bb64be09869dfcbd59551bfaa49b8b5c5c",
+    "source": "llm_alignment/runs/result_ppo_k6_{mode}_s{43,44,45,46}_200step.json"
+  },
+  "LLMppo_k6_standard_seeds": {
+    "sha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+    "source": "llm_alignment/runs/result_ppo_k6_{mode}_s{43,44,45,46}_200step.json"
+  },
+  "LLMppo_k6_standard_stat": {
+    "sha256": "b6561a4fa118ed85a7d6b7e1bac0785bccd8199e60c6ea249dfa6d294e5c0f8f",
+    "source": "llm_alignment/runs/result_ppo_k6_{mode}_s{43,44,45,46}_200step.json"
+  },
+  "LLMppo_k6_var_ratio": {
+    "sha256": "75112d758c2551d782aaad167b590b1bf1bff67b085e03aabb81ab63506a8d83",
+    "source": "Standard / PCZ variance ratio (LLM PPO K=6)"
+  },
+  "LLMppo_k6_welch_p": {
+    "sha256": "5a5f13df6e87c64429a142f672eb173165bb03ae4dc0440b429a969516f43fe7",
+    "source": "Welch p (LLM PPO K=6)"
+  },
+  "ablA10_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-pcz-ppo-quantile env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA10_stat": {
+    "sha256": "7b4e34f7423e9680168528671669c7616149d6cb66b472c50cf17f71807b72a5",
+    "source": "algo=torchrl-pcz-ppo-quantile env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA11_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-pcz-ppo-lambdak env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA11_stat": {
+    "sha256": "44a19b1dd881cf15576d285ed231692824d231a08bec68c8ab7103ec1e94f277",
+    "source": "algo=torchrl-pcz-ppo-lambdak env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA12_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-pcz-ppo-asym env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA12_stat": {
+    "sha256": "06ff25e32b4fcbf363c32cb1b386c71b6e4bcf032c8f30b1fd1075eecc618251",
+    "source": "algo=torchrl-pcz-ppo-asym env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA13_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-pcz-ppo-tcheby env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA13_stat": {
+    "sha256": "10f8f68be99d5bef8a33022805fe23a501db62c6a386734d74333450ca50deab",
+    "source": "algo=torchrl-pcz-ppo-tcheby env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA14_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-pcz-ppo-mi env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA14_stat": {
+    "sha256": "0f15ebab1ef44d38c7ef3a34eb14ecb608b67bfadfb748dec66d0573e2c25725",
+    "source": "algo=torchrl-pcz-ppo-mi env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA15_seeds": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "algo=torchrl-pcz-ppo-symznorm env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA15_stat": {
+    "sha256": "4fc750e25f9adf01581c8c9d36fd780c1c211c7329e3821a593aa9cd731fdc0b",
+    "source": "algo=torchrl-pcz-ppo-symznorm env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA16_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-pcz-ppo-cosw env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA16_stat": {
+    "sha256": "266b38833d17fa3d36ee0da643ad3d50efa242a89aa314a702d021958f325801",
+    "source": "algo=torchrl-pcz-ppo-cosw env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA1_mean": {
+    "sha256": "9310e2eea3e79c59be837fe720a30559d75f45814475a564f0256e1758bbe69f",
+    "source": "algo=torchrl-pcz-ppo-running env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA1_seeds": {
+    "sha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+    "source": "algo=torchrl-pcz-ppo-running env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA1_stat": {
+    "sha256": "8b15d0c5405e0188b047be1760224fac6ff3bc94dcabc57d2f1afc9b9fad759d",
+    "source": "algo=torchrl-pcz-ppo-running env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA5_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "algo=torchrl-ppo-znorm-post env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA5_stat": {
+    "sha256": "54bb2b688bd40eb8a7033d6354bd30c92aac94ee3cb284185429a16ed14e1526",
+    "source": "algo=torchrl-ppo-znorm-post env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA6_seeds": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "algo=torchrl-pcz-ppo-running-no-whiten env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA6_stat": {
+    "sha256": "b449a599c0e6740a12a02bf22ef4c305f3fe614b286732be6b6a498e5bfe4e4b",
+    "source": "algo=torchrl-pcz-ppo-running-no-whiten env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA7_seeds": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "algo=torchrl-ppo-weighted-running env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA7_stat": {
+    "sha256": "c03d631fc84b3af48bdf63e044d6b426b0b070fb346265780b84335558c66739",
+    "source": "algo=torchrl-ppo-weighted-running env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA8_seeds": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "algo=torchrl-pcz-ppo-zca env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA8_stat": {
+    "sha256": "96b0555fe8ae152df48491c27a2822626f1c1ba25c8c785b5b2439487a764553",
+    "source": "algo=torchrl-pcz-ppo-zca env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA9_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-pcz-ppo-log env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablA9_stat": {
+    "sha256": "3692b3d6896f32b6f656bc2a2265625af61609b547bd894df72d0131a7353317",
+    "source": "algo=torchrl-pcz-ppo-log env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablB1_mean": {
+    "sha256": "1accba82bef33263cd0538599989da4a5bf15b9b266da103fd1b2f45f133d70b",
+    "source": "algo=torchrl-ppo env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablB1_seeds": {
+    "sha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+    "source": "algo=torchrl-ppo env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablB1_stat": {
+    "sha256": "e4356af5a0a3aca2cac7798624b8c70a828bba04bb6388183b7f51dbfc15a1b2",
+    "source": "algo=torchrl-ppo env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablB2_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-ppo-no-norm env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablB2_stat": {
+    "sha256": "3420276b5b61dfb2b43c357455fcd9aebdda9986bd7618214f95a46ab657bbd4",
+    "source": "algo=torchrl-ppo-no-norm env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablB4_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-ppo-znorm env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablB4_stat": {
+    "sha256": "dd3bd3eb8d65bef1d5f975dbbe14abab646f346656a47ac14da5d0b4c28c2df9",
+    "source": "algo=torchrl-ppo-znorm env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablC1_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-grpo env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablC1_stat": {
+    "sha256": "b2e5a6fe41fab9eb24d4b485979e51071cb9aad4bce016572583baf3ee210a36",
+    "source": "algo=torchrl-grpo env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablC5_seeds": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "algo=torchrl-ppo-multihead env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablC5_stat": {
+    "sha256": "c6b409150725c3f1fd4fd579382e41229b16e3681b91129456aa5ebc7c1eef07",
+    "source": "algo=torchrl-ppo-multihead env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablD1_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "algo=torchrl-pcz-ppo-mc env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablD1_stat": {
+    "sha256": "694ece82c975fccaba58dca9db10901a2955d53ec48e588046f7730dfc1d0ae1",
+    "source": "algo=torchrl-pcz-ppo-mc env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablGDPOPopArt_mean": {
+    "sha256": "1a0d9086e9ded15c68b997eda2edc0b408431c7d3e838ab952fcbcae38180d8d",
+    "source": "algo=torchrl-pcz-ppo-popart env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablGDPOPopArt_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-pcz-ppo-popart env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablGDPOPopArt_stat": {
+    "sha256": "c405ff275d4b832824846bdc1c6658d4ee8159768eb191c21b58edec03f97d41",
+    "source": "algo=torchrl-pcz-ppo-popart env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablGDPO_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-pcz-grpo env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablGDPO_stat": {
+    "sha256": "5f32b5d603feff52709304edb090989e419fde016582c3646bbc9752735f3a28",
+    "source": "algo=torchrl-pcz-grpo env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablPopArt_mean": {
+    "sha256": "dc7328788f489fe4c8f60487be6e5f000df9f4aa9a46070699cd4ddae71d6b46",
+    "source": "algo=torchrl-ppo-popart env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablPopArt_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-ppo-popart env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "ablPopArt_stat": {
+    "sha256": "8e73bbf3b60625b126e69a36591d78f828f2fe601ec559cca1c882ff4237475f",
+    "source": "algo=torchrl-ppo-popart env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "abl_a15_over_a1_bca_ci": {
+    "sha256": "e8b1a313879b6c0f4d13b908c94d80a2c6f8cab758e096731517973a276290c7",
+    "source": "A15 vs A1 lunarlander 500k n=10/15, paired seeds=10, weights=10.00,5.00,0.50,0.50"
+  },
+  "abl_a15_over_a1_delta": {
+    "sha256": "9bd72b0255dd879ac9bef35b905f3f38a328492543e27f8a72d62f9d92a83e92",
+    "source": "A15 vs A1 lunarlander 500k n=10/15, paired seeds=10, weights=10.00,5.00,0.50,0.50"
+  },
+  "abl_a15_over_a1_k6_delta": {
+    "sha256": "564a3b1dedfcf2405eaa3e7ddbd2f958769e3ca44ae3ab6a571efce12c7579fc",
+    "source": "A15 vs A1 lunarlander-k6 500k n=10/15, paired seeds=10, weights=10.00,3.00"
+  },
+  "abl_a15_over_a1_k6_paired_p": {
+    "sha256": "2d512cf771678e9069d875a6454e28170053f42f22fe8d8c9773cebf1770178f",
+    "source": "A15 vs A1 lunarlander-k6 500k n=10/15, paired seeds=10, weights=10.00,3.00"
+  },
+  "abl_a15_over_a1_k6_var_ratio": {
+    "sha256": "dc4eebed2af0f85055c8bd561653243d92178aae441afb058c6b0ca8ac8ad270",
+    "source": "A15 vs A1 lunarlander-k6 500k n=10/15, paired seeds=10, weights=10.00,3.00"
+  },
+  "abl_a15_over_a1_k6_welch_d": {
+    "sha256": "d25b592437834b77c87835a945266fe831fe361f6efc126c0b8324247eed6cbe",
+    "source": "A15 vs A1 lunarlander-k6 500k n=10/15, paired seeds=10, weights=10.00,3.00"
+  },
+  "abl_a15_over_a1_k8_delta": {
+    "sha256": "e39f5faa05b5586616065274485f356c101e38a609129461863978dfb55f18ca",
+    "source": "A15 vs A1 lunarlander-k8 500k n=10/10, paired seeds=10, weights=None"
+  },
+  "abl_a15_over_a1_k8_welch_d": {
+    "sha256": "46c6558f8d4b509d0756265c7b4c68b8f8e6a767d9647371bcc63fef22c899f9",
+    "source": "A15 vs A1 lunarlander-k8 500k n=10/10, paired seeds=10, weights=None"
+  },
+  "abl_a15_over_a1_k8_welch_p": {
+    "sha256": "cdee66a1c33e55ed23b049ebe1d6fa8d3e4edc7507d1eca30cbd66044c6be503",
+    "source": "A15 vs A1 lunarlander-k8 500k n=10/10, paired seeds=10, weights=None"
+  },
+  "abl_a15_over_a1_paired_p": {
+    "sha256": "ec060533064bfa1b7213ac6f087e5c901739a44030960bf0323958b4c1d8c872",
+    "source": "A15 vs A1 lunarlander 500k n=10/15, paired seeds=10, weights=10.00,5.00,0.50,0.50"
+  },
+  "abl_a15_over_a1_var_ratio": {
+    "sha256": "5bf8dcbf8cc68b0ec7f597a4d1319b5dd274b49132fca93cf22fc9ce375328fd",
+    "source": "A15 vs A1 lunarlander 500k n=10/15, paired seeds=10, weights=10.00,5.00,0.50,0.50"
+  },
+  "abl_a15_over_a1_welch_d": {
+    "sha256": "95b0f9fe60f5e8e5c032f5073e612095b8508244dae05c4e01fa96681737ec14",
+    "source": "A15 vs A1 lunarlander 500k n=10/15, paired seeds=10, weights=10.00,5.00,0.50,0.50"
+  },
+  "abl_a15_over_a1_welch_p": {
+    "sha256": "5783f398f6091412aa85fa1d8f7617c9800ad285909f0c245a8586743cc2654c",
+    "source": "A15 vs A1 lunarlander 500k n=10/15, paired seeds=10, weights=10.00,5.00,0.50,0.50"
+  },
+  "abl_a5_over_a1_sd_ratio": {
+    "sha256": "8048d1e7e392843de42064d4c1ae59880ce5b149895a2cb79b0680fbf35e488c",
+    "source": "std(A5) / std(A1) \u2014 cross-seed SD ratio for decomposition-adds-robustness claim"
+  },
+  "abl_a5_over_a1_var_ratio": {
+    "sha256": "2f89a8c71969329fb91785b207b6c0e9c0810e70145aff32a3ee85031e03738f",
+    "source": "var(A5) / var(A1) \u2014 cross-seed VARIANCE ratio (SD^2)"
+  },
+  "abl_a5_s42": {
+    "sha256": "7a874a0536f2f6502a2641da11a1d983fe2b375bdc7efd106c152afffdc2f75d",
+    "source": "A5 seed=42 eval_mean (single-seed illustration)"
+  },
+  "abl_a5_s44": {
+    "sha256": "fa239a726b3176eea799f53a6336ad5774a95cb149013af3ea940a850d0a097a",
+    "source": "A5 seed=44 eval_mean (single-seed illustration)"
+  },
+  "abl_decomp_delta": {
+    "sha256": "2df803d0e9f73ca48e3e80584d9ac8e24e61d9b69c7a99a8a1f1c320b4c9b412",
+    "source": "A1 (pcz-ppo-running) - A7 (ppo-weighted-running), lunarlander 500k primary weights"
+  },
+  "abl_eqw_delta": {
+    "sha256": "b5c29062858fce80f4858ca801d3c52f6958637923c891042a29afc6ad078629",
+    "source": "equal-weights - primary-weights PCZ-PPO means"
+  },
+  "abl_eqw_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "torchrl-pcz-ppo-running lunarlander 500k weights=(1,1,1,1)"
+  },
+  "abl_eqw_stat": {
+    "sha256": "12233e7b2e8b306120e12101c109ea1dd9116bffedde55f98363d952059267db",
+    "source": "torchrl-pcz-ppo-running lunarlander 500k weights=(1,1,1,1)"
+  },
+  "abl_pcz_hurts_grpo_delta": {
+    "sha256": "53b7367cb5a1881cd819100db3f9c856c9beb07c785468debf1a36ec6d7c4945",
+    "source": "GDPO - GRPO (PCZ applied to GRPO, magnitude of harm)"
+  },
+  "abl_zca_var_ratio": {
+    "sha256": "bccba76597e97179577a9f4198b4ad96fc88f968afd8340decaf7b9de6673593",
+    "source": "A1 std / ZCA std (variance reduction factor of ZCA vs A1)"
+  },
+  "ca11_w1111_cohen_d": {
+    "sha256": "17fef6301760bd9a7717bd7acd94da2327d79a0c0f4b78783f031a3dd48e3e6c",
+    "source": "CA11 E47.1 weights=1.00,1.00,1.00,1.00 n=5+5"
+  },
+  "ca11_w1111_delta": {
+    "sha256": "e5c0c745dd7fdb35a1a68a8077ff575c5612dd276d186af726dfae1d9ac2c715",
+    "source": "env=lunarlander ts=500000 weights=1.00,1.00,1.00,1.00"
+  },
+  "ca11_w1111_pcz_stat": {
+    "sha256": "12233e7b2e8b306120e12101c109ea1dd9116bffedde55f98363d952059267db",
+    "source": "env=lunarlander ts=500000 weights=1.00,1.00,1.00,1.00"
+  },
+  "ca11_w1111_ppo_stat": {
+    "sha256": "44259de3105bff4f775575264750a9b883d7509a00735acab1dabad4acc69d9d",
+    "source": "env=lunarlander ts=500000 weights=1.00,1.00,1.00,1.00"
+  },
+  "ca11_w1111_welch_p": {
+    "sha256": "e531f93fa6db59aeec9b074895514574fffab4c9320399149d4935a7545a4b0d",
+    "source": "CA11 E47.1 weights=1.00,1.00,1.00,1.00 n=5+5"
+  },
+  "ca11_w3333_cohen_d": {
+    "sha256": "4e15e95d81b3cfde373e29a683012804fd52e8f75696044e899bd2d9a6ad8425",
+    "source": "CA11 E47.1 weights=3.00,3.00,3.00,3.00 n=5+5"
+  },
+  "ca11_w3333_delta": {
+    "sha256": "5989999221c19c0ad5e451a18d9cee55214970e4fa0b28f6ba8022a21f25ba8f",
+    "source": "env=lunarlander ts=500000 weights=3.00,3.00,3.00,3.00"
+  },
+  "ca11_w3333_pcz_stat": {
+    "sha256": "7f461ae384eb52f0d9ab1bcb674268af310a4eba882c88e85c6ca09ebbdaf73f",
+    "source": "env=lunarlander ts=500000 weights=3.00,3.00,3.00,3.00"
+  },
+  "ca11_w3333_ppo_stat": {
+    "sha256": "7d7e2892cdcbe07c9af53e2a9184533f99f4519be9438a585c21a2af53fb1ec7",
+    "source": "env=lunarlander ts=500000 weights=3.00,3.00,3.00,3.00"
+  },
+  "ca11_w3333_welch_p": {
+    "sha256": "d5efb2328f2cde864c6932233bb43badd733c77a4ba46dceaba9820c19f689b1",
+    "source": "CA11 E47.1 weights=3.00,3.00,3.00,3.00 n=5+5"
+  },
+  "ca11_w5311_cohen_d": {
+    "sha256": "de6e4905538ff0fbdab590917ab0e302f2149ab0c75240cc430140a712f08c6d",
+    "source": "CA11 E47.1 weights=5.00,3.00,1.00,1.00 n=5+5"
+  },
+  "ca11_w5311_delta": {
+    "sha256": "abb77c166a4493512db927ac19879ba85d21085e0c20c50020f0a19ecf2ab027",
+    "source": "env=lunarlander ts=500000 weights=5.00,3.00,1.00,1.00"
+  },
+  "ca11_w5311_pcz_stat": {
+    "sha256": "528353f50a07b9bf9dd4850544590d42e667883e4df35afd2aa552b125e1d713",
+    "source": "env=lunarlander ts=500000 weights=5.00,3.00,1.00,1.00"
+  },
+  "ca11_w5311_ppo_stat": {
+    "sha256": "2677bd4da7e1face31ff17d82b35d4ac825b56df79fc58de7183d95fe174d7f2",
+    "source": "env=lunarlander ts=500000 weights=5.00,3.00,1.00,1.00"
+  },
+  "ca11_w5311_welch_p": {
+    "sha256": "fd07d1d8aa458c1ac66289132d3aeaa1f1c96df99a70d585dc4edd080732fce6",
+    "source": "CA11 E47.1 weights=5.00,3.00,1.00,1.00 n=5+5"
+  },
+  "ceBW_delta": {
+    "sha256": "e09d7ea072ba7c64a78769172367d6dc3f20103b4b7bd78fb76726578fa2c186",
+    "source": "env=bipedalwalker ts=500000 weights=*"
+  },
+  "ceBW_pcz_seeds": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "env=bipedalwalker ts=500000 weights=*"
+  },
+  "ceBW_pcz_stat": {
+    "sha256": "fc44e163d504833d28fc3f59209c5b41048e05ebf66b73476f28bb9c5838af79",
+    "source": "env=bipedalwalker ts=500000 weights=*"
+  },
+  "ceBW_ppo_stat": {
+    "sha256": "8daa0673b9608a985d1acd2af21050cdddf47ab793fc92a9766dd3242dfcc993",
+    "source": "env=bipedalwalker ts=500000 weights=*"
+  },
+  "ceBW_ratio": {
+    "sha256": "2154db77b545663b343bfd1fa3e5199441c358308f7bf9b5a8d50a1858c9715b",
+    "source": "env=bipedalwalker ts=500000 weights=*"
+  },
+  "ceBW_symznorm_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-pcz-ppo-symznorm env=bipedalwalker ts=500000 weights=*"
+  },
+  "ceBW_symznorm_stat": {
+    "sha256": "0839d25bab57f4441d52491313db0913637265ebd05ed2d41979dfc6b5001073",
+    "source": "algo=torchrl-pcz-ppo-symznorm env=bipedalwalker ts=500000 weights=*"
+  },
+  "ceHC_k4_delta": {
+    "sha256": "a7b7093baa96e2d27358ce30893399327ecdb7b1651b158f828dc54b2c27d022",
+    "source": "env=halfcheetah-k4 ts=500000 weights=*"
+  },
+  "ceHC_k4_var_ratio": {
+    "sha256": "df5b47311873a4388b15a71ae9846e61cd9cc59d61d37623ed735425a49b1fd0",
+    "source": "env=halfcheetah-k4 ts=500000 weights=*"
+  },
+  "ceHC_k8_delta": {
+    "sha256": "877465d23dd55b44b58587bfee7c15a6eb00cc0cb0a6f62a998fa0ba7f9f7bb4",
+    "source": "env=halfcheetah-k8 ts=500000 weights=*"
+  },
+  "ceHC_k8_pcz_stat": {
+    "sha256": "7a6b992b46050f042c65c9bc3b26256c7063285348bdf46628e621eb936a954d",
+    "source": "env=halfcheetah-k8 ts=500000 weights=*"
+  },
+  "ceHC_k8_ppo_stat": {
+    "sha256": "e653d50e004a5f2ba17ef2c2a2642687975b1eb61c9456b585c9faa610d643d9",
+    "source": "env=halfcheetah-k8 ts=500000 weights=*"
+  },
+  "ceHC_pcz_seeds": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "env=halfcheetah ts=500000 weights=*"
+  },
+  "ceHC_pcz_stat": {
+    "sha256": "1f55cf8e920ce4924df95789c879255632bae366bb3fc38968d4465a83546752",
+    "source": "env=halfcheetah ts=500000 weights=*"
+  },
+  "ceHC_ppo_stat": {
+    "sha256": "f26f48d9041a41989bf7fd5597afc912f37e635a7beef23c9d37e6a715f3eae1",
+    "source": "env=halfcheetah ts=500000 weights=*"
+  },
+  "ceHC_ratio": {
+    "sha256": "8bfff71593ac080bc549dd1ea35b773f3f0cdb57de78d5de26df86edd7b968fd",
+    "source": "env=halfcheetah ts=500000 weights=*"
+  },
+  "cm_bw_grpo1M_delta": {
+    "sha256": "a7c5aeb40c72c4831eca482b5cfdd4d7edfa489e2e4a2c9b51839b302023e4b6",
+    "source": "torchrl-grpo(bipedalwalker,1000000) - PCZ-PPO(bipedalwalker,500000)"
+  },
+  "cm_hc_grpo1M_delta": {
+    "sha256": "6d6f1622a9cf5a6e3007fdfba4659877685873db73cf361133a22be29017ca50",
+    "source": "torchrl-grpo(halfcheetah,1000000) - PCZ-PPO(halfcheetah,500000)"
+  },
+  "cm_k4_grpo1M_delta": {
+    "sha256": "c98d7d2401d7a2e07e65314d8264ee3bb7008b85fb6db3d94f1794d1fd930381",
+    "source": "torchrl-grpo(lunarlander,1000000) - PCZ-PPO(lunarlander,500000)"
+  },
+  "cm_k4_grpo500k_delta": {
+    "sha256": "7033514ff2d45356a237bdf28e58cf04d7c1036a887a8bf3dd13f3d3475d5cdf",
+    "source": "torchrl-grpo(lunarlander,500000) - PCZ-PPO(lunarlander,500000)"
+  },
+  "cm_k4_ppo_delta": {
+    "sha256": "5328cb3909ddd16f1a8b272ace10cc01efcc7549b45166ffaf0338f9d00815bc",
+    "source": "torchrl-ppo(lunarlander,500000) - PCZ-PPO(lunarlander,500000)"
+  },
+  "cm_k8_grpo1M_delta": {
+    "sha256": "a315dfcbb82da148f9abe1f48fb0a21f09c00da0f79bdc52bb93cd3613b74448",
+    "source": "torchrl-grpo(lunarlander-k8,1000000) - PCZ-PPO(lunarlander-k8,500000)"
+  },
+  "cm_k8_ppo_delta": {
+    "sha256": "a487bbe3d2afc500ab489bd5c2e32dbf1dbcedcde82e4bf244d50319a31040c9",
+    "source": "torchrl-ppo(lunarlander-k8,500000) - PCZ-PPO(lunarlander-k8,500000)"
+  },
+  "compstat_bw_crash_cv_rl": {
+    "sha256": "d408c9ec0b44e4aaf08e0503d301b0a5090174a40f1dd6b2429f165f9527e050",
+    "source": "results.csv comp/crash_mean across 44 runs on env=bipedalwalker"
+  },
+  "compstat_bw_energy_cv_rl": {
+    "sha256": "1cd5735a5db72de5519e0294346cd756e9206abf1d2d6cf60a0b91da07a543d1",
+    "source": "results.csv comp/energy_mean across 44 runs on env=bipedalwalker"
+  },
+  "compstat_bw_shaping_cv_rl": {
+    "sha256": "5d6e55a8ad1554c7b71db326a90c0f034a6c1f801f26b987a8c057f0cc3273a6",
+    "source": "results.csv comp/shaping_mean across 44 runs on env=bipedalwalker"
+  },
+  "compstat_hc_ctrl_cost_cv_rl": {
+    "sha256": "e993927bfaa2760a6a1210e9d4586ba33c222321f792918abd8f57c5ac95674e",
+    "source": "results.csv comp/ctrl_cost_mean across 55 runs on env=halfcheetah"
+  },
+  "compstat_hc_run_cv_rl": {
+    "sha256": "b28d3e4bc89658ab4c8d768f013ddf92a3612e20edf922a81d177f1bd8c35b25",
+    "source": "results.csv comp/run_mean across 55 runs on env=halfcheetah"
+  },
+  "compstat_ll_fuel_main_cv_rl": {
+    "sha256": "5cc6fa2f7a5b9dc411e81c7a7c1e3f49198012d5266868748e6ca47f77a10b5b",
+    "source": "results.csv comp/fuel_main_mean across 267 runs on env=lunarlander"
+  },
+  "compstat_ll_fuel_side_cv_rl": {
+    "sha256": "3b33ebecccf2108a139d6b5c4db9abe9f45909493ce360ddb432eda02e295bd8",
+    "source": "results.csv comp/fuel_side_mean across 267 runs on env=lunarlander"
+  },
+  "compstat_ll_landing_cv_rl": {
+    "sha256": "ad854a02d8cc82dd87cf283de55d1b459031edafc9d243153bd2243f744a3741",
+    "source": "results.csv comp/landing_mean across 267 runs on env=lunarlander"
+  },
+  "compstat_ll_shaping_cv_rl": {
+    "sha256": "6c8592c62c822935c0062748009d228ebdc7cf30e59a9b2542ef814cfd5ac8c3",
+    "source": "results.csv comp/shaping_mean across 267 runs on env=lunarlander"
+  },
+  "grpoBW_1M_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-grpo env=bipedalwalker ts=1000000 weights=*"
+  },
+  "grpoBW_1M_stat": {
+    "sha256": "0119f0d226c61571157926e0126c11e7409289bde7246d13818351e727d71343",
+    "source": "algo=torchrl-grpo env=bipedalwalker ts=1000000 weights=*"
+  },
+  "grpoHC_1M_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-grpo env=halfcheetah ts=1000000 weights=*"
+  },
+  "grpoHC_1M_stat": {
+    "sha256": "53d4aa296dfddf03e9bf9ae0fdfa2c6ae841be6593903f8937e8eecb2173d5c2",
+    "source": "algo=torchrl-grpo env=halfcheetah ts=1000000 weights=*"
+  },
+  "grpoK2_500k_stat": {
+    "sha256": "1deff43ad98ecd436e74d2883c16195590eb6fc3fa067eccdfa1ea3e1d38ff05",
+    "source": "algo=torchrl-grpo env=lunarlander-k2 ts=500000 weights=*"
+  },
+  "grpoK4_1M_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-grpo env=lunarlander ts=1000000 weights=*"
+  },
+  "grpoK4_1M_stat": {
+    "sha256": "f9a65f0d1fc77c3082c3d3998ce69c560d9cce0c02f29dab63f112976fc8cd63",
+    "source": "algo=torchrl-grpo env=lunarlander ts=1000000 weights=*"
+  },
+  "grpoK4_500k_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-grpo env=lunarlander ts=500000 weights=*"
+  },
+  "grpoK4_500k_stat": {
+    "sha256": "b2e5a6fe41fab9eb24d4b485979e51071cb9aad4bce016572583baf3ee210a36",
+    "source": "algo=torchrl-grpo env=lunarlander ts=500000 weights=*"
+  },
+  "grpoK6_500k_stat": {
+    "sha256": "594ee67e7a4257c2735f3dbb19593ddcb6830b0e443375018db5d2afc1d32a83",
+    "source": "algo=torchrl-grpo env=lunarlander-k6 ts=500000 weights=*"
+  },
+  "grpoK8_1M_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-grpo env=lunarlander-k8 ts=1000000 weights=*"
+  },
+  "grpoK8_1M_stat": {
+    "sha256": "03af27b4121c91548b3e4868eaa91b2ae99ece4811f9fccfdc5696315a953a65",
+    "source": "algo=torchrl-grpo env=lunarlander-k8 ts=1000000 weights=*"
+  },
+  "grpoK8_500k_stat": {
+    "sha256": "8ebe6050b55663e94961d07806bf857834be2c3cd4cf8f19854c96d387aa4690",
+    "source": "algo=torchrl-grpo env=lunarlander-k8 ts=500000 weights=*"
+  },
+  "k2_delta": {
+    "sha256": "b804b6396f1bc75e71915a3e66aedcfbd1ec27cf21b1ba02d49ac8ab5ca2b081",
+    "source": "env=lunarlander-k2 ts=500000 weights=*"
+  },
+  "k2_pcz_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "env=lunarlander-k2 ts=500000 weights=*"
+  },
+  "k2_pcz_stat": {
+    "sha256": "51ef569e3057e62232056e72c94643843b0f430cee1096f4b508671a640c463c",
+    "source": "env=lunarlander-k2 ts=500000 weights=*"
+  },
+  "k2_ppo_stat": {
+    "sha256": "fcd86309f7ed1889100d1cd50bf8abfe0530bf7cac8c065dff159fadca6aefb5",
+    "source": "env=lunarlander-k2 ts=500000 weights=*"
+  },
+  "k2_ratio": {
+    "sha256": "39c282a388a62ebf5589ab8ff24214ea7b0481dabceccf06ec971d8415b9bbeb",
+    "source": "env=lunarlander-k2 ts=500000 weights=*"
+  },
+  "k2_symznorm_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "algo=torchrl-pcz-ppo-symznorm env=lunarlander-k2 ts=500000 weights=*"
+  },
+  "k2_symznorm_stat": {
+    "sha256": "ba1cb1aa2463af4d27990295cdf7708566109df4f383904ccf6b9ed1fdbf0dac",
+    "source": "algo=torchrl-pcz-ppo-symznorm env=lunarlander-k2 ts=500000 weights=*"
+  },
+  "k2_var_ratio": {
+    "sha256": "1523e9e982ff804c6d979e1bb2c6f3d7bae35307e8ce458bffc0d12a442b98da",
+    "source": "env=lunarlander-k2 ts=500000 weights=*"
+  },
+  "k2_welch_d": {
+    "sha256": "0d00c37539f0a03508aa902f0ab58adc7965f1f4554b118559cc21f5eb0edfa1",
+    "source": "env=lunarlander-k2 ts=500000 weights=* rule=chrono-latest n=5"
+  },
+  "k2_welch_p": {
+    "sha256": "8c0d4f22b2bdb476491072db3f14b4a706f00513b0b8ce7491175d0e2580e0aa",
+    "source": "env=lunarlander-k2 ts=500000 weights=* rule=chrono-latest n=5"
+  },
+  "k4_1M_pcz_stat": {
+    "sha256": "e9a2c917f2a26a26d5f6b192520db8745aea8ffb55b5796274a36c84e2b6a0b7",
+    "source": "env=lunarlander ts=1000000 weights=10.00,5.00,0.50,0.50"
+  },
+  "k4_1M_ppo_stat": {
+    "sha256": "ebe99fc954f0601537a9cc44a18a8e9c37ae5866b3b620ca8c595250357230ac",
+    "source": "env=lunarlander ts=1000000 weights=10.00,5.00,0.50,0.50"
+  },
+  "k4_1M_var_ratio": {
+    "sha256": "66e4c000f2000eb1cca164f97c441e14d438ca2599c8e79f4de6ecade0de8b32",
+    "source": "env=lunarlander ts=1000000 weights=10.00,5.00,0.50,0.50"
+  },
+  "k4_bca_ci": {
+    "sha256": "d2094235daa87a05541ed3619d562862b6ee45f9ada2a9500626c5a2fee31efb",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
+  },
+  "k4_delta": {
+    "sha256": "75c16e283b3378b2bb300a9cf4e331e54e83504d14c3cb7bf6ab0c58c75baa4b",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "k4_holm_p": {
+    "sha256": "5b3af5cdf78c2af38cfc675ad50fc8728100c159ae9365ca875b405a7f6b51bf",
+    "source": "Holm\u2013Bonferroni across {k4,k8,k6} family of m=3"
+  },
+  "k4_mwu_p": {
+    "sha256": "7405cbb02ef7f96a43695c1f502211332d11bf333e1c16f6cc6c554283d1771a",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
+  },
+  "k4_pcz_iqm": {
+    "sha256": "131680f0a2da6f51a93cc63647296628b848dcd0cc387fe90f42fab013644116",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
+  },
+  "k4_pcz_iqm_ci": {
+    "sha256": "bb0324e71a6a674cb310a32d84a343a05405550bfac9d5490ed227967c3b9601",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
+  },
+  "k4_pcz_seeds": {
+    "sha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "k4_pcz_stat": {
+    "sha256": "8b15d0c5405e0188b047be1760224fac6ff3bc94dcabc57d2f1afc9b9fad759d",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "k4_perm_p": {
+    "sha256": "5783f398f6091412aa85fa1d8f7617c9800ad285909f0c245a8586743cc2654c",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
+  },
+  "k4_ppo_iqm": {
+    "sha256": "7477fd2875f6a0e54266d93ff04f5a5111cbcd93563742f0aff1ee91e343a89e",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
+  },
+  "k4_ppo_iqm_ci": {
+    "sha256": "66c1fd8ecc3657c59a1c9dc82bd4b0acb9977efa1022fa288ad508ed78664582",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
+  },
+  "k4_ppo_seeds": {
+    "sha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "k4_ppo_stat": {
+    "sha256": "e4356af5a0a3aca2cac7798624b8c70a828bba04bb6388183b7f51dbfc15a1b2",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "k4_prob_improvement": {
+    "sha256": "c637d2576135b78ae3b575683f6c7999e1b0240a2a3988abc8d9fe74848846b2",
+    "source": "P(PCZ > PPO) at k4"
+  },
+  "k4_prob_sup": {
+    "sha256": "c637d2576135b78ae3b575683f6c7999e1b0240a2a3988abc8d9fe74848846b2",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
+  },
+  "k4_ratio": {
+    "sha256": "74b9f476d243f8d2448d5e40a5d91d37b32b582323a598c4b96a7dd7249cf440",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "k4_symznorm_stat": {
+    "sha256": "4fc750e25f9adf01581c8c9d36fd780c1c211c7329e3821a593aa9cd731fdc0b",
+    "source": "algo=torchrl-pcz-ppo-symznorm env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "k4_var_ratio": {
+    "sha256": "b13078267da93c508622472851f9747734ddf0750c27696b324c9463e7162e43",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
+  },
+  "k4_welch_ci": {
+    "sha256": "e3d52a3ce89c178af3b5e9f28e778e858b0e8057c2991fc9c7983fa2cb6988ca",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
+  },
+  "k4_welch_d": {
+    "sha256": "da3a5d58acf0f5a11bff64accdf49d80f38a4cb52de9afd3b7adf7f1f77d2e2c",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
+  },
+  "k4_welch_p": {
+    "sha256": "2c521494b6104724983b9ba959ea91304ee2cb87b02a6b65a66732d19d9466c6",
+    "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
+  },
+  "k6_bca_ci": {
+    "sha256": "ae02feba88bfa1a6ec480a07b5c0f499af694922e8c54e50081f981afcbde363",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
+  },
+  "k6_delta": {
+    "sha256": "4781e828ee55c1db31753265445ddf45b10b6da7fd7f7927279701fca5676f7d",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00"
+  },
+  "k6_holm_p": {
+    "sha256": "29410bcd658a8f64ba7e0bac0f66ce1f7dc874489777b6173bc7c1eabd1c960f",
+    "source": "Holm\u2013Bonferroni across {k4,k8,k6} family of m=3"
+  },
+  "k6_mh_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "algo=torchrl-ppo-multihead env=lunarlander-k6 ts=500000 weights=10.00,3.00"
+  },
+  "k6_mh_stat": {
+    "sha256": "f25af7a7989fe4b101994085eb428e59f236282414899722e4c9898d9e532962",
+    "source": "algo=torchrl-ppo-multihead env=lunarlander-k6 ts=500000 weights=10.00,3.00"
+  },
+  "k6_mwu_p": {
+    "sha256": "f45f35f62aabf26230393ac5a2cfbb0fae2f6e6e4040a9ee78c86c50e05b5d38",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
+  },
+  "k6_pcz_iqm": {
+    "sha256": "c4f0c5ea1193611ac3dbdc88ff8f4a09ddf444dc1b01626a872c5d5cb0d56ee1",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
+  },
+  "k6_pcz_iqm_ci": {
+    "sha256": "83f9595f201599f66a43385de91e4dae6892cda80f72b0b55bfb481a9a3cafbe",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
+  },
+  "k6_pcz_seeds": {
+    "sha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00"
+  },
+  "k6_pcz_stat": {
+    "sha256": "7787688beb345edff5b3e688a27ad2a3ddbc601b4488e2473fdbb8e8a7da9e15",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00"
+  },
+  "k6_perm_p": {
+    "sha256": "e29e6550bbd148e36539565fac99aa7b698a55eddd1fe5f32f1c0588fc0aecca",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
+  },
+  "k6_ppo_iqm": {
+    "sha256": "ec4c227e4d40798f61cf83944d43263d8fb48021fb53ea5906757966b49e89bc",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
+  },
+  "k6_ppo_iqm_ci": {
+    "sha256": "908528fe78332f9da279e1a67f8168c44d7e97e1b5f1a1a57e67d523cdf4fdbe",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
+  },
+  "k6_ppo_seeds": {
+    "sha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00"
+  },
+  "k6_ppo_stat": {
+    "sha256": "4780a77675763bd510dba30c41ae16bdb99549cfe8e01bacdff703d584d92dcb",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00"
+  },
+  "k6_prob_improvement": {
+    "sha256": "56f7f96e8411f9d1807984254ecfca6712581480872a42aaa68b2d5e483f48d3",
+    "source": "P(PCZ > PPO) at k6"
+  },
+  "k6_prob_sup": {
+    "sha256": "56f7f96e8411f9d1807984254ecfca6712581480872a42aaa68b2d5e483f48d3",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
+  },
+  "k6_ratio": {
+    "sha256": "2a7832af2969e717ea4cbf8ea1a04161903e301b393bbdfa86359cdb0161dabe",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00"
+  },
+  "k6_symznorm_stat": {
+    "sha256": "1ae047667b005ecae02c3f2c1867cb7cbcbf261b1fc8d25efef64ffeaff6aa62",
+    "source": "algo=torchrl-pcz-ppo-symznorm env=lunarlander-k6 ts=500000 weights=*"
+  },
+  "k6_var_ratio": {
+    "sha256": "1523e9e982ff804c6d979e1bb2c6f3d7bae35307e8ce458bffc0d12a442b98da",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00"
+  },
+  "k6_welch_ci": {
+    "sha256": "fc86afd43ec596b77b4b5a989744cb4a818d02f2d62640a4cabc128f6459a5ba",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
+  },
+  "k6_welch_d": {
+    "sha256": "52525cf82c11ac9ecc79d6e79270e8a1f669f69d404b21b18bb43ef7e3850c48",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
+  },
+  "k6_welch_p": {
+    "sha256": "29410bcd658a8f64ba7e0bac0f66ce1f7dc874489777b6173bc7c1eabd1c960f",
+    "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
+  },
+  "k8_bca_ci": {
+    "sha256": "bebee7c476ca489c786dd79fd399d0deefbf6d686923fc15fbe24eaaaad1db32",
+    "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
+  },
+  "k8_delta": {
+    "sha256": "6f3108e69ce67976e39ba8c394b3db847ce5979f3fdeaea74a2b23b3fc700d03",
+    "source": "env=lunarlander-k8 ts=500000 weights=*"
+  },
+  "k8_holm_p": {
+    "sha256": "090d286718ee27dd3a4dbabc37ca1e2a2f985d2435a0491ca283db0081002f60",
+    "source": "Holm\u2013Bonferroni across {k4,k8,k6} family of m=3"
+  },
+  "k8_mwu_p": {
+    "sha256": "e3e12b386a45e56a05d669f106374e6708f086fbd41fb207cac7b5b9fa235e82",
+    "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
+  },
+  "k8_pcz_iqm": {
+    "sha256": "dafa87bcd1b1ac5414a8e72398bffc1344ee6d3b3e81a1034511ff3428ba4c0e",
+    "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
+  },
+  "k8_pcz_iqm_ci": {
+    "sha256": "215fe291b7b3379e13f183ade885cd3b70ca02221a465f30f5c8a836c2f75b70",
+    "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
+  },
+  "k8_pcz_seeds": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "env=lunarlander-k8 ts=500000 weights=*"
+  },
+  "k8_pcz_stat": {
+    "sha256": "3242955c5f52a56dc7784d73b0e4d92badb148fb518b49003dc424fcada0635d",
+    "source": "env=lunarlander-k8 ts=500000 weights=*"
+  },
+  "k8_perm_p": {
+    "sha256": "226b97e8a5afed18a39274efbbc91c14568f7c8ee92db277e83fda030fb8dc81",
+    "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
+  },
+  "k8_ppo_iqm": {
+    "sha256": "02552a29f614c974ab5c091b356ef3a6fec5f6d1f97ed7bbeb4e2f2029ffa963",
+    "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
+  },
+  "k8_ppo_iqm_ci": {
+    "sha256": "f1b6eac68560c54c32893d85d2158bad73e75fef2e3c942265e0ea4e8fc7b6e2",
+    "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
+  },
+  "k8_ppo_seeds": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "env=lunarlander-k8 ts=500000 weights=*"
+  },
+  "k8_ppo_stat": {
+    "sha256": "9923b216c7cf026e389f1f5806cc77f7ed56bab2974ab69773854a7bd5286e21",
+    "source": "env=lunarlander-k8 ts=500000 weights=*"
+  },
+  "k8_prob_improvement": {
+    "sha256": "fcfeac542620f5ea464e3432cdcc554a4f4051c3c2f64d01fe558434faf90359",
+    "source": "P(PCZ > PPO) at k8"
+  },
+  "k8_prob_sup": {
+    "sha256": "fcfeac542620f5ea464e3432cdcc554a4f4051c3c2f64d01fe558434faf90359",
+    "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
+  },
+  "k8_ratio": {
+    "sha256": "659e1f038a44487fef4edffb102400a8c08d4dd49cf4aedd12d8595c60b470dd",
+    "source": "env=lunarlander-k8 ts=500000 weights=*"
+  },
+  "k8_symznorm_stat": {
+    "sha256": "611c7ba0117f4b0bb4051b05298cf5feafc6bc7fffdeb619b5aea7543c4f925a",
+    "source": "algo=torchrl-pcz-ppo-symznorm env=lunarlander-k8 ts=500000 weights=*"
+  },
+  "k8_var_ratio": {
+    "sha256": "4578fbdf8389e75b874c84f4d887cc757536fe6f4f1673bca8a60b00a27ff6d1",
+    "source": "env=lunarlander-k8 ts=500000 weights=*"
+  },
+  "k8_welch_ci": {
+    "sha256": "e91c2dbbe4043a164997d0989d5ae59a5fca4dda3d53716ff0ad5eac8f5635c3",
+    "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
+  },
+  "k8_welch_d": {
+    "sha256": "0ca356685ecccde1b12f745820e7cc12a6c81be21f1deb0bb35742f8dc734d37",
+    "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
+  },
+  "k8_welch_p": {
+    "sha256": "76683514ebfa91333b6fb5c0ec8727336ed3f22542ad123cff7e2e0a798365f0",
+    "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
+  },
+  "rr16_equal_k8_4M_cohen_d": {
+    "sha256": "74de43bab8ade63b32326bc90e52dc4a2d8f3f78034d9d368a282f3bc7be0f88",
+    "source": "K=8/4M weights='' exact=True n=3+3"
+  },
+  "rr16_equal_k8_4M_delta": {
+    "sha256": "8c7e3521c5fbae76303189520d7314c30061c605631a6f75487edb2898e78ded",
+    "source": "env=lunarlander-k8 ts=4000000 weights='' (exact)"
+  },
+  "rr16_equal_k8_4M_pcz_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "env=lunarlander-k8 ts=4000000 weights='' (exact)"
+  },
+  "rr16_equal_k8_4M_pcz_stat": {
+    "sha256": "cdec4db829684dd1f229a824572f40be6e1a19e6ceb83e5208ecc2a5575bf43e",
+    "source": "env=lunarlander-k8 ts=4000000 weights='' (exact)"
+  },
+  "rr16_equal_k8_4M_ppo_stat": {
+    "sha256": "2e9c99e1cb5294ac270046101590234a831b35ccd78c91ed2ec66e3ca568d986",
+    "source": "env=lunarlander-k8 ts=4000000 weights='' (exact)"
+  },
+  "rr16_equal_k8_4M_welch_p": {
+    "sha256": "d5efb2328f2cde864c6932233bb43badd733c77a4ba46dceaba9820c19f689b1",
+    "source": "K=8/4M weights='' exact=True n=3+3"
+  },
+  "rr16_flat_k8_4M_cohen_d": {
+    "sha256": "df1665a3bd7eb899533614851c52e4a69d61ea709be2541ff0fd379715cbf3fc",
+    "source": "K=8/4M weights='3.00,3.00,3.00,3.00,3.00,3.00,3.00,3.00' exact=False n=3+3"
+  },
+  "rr16_flat_k8_4M_delta": {
+    "sha256": "3a20ced583982a34cfec2d5f624017896e73ea7e955edcffd9a7d9e6a6ec4675",
+    "source": "env=lunarlander-k8 ts=4000000 weights=3.00,3.00,3.00,3.00,3.00,3.00,3.00,3.00"
+  },
+  "rr16_flat_k8_4M_pcz_stat": {
+    "sha256": "b1abab53cfa0077e69d8d7d55cb1bcd77950d07b3ac4ed75062db569fe162b60",
+    "source": "env=lunarlander-k8 ts=4000000 weights=3.00,3.00,3.00,3.00,3.00,3.00,3.00,3.00"
+  },
+  "rr16_flat_k8_4M_ppo_stat": {
+    "sha256": "7b3ca0d74e9c3e5cfd77d0627525578f58668f8d10eb79e346cd2b5a59cddaab",
+    "source": "env=lunarlander-k8 ts=4000000 weights=3.00,3.00,3.00,3.00,3.00,3.00,3.00,3.00"
+  },
+  "rr16_flat_k8_4M_welch_p": {
+    "sha256": "2a7641b908c4e7214ea1f4cf839eae6f0e46f89a84e4d37352e855e9049d61c1",
+    "source": "K=8/4M weights='3.00,3.00,3.00,3.00,3.00,3.00,3.00,3.00' exact=False n=3+3"
+  },
+  "rr16_moderate_k8_4M_cohen_d": {
+    "sha256": "7292b70ecd5887245bfc5de3f480332620cca1006879f2a4384a6282c2f7e330",
+    "source": "K=8/4M weights='5.00,3.00,1.00,1.00,1.00,1.00,0.50,0.50' exact=False n=3+3"
+  },
+  "rr16_moderate_k8_4M_delta": {
+    "sha256": "4347d4fff3ac609dfcaaefb55a48ded659ea100b8c2e382234320f080c2c8f9e",
+    "source": "env=lunarlander-k8 ts=4000000 weights=5.00,3.00,1.00,1.00,1.00,1.00,0.50,0.50"
+  },
+  "rr16_moderate_k8_4M_pcz_stat": {
+    "sha256": "e9a64d74d6d88617ba6c680b1b8715e4681c5d08bd6b2aad9bc2071dfc700d0a",
+    "source": "env=lunarlander-k8 ts=4000000 weights=5.00,3.00,1.00,1.00,1.00,1.00,0.50,0.50"
+  },
+  "rr16_moderate_k8_4M_ppo_stat": {
+    "sha256": "53d8b9854b6b913ef9ffaf611d12a136878b87580f6e2fd8695824898c6c7c78",
+    "source": "env=lunarlander-k8 ts=4000000 weights=5.00,3.00,1.00,1.00,1.00,1.00,0.50,0.50"
+  },
+  "rr16_moderate_k8_4M_welch_p": {
+    "sha256": "b600bcc4f4dffca61f718b19236477fb2467ff1bde7433bd7b7f291aee453e40",
+    "source": "K=8/4M weights='5.00,3.00,1.00,1.00,1.00,1.00,0.50,0.50' exact=False n=3+3"
+  },
+  "rr16h7_k8_4M_cohen_d": {
+    "sha256": "74a4aae4594e56a1beb2c9ead80c97373ec5335620a5bf7d32318d6613257b8a",
+    "source": "K=8/4M weights='10.00,1.00,1.00,1.00,1.00,1.00,0.50,0.50' exact=False n=10+10"
+  },
+  "rr16h7_k8_4M_delta": {
+    "sha256": "a8f4a07457a2e8c2e60d79a6aacce95d7943ff51506fab501edda4f65826c29e",
+    "source": "env=lunarlander-k8 ts=4000000 weights=10.00,1.00,1.00,1.00,1.00,1.00,0.50,0.50"
+  },
+  "rr16h7_k8_4M_pcz_stat": {
+    "sha256": "d4a614670f31ae5be8fafd5f333d5972e4c04800c862c63bec718ab77e53ff59",
+    "source": "env=lunarlander-k8 ts=4000000 weights=10.00,1.00,1.00,1.00,1.00,1.00,0.50,0.50"
+  },
+  "rr16h7_k8_4M_ppo_stat": {
+    "sha256": "74028abd5de41dbbc34d12b0e6e4d93372ab8dc7a4221a4ae49fb345fda265d5",
+    "source": "env=lunarlander-k8 ts=4000000 weights=10.00,1.00,1.00,1.00,1.00,1.00,0.50,0.50"
+  },
+  "rr16h7_k8_4M_var_ratio": {
+    "sha256": "df5b47311873a4388b15a71ae9846e61cd9cc59d61d37623ed735425a49b1fd0",
+    "source": "env=lunarlander-k8 ts=4000000 weights=10.00,1.00,1.00,1.00,1.00,1.00,0.50,0.50"
+  },
+  "rr16h7_k8_4M_welch_p": {
+    "sha256": "9411847897ce30288f640a9ead26cddb9560c3b9ab87d0e8fc3091b6383000ba",
+    "source": "K=8/4M weights='10.00,1.00,1.00,1.00,1.00,1.00,0.50,0.50' exact=False n=10+10"
+  },
+  "rr16h8_k8_4M_delta": {
+    "sha256": "03d12ea17b3e7f60f7dc7b9b8988411e042d19e96bf1dcee579d9647b1fe2d2f",
+    "source": "env=lunarlander-k8 ts=4000000 weights=10.00,5.00,0.00,1.00,0.50,0.50,0.50,0.50"
+  },
+  "rr16h8_k8_4M_pcz_stat": {
+    "sha256": "59be3ae266b4c622b56fd18de177f732c9e1964dfa9b278aeff237f49033a369",
+    "source": "env=lunarlander-k8 ts=4000000 weights=10.00,5.00,0.00,1.00,0.50,0.50,0.50,0.50"
+  },
+  "rr16h8_k8_4M_ppo_stat": {
+    "sha256": "8be3198af1c9b74336f6ad38869b3867592fddee0ce3a0cfb7044dcf475f3102",
+    "source": "env=lunarlander-k8 ts=4000000 weights=10.00,5.00,0.00,1.00,0.50,0.50,0.50,0.50"
+  },
+  "rr18_1_tradeK4_w101011_delta": {
+    "sha256": "ffede6be3c7b66fc2c6b2f3a99be0d5102d3d8365874df63db3b96d149a79610",
+    "source": "env=trading-k4 ts=100000 weights='10.00,10.00,1.00,1.00' (exact)"
+  },
+  "rr18_1_tradeK4_w101011_welch_p": {
+    "sha256": "ba09fdea37303c9d42ab91c430698f5c21258eae364a59d63ee08650adc87be4",
+    "source": "env=trading-k4 100k weights=10.00,10.00,1.00,1.00"
+  },
+  "rr18_1_tradeK4_w5505_delta": {
+    "sha256": "ae0f2b741e403e3c5f3cbc37fa17025ef4143a1fa42d53aefc77d89486e28183",
+    "source": "env=trading-k4 ts=100000 weights='5.00,5.00,0.50,0.50' (exact)"
+  },
+  "rr18_1_tradeK4_w5505_pcz_stat": {
+    "sha256": "26e9066a6b1dc165d02813d01d4ad3cb56b1b3c6001d9d68020678d2b94490e6",
+    "source": "env=trading-k4 ts=100000 weights='5.00,5.00,0.50,0.50' (exact)"
+  },
+  "rr18_1_tradeK4_w5505_welch_p": {
+    "sha256": "e0e449d62d029dd635e2c3b68e173f59b2e2339a1147f6e8b1f7c512ec7ac79b",
+    "source": "env=trading-k4 100k weights=5.00,5.00,0.50,0.50"
+  },
+  "rr18_1_tradeK8_w5505_delta": {
+    "sha256": "85f5eb50134311aed65f42ba51c0c05d120bb4747b8ad88d2d670cfe68e55dff",
+    "source": "env=trading-k8 ts=100000 weights='5.00,5.00,5.00,5.00,0.50,0.50,0.50,0.50' (exact)"
+  },
+  "rr18_1_tradeK8_w5505_welch_p": {
+    "sha256": "6a9ab77d0b66eac3e6c6cfd543ca358354bd82f939c809181db9298e13dc9623",
+    "source": "env=trading-k8 100k weights=5.00,5.00,5.00,5.00,0.50,0.50,0.50,0.50"
+  },
+  "rr18_4_tradeK3c_eq_delta": {
+    "sha256": "a67b5b961361fbb7296c243b057cdb31329d191625a8c2917b04111f893250d1",
+    "source": "env=trading-k3-clean ts=100000 weights='' (exact)"
+  },
+  "rr18_4_tradeK3c_eq_pcz_stat": {
+    "sha256": "4dae25598385a8489792a001822994fdbf9e25eacda4664de30a4fb029d850c1",
+    "source": "env=trading-k3-clean ts=100000 weights='' (exact)"
+  },
+  "rr18_4_tradeK3c_eq_welch_p": {
+    "sha256": "06d3731bbb1308e11e223feaf5d4b2f0a7121fc805a86d54754833b6aafcc70c",
+    "source": "env=trading-k3-clean 100k equal-weights"
+  },
+  "rr4_k4_pcz_over_znorm_ratio": {
+    "sha256": "25205f2e2f02dc71036ee827e19c49b893b231a3d1af240e35a3ac55aa8cdcb6",
+    "source": "E46.1 rr4_noise_amp: LL K=4 s42 50k frames canonical weights"
+  },
+  "rr4_k6_pcz_over_znorm_ratio": {
+    "sha256": "0b350f3a2dca2f4a27799acace1f70dbe80c3173dfc096ef2f23c897878cf351",
+    "source": "E46.1 rr4_noise_amp: LL K=6 s42 50k frames canonical weights"
+  },
+  "rr4_k6_pcz_postnorm_std": {
+    "sha256": "0b350f3a2dca2f4a27799acace1f70dbe80c3173dfc096ef2f23c897878cf351",
+    "source": "E46.1 rr4_noise_amp: LL K=6 s42 50k frames canonical weights"
+  },
+  "rr4_k8_pcz_over_znorm_ratio": {
+    "sha256": "767c595aaec7aeed99ec12f377f43060d8e765a9b728c040053118010c9c3ce6",
+    "source": "E46.1 rr4_noise_amp: LL K=8 s42 50k frames canonical weights"
+  },
+  "rr4_k8_pcz_postnorm_std": {
+    "sha256": "767c595aaec7aeed99ec12f377f43060d8e765a9b728c040053118010c9c3ce6",
+    "source": "E46.1 rr4_noise_amp: LL K=8 s42 50k frames canonical weights"
+  },
+  "rr4_pcz_over_znorm_ratio": {
+    "sha256": "25205f2e2f02dc71036ee827e19c49b893b231a3d1af240e35a3ac55aa8cdcb6",
+    "source": "E46.1 rr4_noise_amp: LL K=4 s42 50k frames canonical weights"
+  },
+  "rr4_pcz_postnorm_std": {
+    "sha256": "25205f2e2f02dc71036ee827e19c49b893b231a3d1af240e35a3ac55aa8cdcb6",
+    "source": "E46.1 rr4_noise_amp: LL K=4 s42 50k frames canonical weights"
+  },
+  "rr4_raw_over_pcz_ratio": {
+    "sha256": "07848c7427b4e21b49ae11234f706f669e05aca0b1f4bb5cac4a5d79ece223a7",
+    "source": "E46.1 rr4_noise_amp: LL K=4 s42 50k frames canonical weights"
+  },
+  "rr4_raw_postnorm_std": {
+    "sha256": "8053202ac1b1369b0cd76450cecb9c8cb142811b2a1e6c48ff734f452da13e7b",
+    "source": "E46.1 rr4_noise_amp: LL K=4 s42 50k frames canonical weights"
+  },
+  "rr4_znorm_postnorm_std": {
+    "sha256": "5717e7c840171019a4eeab5b79a7f894a4986eaff93d04ec5b12c9a189f594bf",
+    "source": "E46.1 rr4_noise_amp: LL K=4 s42 50k frames canonical weights"
+  },
+  "rr6_delta_e00": {
+    "sha256": "b86dac1c8e268ba35132f03bf165678cec2f21e076638a71a2a46f8c1baf91e3",
+    "source": "RR6 PCZ\u2212PPO at lr=3e-4 ent=0.0"
+  },
+  "rr6_delta_e01": {
+    "sha256": "f65bcc827a61af12ba9685dc2b84d21ef51b484233f815637769d5918978e064",
+    "source": "RR6 PCZ\u2212PPO at lr=3e-4 ent=0.01"
+  },
+  "rr6_delta_e03": {
+    "sha256": "a617af31ac39ac5ab779fe86bd07e8f3c7340cd374beb37ba7f9fb5cbc87bdd9",
+    "source": "RR6 PCZ\u2212PPO at lr=3e-4 ent=0.03"
+  },
+  "rr6_delta_e05": {
+    "sha256": "33cb9d3c026a3a2fbd85b8eeadfd0c92f9295328bd219e2d2e07ea5d540e81d3",
+    "source": "RR6 PCZ\u2212PPO at lr=3e-4 ent=0.05"
+  },
+  "rr6_delta_e10": {
+    "sha256": "b41c735e9fee8fae757abcb8848d3c6d46fd3dfddf086b5d4d050ec403924f62",
+    "source": "RR6 PCZ\u2212PPO at lr=3e-4 ent=0.1"
+  },
+  "rr6_pcz_e00_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.0 n=5"
+  },
+  "rr6_pcz_e00_stat": {
+    "sha256": "bed75c59fc264a256304ae6a78ac003de02ffe8e748423cbb620f2f7c3384341",
+    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.0 n=5"
+  },
+  "rr6_pcz_e01_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.01 n=5"
+  },
+  "rr6_pcz_e01_stat": {
+    "sha256": "d50cb681136091cea97dcf20068cb9d256af2e0233e77444cef1ed2d402feba7",
+    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.01 n=5"
+  },
+  "rr6_pcz_e03_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.03 n=5"
+  },
+  "rr6_pcz_e03_stat": {
+    "sha256": "3049774e91aef58ee9ab6346da0c657b9431c8fc77b23f244aae05d5b3b343d7",
+    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.03 n=5"
+  },
+  "rr6_pcz_e05_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.05 n=5"
+  },
+  "rr6_pcz_e05_stat": {
+    "sha256": "f45520b46d19a52400578fd416ffc262f6876f25c92e4ef1af38b51f7caedf0f",
+    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.05 n=5"
+  },
+  "rr6_pcz_e10_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.1 n=5"
+  },
+  "rr6_pcz_e10_stat": {
+    "sha256": "f3a8f8f8e38d3b64822a87947c6cad1037e52cc74ada40ed70fdbc5fa136de13",
+    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.1 n=5"
+  },
+  "rr6_ppo_e00_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.0 n=5"
+  },
+  "rr6_ppo_e00_stat": {
+    "sha256": "15796f00062bf3efa02c655f00c8da872ddb2b99813ff2ec9bc80a9f6880027b",
+    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.0 n=5"
+  },
+  "rr6_ppo_e01_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.01 n=5"
+  },
+  "rr6_ppo_e01_stat": {
+    "sha256": "2c6a538234db76c5bc18c2f685230670cf99b6721fe503e77c85eba538bd9edf",
+    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.01 n=5"
+  },
+  "rr6_ppo_e03_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.03 n=5"
+  },
+  "rr6_ppo_e03_stat": {
+    "sha256": "b62879d4a7a7f8e4f9ddb6dcaf9e88d83e5a8791a4dbea170572e53b889b337e",
+    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.03 n=5"
+  },
+  "rr6_ppo_e05_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.05 n=5"
+  },
+  "rr6_ppo_e05_stat": {
+    "sha256": "728b372de5a51ba091d22aa690128f89f44cc8e886a31b0914eb148d08fa9462",
+    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.05 n=5"
+  },
+  "rr6_ppo_e10_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.1 n=5"
+  },
+  "rr6_ppo_e10_stat": {
+    "sha256": "d2761d746ea3e3ba89b89c93d857cd43b6cb49c85951bb6177efaeb443804fe6",
+    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.1 n=5"
+  },
+  "w10_bw_4M_delta": {
+    "sha256": "87c1088e4a489c2a4eaf7abc01f999c33df41092658e829f2c6fbcbbda46faa2",
+    "source": "env=bipedalwalker ts=4000000 weights=*"
+  },
+  "w10_bw_4M_pcz_seeds": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "env=bipedalwalker ts=4000000 weights=*"
+  },
+  "w10_bw_4M_var_ratio": {
+    "sha256": "81ada0cf87e9b7cb291b496a71c851eda634294c0ac9ffeeec54c82a3756bf86",
+    "source": "env=bipedalwalker ts=4000000 weights=*"
+  },
+  "w10_bw_pcz_stat": {
+    "sha256": "a46a3c025c0f4f40fa4b3cc053b046dde0b9501e06e3a23dffeaf01ad7dbfce9",
+    "source": "algo=torchrl-pcz-ppo-running env=bipedalwalker ts=4000000 weights=*"
+  },
+  "w10_bw_ppo_stat": {
+    "sha256": "d791f46bce539c766558a0e69705dc5b218ba38172ec2a0addce9581e11ba0e2",
+    "source": "algo=torchrl-ppo env=bipedalwalker ts=4000000 weights=*"
+  },
+  "w10_hc_4M_delta": {
+    "sha256": "e66a172c4e99f8b6a17ae81115d86b9bf4a7be261033e720a667bc4fb8e3be18",
+    "source": "env=halfcheetah ts=4000000 weights=*"
+  },
+  "w10_hc_4M_pcz_seeds": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "env=halfcheetah ts=4000000 weights=*"
+  },
+  "w10_hc_4M_var_ratio": {
+    "sha256": "bf8bd8826b985abf5e6347211af927ee7130a5df00cfed5f1517cbcc1134b0c3",
+    "source": "env=halfcheetah ts=4000000 weights=*"
+  },
+  "w10_hc_pcz_stat": {
+    "sha256": "356bea1d1306d7a384736af4a51cb239e400170e47fe6134c028e61e34fb8dae",
+    "source": "algo=torchrl-pcz-ppo-running env=halfcheetah ts=4000000 weights=*"
+  },
+  "w10_hc_ppo_stat": {
+    "sha256": "1c65e3b5f111f21bca07ca59a6a93ba12211ed88292594199f3e19b4a5dc1064",
+    "source": "algo=torchrl-ppo env=halfcheetah ts=4000000 weights=*"
+  },
+  "w10_k4_4M_delta": {
+    "sha256": "991b34d87e0bc4e55017a13ae11d54aefdb3f3f178322a18696ffeb2d695abd3",
+    "source": "env=lunarlander ts=4000000 weights=10.00,5.00,0.50,0.50"
+  },
+  "w10_k4_4M_pcz_seeds": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "env=lunarlander ts=4000000 weights=10.00,5.00,0.50,0.50"
+  },
+  "w10_k4_4M_var_ratio": {
+    "sha256": "884784765bb9a529058c24f63946a7e21a20394a4502e6db91f97e7e3fd9dda5",
+    "source": "env=lunarlander ts=4000000 weights=10.00,5.00,0.50,0.50"
+  },
+  "w10_k4_pcz_stat": {
+    "sha256": "7d6677c85baff7ea3039c049350fb16bd73d14af947657b4d5e20b36aebb723e",
+    "source": "algo=torchrl-pcz-ppo-running env=lunarlander ts=4000000 weights=*"
+  },
+  "w10_k4_ppo_stat": {
+    "sha256": "dff7055124b48b840ab12b7ea2409bc8c49068d9211887f26eb0d5d854e8bd7e",
+    "source": "algo=torchrl-ppo env=lunarlander ts=4000000 weights=*"
+  },
+  "w10_k8_pcz_stat": {
+    "sha256": "d4a614670f31ae5be8fafd5f333d5972e4c04800c862c63bec718ab77e53ff59",
+    "source": "algo=torchrl-pcz-ppo-running env=lunarlander-k8 ts=4000000 weights=10.00,1.00,1.00,1.00,1.00,1.00,0.50,0.50"
+  },
+  "w10_k8_ppo_stat": {
+    "sha256": "74028abd5de41dbbc34d12b0e6e4d93372ab8dc7a4221a4ae49fb345fda265d5",
+    "source": "algo=torchrl-ppo env=lunarlander-k8 ts=4000000 weights=10.00,1.00,1.00,1.00,1.00,1.00,0.50,0.50"
+  },
+  "w7_delta_best": {
+    "sha256": "b86dac1c8e268ba35132f03bf165678cec2f21e076638a71a2a46f8c1baf91e3",
+    "source": "W7 peak-vs-peak PCZ\u2212PPO at lr=3e-4 ent=0.0"
+  },
+  "w7_pcz_best_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "W7 E48.2 torchrl-pcz-ppo-running lr=3e-4 ent=0.0 weights=10.00,5.00,0.50,0.50 n=5"
+  },
+  "w7_pcz_best_stat": {
+    "sha256": "bed75c59fc264a256304ae6a78ac003de02ffe8e748423cbb620f2f7c3384341",
+    "source": "W7 E48.2 torchrl-pcz-ppo-running lr=3e-4 ent=0.0 weights=10.00,5.00,0.50,0.50 n=5"
+  },
+  "w7_ppo_best_seeds": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "W7 E48.2 torchrl-ppo lr=3e-4 ent=0.0 weights=10.00,5.00,0.50,0.50 n=5"
+  },
+  "w7_ppo_best_stat": {
+    "sha256": "15796f00062bf3efa02c655f00c8da872ddb2b99813ff2ec9bc80a9f6880027b",
+    "source": "W7 E48.2 torchrl-ppo lr=3e-4 ent=0.0 weights=10.00,5.00,0.50,0.50 n=5"
+  }
+}

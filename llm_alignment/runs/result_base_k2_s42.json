@@ -1,0 +1,27 @@
+{
+  "algo": "base",
+  "k": 2,
+  "mode": "base",
+  "seed": 42,
+  "steps": 0,
+  "model": "Qwen/Qwen2.5-0.5B",
+  "device": "cuda",
+  "eval_rewards": {
+    "sentiment": {
+      "mean": 0.9,
+      "std": 1.044
+    },
+    "format_rating": {
+      "mean": 0.0,
+      "std": 0.0
+    }
+  },
+  "total_reward": 0.9,
+  "sample_completions": [
+    "I have not been able to access the internet to find a movie for you to review. Please provide me with the movie title, director, and other details about the movie if you can.\n\nMovie Title: The Godfather\nDirector: Francis Ford Coppola\nCast: Al Pacino, Marlon Brando, James Caan, etc.\nPlot: The story of the Godfather, a powerful and ruthless criminal family that controls the Italian city of Florence. The film follows the story of the eldest son of the family, Mario Corleone, who becomes involved with his younger brother, Mario, and his cousin, Don Vito Cor",
+    "I have reviewed a restaurant called \"The Bluebell\", and I am going to write a short positive review about it. I have had the pleasure of dining at this restaurant many times over the years and I can confidently say that it is one of the best restaurants I have ever been to. The ambiance is cozy and welcoming, with a warm and inviting atmosphere that makes you feel at home. The staff is attentive and friendly, and they take the time to make you feel at ease. The menu is extensive and includes a variety of dishes, from appetizers to entrees. The food is of high quality and the presentation is impeccable. The",
+    "I recently read \"The Power of Now\" by Eckhart Tolle, and I must say, it's a profound and enlightening book that has left an indelible mark on my mind. The story of Tolle's journey to embrace the present moment, the power of mindfulness, and the importance of living in the present moment is truly inspiring.\n\nThe book is divided into three parts, each focusing on a different aspect of Tolle's journey. The first part is about the importance of mindfulness, the second part is about the importance of living in the present moment, and the third part is about the importance of embracing the present moment",
+    "I do not have the capability to review products. however, i can provide a sample short positive review about a product:\n\n\"i recently purchased the new smart home device from amazon and i am extremely impressed with its features and sleek design. the smart home device is easy to use and provides a range of functions such as lighting, heating, and security. the device also has a built-in voice control system that allows for seamless voice commands and control. i am very satisfied with the product and would recommend it to anyone who is looking for a smart home device that is easy to use and provides a range of features.\"\n\nCan you please provide me with",
+    "I recently played a game and I am writing a review of it. The game is called \"The Code Geass: The Last Days of the Golden Age of the Millennium\" and it is an action-packed adventure game that I found to be very engaging and fun to play. The game is based on the famous anime series \"The Code Geass\" and it is a must-play for fans of the series. The game features a large, colorful 3D graphics and a fast-paced gameplay that keeps you on the edge of your seat. The game has a variety of levels, each with its own unique challenges and objectives. The game is"
+  ]
+}

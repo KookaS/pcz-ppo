@@ -1,0 +1,44 @@
+{
+  "algo": "ppo",
+  "k": 6,
+  "mode": "standard",
+  "seed": 46,
+  "steps": 500,
+  "model": "Qwen/Qwen2.5-0.5B",
+  "device": "cuda",
+  "final_train_reward": 20.835,
+  "final_train_reward_raw": 20.835,
+  "training_time_s": 5749.9,
+  "peak_vram_gb": 6.56,
+  "eval_rewards": {
+    "sentiment": {
+      "mean": 1.4,
+      "std": 0.583
+    },
+    "format_rating": {
+      "mean": 10.0,
+      "std": 0.0
+    },
+    "length": {
+      "mean": 0.742,
+      "std": 0.18
+    },
+    "diversity": {
+      "mean": 0.603,
+      "std": 0.085
+    },
+    "keyword": {
+      "mean": 5.0,
+      "std": 0.0
+    },
+    "structure": {
+      "mean": 5.0,
+      "std": 0.0
+    }
+  },
+  "total_reward": 22.746,
+  "clip_eps": 0.2,
+  "kl_coef": 0.05,
+  "value_coef": 0.5,
+  "ppo_epochs": 2
+}

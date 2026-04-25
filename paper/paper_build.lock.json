@@ -1,0 +1,23 @@
+{
+  "fig_ablation_bar": {
+    "input_hash": "df376f00b6a9a4b9686049ce9232998e077c0de825693ef4f2329eb3e4c25c0d"
+  },
+  "fig_cross_env": {
+    "input_hash": "d2ae2b5b85a104bd26e133bda1f15de50cf9059aefd7f9d63db38ad498ef3276"
+  },
+  "fig_kscaling": {
+    "input_hash": "5fccca1a31bcdb133c3adfa9aeaaaa024a9e35b10c3c2d736a39afbfd6297b44"
+  },
+  "fig_learning_curves_4M": {
+    "input_hash": "54530fd5e17d3a72d6c454032e70031e7c1f2476e7c9a44cc0cf774d65c9f068"
+  },
+  "fig_sample_efficiency": {
+    "input_hash": "68dc073c77a2f7317a7d2a10c7ff546a2cfaa651a63ff57070f1417abb10e586"
+  },
+  "fragments": {
+    "input_hash": "b4af1fd2980c2c6d8221575351cbb3ac41dfa10a121d011d385f9ff65a440e2a"
+  },
+  "pdf": {
+    "input_hash": "420d730117eba48f5ad00453dbbad0bf00d679bf622a4ed488d16a2a58ef7858"
+  }
+}

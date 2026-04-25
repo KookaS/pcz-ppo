@@ -1,0 +1,35 @@
+name: Paper claims consistency
+
+# Ensures every number in paper/pcz_ppo.tex that is wired to the data
+# pipeline (\cnum{...}) matches a fresh render from data/results.csv.
+# Pre-commit catches most drift locally; this is the backstop for commits
+# that bypass pre-commit or PRs that edit results.csv without re-rendering.
+
+on:
+  pull_request:
+    paths:
+      - "paper/**"
+      - "data/results.csv"
+      - "core/plot/**"
+      - ".github/workflows/paper-claims.yml"
+  push:
+    branches: [master, main]
+    paths:
+      - "paper/**"
+      - "data/results.csv"
+
+jobs:
+  render-claims-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+      - name: Install dependencies
+        run: uv sync --extra torchrl
+      - name: render_claims.py --check (fail on stale fragments)
+        run: uv run python paper/render_claims.py --check
+      - name: lint_hardcoded_numbers.py (fail on hand-typed claims)
+        run: uv run python paper/lint_hardcoded_numbers.py
+      - name: Run render_claims.py unit tests
+        run: uv run pytest paper/tests/ -v

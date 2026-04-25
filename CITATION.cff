@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this software or the associated paper, please cite it as below."
+type: software
+title: "PCZ-PPO: Per-Component Z-Normalization for PPO with Heterogeneous Reward Components"
+authors:
+  - family-names: Charrez
+    given-names: Olivier
+  - family-names: Bussler
+    given-names: Maarten
+  - family-names: Weber
+    given-names: Tobias
+repository-code: "https://github.com/KookaS/pcz-ppo"
+license: Apache-2.0
+preferred-citation:
+  type: article
+  title: "PCZ-PPO: Per-Component Z-Normalization for PPO with Heterogeneous Reward Components"
+  authors:
+    - family-names: Charrez
+      given-names: Olivier
+    - family-names: Bussler
+      given-names: Maarten
+    - family-names: Weber
+      given-names: Tobias
+  abstract: >-
+    We adapt per-component z-normalization from critic-free GRPO to standard PPO with a
+    learned value function and GAE. PCZ-PPO decomposes the reward into K independently
+    normalizable components, applies per-component z-normalization across the rollout buffer,
+    and recombines them using environment-defined weights before feeding the result into
+    standard GAE. At 500k steps PCZ-PPO's mean performance is approximately invariant to K
+    while standard PPO degrades progressively. The K=6 comparison is the strongest confirmed
+    effect (Welch p<0.05, Holm-corrected), and K=8 at 4M steps with heterogeneous weights
+    also shows a significant PCZ advantage (p=0.026, d=+1.10). A comprehensive ablation suite
+    and robustness checks (BCa, IQM, stochastic dominance) confirm that per-component
+    decomposition, running statistics, and post-normalization weights are all essential.
+  license: CC-BY-4.0

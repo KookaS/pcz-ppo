@@ -1,0 +1,339 @@
+% =============================================================================
+% PCZ-PPO Paper — References
+% Expanded bibliography with real author names and arXiv IDs where available
+% =============================================================================
+
+% [1] PPO
+@inproceedings{schulman2017ppo,
+  title={Proximal Policy Optimization Algorithms},
+  author={Schulman, John and Wolski, Filip and Dhariwal, Prafulla and Radford, Alec and Klimov, Oleg},
+  booktitle={arXiv preprint arXiv:1707.06347},
+  year={2017}
+}
+
+% [2] GDPO — first author Shih-Yang Liu (bibkey kept as `shao2024gdpo` for stability
+% across the existing .tex; canonical citation would be liu2026gdpo).
+@article{shao2024gdpo,
+  title={{GDPO}: Group reward-Decoupled Normalization Policy Optimization for Multi-reward {RL} Optimization},
+  author={Liu, Shih-Yang and Dong, Xin and Lu, Ximing and Diao, Shizhe and Belcak, Peter and Liu, Mingjie and Chen, Min-Hung and Yin, Hongxu and Wang, Yu-Chiang Frank and Cheng, Kwang-Ting and Choi, Yejin and Kautz, Jan and Molchanov, Pavlo},
+  journal={arXiv preprint arXiv:2601.05242},
+  year={2026}
+}
+
+% [3] GRPO / DeepSeekMath
+@article{shao2024grpo,
+  title={{DeepSeekMath}: Pushing the Limits of Mathematical Reasoning in Open Language Models},
+  author={Shao, Zhihang and Wang, Peiyi and Zhu, Qihao and Xu, Runxin and Song, Junxiao and Zhang, Mingchuan and Li, Y.K. and Wu, Y. and Guo, Daya},
+  journal={arXiv preprint arXiv:2402.03300},
+  year={2024}
+}
+
+% [4] GAE
+@article{schulman2015gae,
+  title={High-Dimensional Continuous Control Using Generalized Advantage Estimation},
+  author={Schulman, John and Moritz, Philipp and Levine, Sergey and Jordan, Michael and Abbeel, Pieter},
+  journal={arXiv preprint arXiv:1506.02438},
+  year={2015}
+}
+
+% [5] Stable Baselines 3
+@article{raffin2021sb3,
+  title={Stable-Baselines3: Reliable Reinforcement Learning Implementations},
+  author={Raffin, Antonin and Hill, Ashley and Gleave, Adam and Kanervisto, Anssi and Ernestus, Maximilian and Dormann, Noah},
+  journal={Journal of Machine Learning Research},
+  volume={22},
+  number={268},
+  pages={1--8},
+  year={2021}
+}
+
+% [6] Implementation Details of RLHF with PPO
+@article{huang2024rlhf,
+  title={The {N} Implementation Details of {RLHF} with {PPO}},
+  author={Huang, Shengyi and others},
+  journal={HuggingFace Blog / ICLR Blog},
+  year={2024}
+}
+
+% [7] Reward whitening redundancy
+@misc{liu2023rewardwhitening,
+  title={The Embarrassing Redundancy of Reward Whitening and Reward Normalization in {PPO}},
+  author={Liu, Jiacheng},
+  howpublished={Blog post, \url{https://liujch1998.github.io/2023/04/16/ppo-norm.html}},
+  year={2023}
+}
+
+% [8] 37 Implementation Details of PPO
+@article{huang2022thirtysevendetails,
+  title={The 37 Implementation Details of Proximal Policy Optimization},
+  author={Huang, Shengyi and Dossa, Rousslan Fernand Julien and Raffin, Antonin and Kanervisto, Anssi and Wang, Weixun},
+  journal={ICLR Blog Track},
+  year={2022}
+}
+
+% [9] REINFORCE++
+@article{hu2025reinforceplusplus,
+  title={{REINFORCE++}: Stabilizing Critic-Free Policy Optimization with Global Advantage Normalization},
+  author={Hu, Baolin},
+  journal={arXiv preprint arXiv:2501.03262},
+  year={2025}
+}
+% [12] Hybrid Reward Architecture
+@inproceedings{vanseijen2017hra,
+  title={Hybrid Reward Architecture for Reinforcement Learning},
+  author={van Seijen, Harm and Fatemi, Mehdi and Romoff, Joshua and Laroche, Romain and Barnes, Tavian and Tsang, Jeffrey},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2017},
+  note={arXiv:1706.04208}
+}
+
+% [13] Distributional Reward Decomposition
+@inproceedings{lin2019drdrl,
+  title={Distributional Reward Decomposition for Reinforcement Learning},
+  author={Lin, Zichuan and Zhao, Li and Yang, Derek and Qin, Tao and Li, Ming and Liu, Tie-Yan},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2019},
+  note={arXiv:1911.02166}
+}
+% [15] D3PO
+@article{d3po2026,
+  title={Preference Conditioned Multi-Objective Reinforcement Learning: Decomposed, Diversity-Driven Policy Optimization},
+  author={Ambadkar, Tanmay and Panda, Sourav and Kale, Shreyash and Dodge, Jonathan and Verma, Abhinav},
+  journal={arXiv preprint arXiv:2602.07764},
+  year={2026}
+}
+% [17] PopArt (multi-task, 2019 AAAI version)
+@inproceedings{hessel2019popart,
+  title={Multi-Task Deep Reinforcement Learning with {PopArt}},
+  author={Hessel, Matteo and Soyer, Hubert and Espeholt, Lasse and Czarnecki, Wojciech and Schmitt, Simon and van Hasselt, Hado},
+  booktitle={AAAI Conference on Artificial Intelligence},
+  year={2019},
+  note={arXiv:1809.04474}
+}
+
+% [17a] PopArt (original, NeurIPS 2016)
+@inproceedings{hasselt2016popart,
+  title={Learning Values Across Many Orders of Magnitude},
+  author={van Hasselt, Hado and Guez, Arthur and Hessel, Matteo and Mnih, Volodymyr and Silver, David},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2016}
+}
+
+% [18] Return-based Scaling
+@article{schaul2021returnscaling,
+  title={Return-based Scaling: Yet Another Normalisation Trick for Deep {RL}},
+  author={Schaul, Tom and Borsa, Diana and Ding, David and Szepesvari, Csaba and van Hasselt, Hado and Hessel, Matteo and Barreto, Andre},
+  journal={arXiv preprint arXiv:2105.05347},
+  year={2021}
+}
+
+% [19] What Matters in On-Policy RL
+@inproceedings{andrychowicz2021whatmatters,
+  title={What Matters In On-Policy Reinforcement Learning? {A} Large-Scale Empirical Study},
+  author={Andrychowicz, Marcin and Raichuk, Anton and Sta{\'n}czyk, Piotr and Orsini, Manu and Girber, Sertan and Marinier, Raphael and Hussenot, L{\'e}onard and Geist, Matthieu and Pietquin, Olivier and Michalski, Marcin and Gelly, Sylvain and Bachem, Olivier},
+  booktitle={International Conference on Learning Representations},
+  year={2021},
+  note={arXiv:2006.05990}
+}
+
+% [20] DeepSeek-R1
+@article{deepseek2025r1,
+  title={{DeepSeek-R1}: Incentivizing Reasoning Capability in {LLMs} via Reinforcement Learning},
+  author={{DeepSeek-AI}},
+  journal={arXiv preprint arXiv:2501.12948},
+  year={2025}
+}
+
+% [21] Kortus et al. — particle tracking (strongest domain-specific prior art)
+@article{kortus2023tracking,
+  title={Towards Neural Charged Particle Tracking in Digital Tracking Calorimeters with Reinforcement Learning},
+  author={Kortus, Tobias and Keidel, Ralf and Gauger, Nicolas R.},
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume={45},
+  number={12},
+  pages={15820--15833},
+  year={2023},
+  doi={10.1109/TPAMI.2023.3305027}
+}
+
+% [21 follow-up] Kortus et al. 2025
+@article{kortus2025constrained,
+  title={Constrained Optimization of Charged Particle Tracking with Multi-Agent Reinforcement Learning},
+  author={Kortus, Tobias and Keidel, Ralf and Gauger, Nicolas R.},
+  journal={arXiv preprint arXiv:2501.05113},
+  year={2025}
+}
+
+% [22] APEX — multi-objective alignment for vision-language generation
+@article{apex2024,
+  title={{APEX}: Learning Adaptive Priorities for Multi-Objective Alignment in Vision-Language Generation},
+  author={Chen, Dongliang and Zhuang, Xinlin and Xu, Junjie and Xie, Luojian and Wang, Zehui and Zhuang, Jiaxi and Yang, Haolin and Dou, Liang and He, Xiao and Wu, Xingjiao and Qian, Ying},
+  journal={arXiv preprint arXiv:2601.06574},
+  year={2026}
+}
+
+% [23] MO-GRPO
+@article{mogrpo2024,
+  title={{MO-GRPO}: Mitigating Reward Hacking of Group Relative Policy Optimization on Multi-Objective Problems},
+  author={Ichihara, Yuki and Jinnai, Yuu and Morimura, Tetsuro and Sakamoto, Mitsuki and Mitsuhashi, Ryota and Uchibe, Eiji},
+  journal={arXiv preprint arXiv:2509.22047},
+  year={2025}
+}
+
+% [24] GCR-PPO
+@article{gcrppo2025,
+  title={Scalable Multi-Objective Robot Reinforcement Learning through Gradient Conflict Resolution},
+  author={Munn, Humphrey and Tidd, Brendan and B{\"o}hm, Peter and Gallagher, Marcus and Howard, David},
+  journal={arXiv preprint arXiv:2509.14816},
+  year={2025}
+}
+% [27] Multi-GRPO
+@article{lyu2025multigrpo,
+  title={Multi-{GRPO}: Multi-Group Advantage Estimation for Text-to-Image Generation with Tree-Based Trajectories and Multiple Rewards},
+  author={Lyu, Yingchi and others},
+  journal={arXiv preprint arXiv:2512.00743},
+  year={2025}
+}
+
+% [28] LucidNFT
+@article{lucidnft2026,
+  title={{LucidNFT}: {LR}-Anchored Multi-Reward Preference Optimization for Generative Real-World Super-Resolution},
+  author={Fei, Song and Ye, Tian and Chen, Sixiang and Xing, Zhaohu and Lai, Jianyu and Zhu, Lei},
+  journal={arXiv preprint arXiv:2603.05947},
+  year={2026}
+}
+% [29] DuCA — REMOVED (citation unverifiable)
+
+% [30] P3O
+@inproceedings{zhang2022p3o,
+  title={Penalized Proximal Policy Optimization for Safe Reinforcement Learning},
+  author={Zhang, Linrui and Li, Li and Yang, Zhengyuan and Wang, Zhaoran},
+  booktitle={International Joint Conference on Artificial Intelligence (IJCAI)},
+  year={2022},
+  note={arXiv:2205.11814}
+}
+% [34] Constrained GRPO
+@article{girgis2026constrainedgrpo,
+  title={Constrained Group Relative Policy Optimization},
+  author={Girgis, Roger and de Schaetzen, Rodrigue and Rowe, Luke and Robitaille, Azal{\'e}e and Pal, Christopher and Paull, Liam},
+  journal={arXiv preprint arXiv:2602.05863},
+  year={2026}
+}
+
+% [35] OpenRLHF
+@article{hu2024openrlhf,
+  title={{OpenRLHF}: An Easy-to-use, Scalable and High-performance {RLHF} Framework},
+  author={Hu, Jian and Tao, Xibin and Gao, Weixun and Wang, Jian and Zhong, Mingyuan and Li, Dawei and Wen, Qingyi and Yang, Fan and Yang, Mingsheng},
+  journal={arXiv preprint arXiv:2405.11143},
+  year={2024}
+}
+% [36a] RND
+@article{burda2018rnd,
+  title={Exploration by Random Network Distillation},
+  author={Burda, Yuri and Edwards, Harrison and Storkey, Amos and Klimov, Oleg},
+  journal={arXiv preprint arXiv:1810.12894},
+  year={2018}
+}
+% [36c] CoMOPPO / Stage-Wise CMORL
+@article{kim2024comoppo,
+  title={Stage-Wise Reward Shaping for Acrobatic Robots: A Constrained Multi-Objective Reinforcement Learning Approach},
+  author={Kim, Dohyeong and Kwon, Hyunyoung and Kim, Jiseung and Lee, Gunmin and Oh, Songhwai},
+  journal={arXiv preprint arXiv:2409.15755},
+  year={2024}
+}
+% [36e] DreamerV3 Tricks for PPO
+@inproceedings{sullivan2023dreamerv3tricks,
+  title={Reward Scale Robustness for Proximal Policy Optimization via {DreamerV3} Tricks},
+  author={Sullivan, Ryan and Kumar, Akarsh and Huang, Shengyi and Dickerson, John P. and Suarez, Joseph},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2023}
+}
+% --- TorchRL ---
+@article{borghesi2024torchrl,
+  title={{TorchRL}: A Data-Driven Decision-Making Library for {PyTorch}},
+  author={Bou, Albert and Bettini, Matteo and Dittert, Sebastian and Kumar, Vikash and Sodhani, Shagun and Yang, Xiaomeng and De Fabritiis, Gianni and Moens, Vincent},
+  journal={arXiv preprint arXiv:2306.00577},
+  year={2024}
+}
+
+@article{qwen2024,
+  title={{Qwen2} Technical Report},
+  author={Yang, An and Yang, Baosong and Hui, Binyuan and Zheng, Bo and Yu, Bowen and Zhou, Chang and Li, Chengpeng and Li, Chengyuan and Liu, Dayiheng and Huang, Fei and others},
+  journal={arXiv preprint arXiv:2407.10671},
+  year={2024}
+}
+
+@inproceedings{dettmers2023qlora,
+  title={{QLoRA}: Efficient Finetuning of Quantized {LLMs}},
+  author={Dettmers, Tim and Pagnoni, Artidoro and Holtzman, Ari and Zettlemoyer, Luke},
+  booktitle={NeurIPS},
+  year={2023}
+}
+
+@article{ahmadian2024rloo,
+  title={Back to Basics: Revisiting {REINFORCE} Style Optimization for Learning from Human Feedback in {LLMs}},
+  author={Ahmadian, Arash and Cremer, Chris and Gall{\'e}, Matthias and Fadaee, Marzieh and Kreutzer, Julia and {\"U}st{\"u}n, Ahmet and Hooker, Sara},
+  journal={arXiv preprint arXiv:2402.14740},
+  year={2024}
+}
+
+@inproceedings{agarwal2021rliable,
+  title={Deep Reinforcement Learning at the Edge of the Statistical Precipice},
+  author={Agarwal, Rishabh and Schwarzer, Max and Castro, Pablo Samuel and Courville, Aaron and Bellemare, Marc G.},
+  booktitle={NeurIPS},
+  year={2021}
+}
+
+@inproceedings{henderson2018deeprl,
+  title={Deep Reinforcement Learning That Matters},
+  author={Henderson, Peter and Islam, Riashat and Bachman, Philip and Pineau, Joelle and Precup, Doina and Meger, David},
+  booktitle={AAAI},
+  year={2018}
+}
+
+@article{holm1979,
+  title={A Simple Sequentially Rejective Multiple Test Procedure},
+  author={Holm, Sture},
+  journal={Scandinavian Journal of Statistics},
+  volume={6},
+  number={2},
+  pages={65--70},
+  year={1979}
+}
+
+% Reward-shaping theory (canonical)
+@inproceedings{ng1999rewardshaping,
+  title={Policy Invariance Under Reward Transformations: Theory and Application to Reward Shaping},
+  author={Ng, Andrew Y. and Harada, Daishi and Russell, Stuart},
+  booktitle={International Conference on Machine Learning (ICML)},
+  year={1999}
+}
+
+% Multi-objective RL taxonomy (preference-based scalarization context)
+@article{roijers2013morl,
+  title={A Survey of Multi-Objective Sequential Decision-Making},
+  author={Roijers, Diederik M. and Vamplew, Peter and Whiteson, Shimon and Dazeley, Richard},
+  journal={Journal of Artificial Intelligence Research},
+  volume={48},
+  pages={67--113},
+  year={2013},
+  doi={10.1613/jair.3987}
+}
+
+% GradNorm (adaptive per-task weighting, future-work anchor)
+@inproceedings{chen2018gradnorm,
+  title={{GradNorm}: Gradient Normalization for Adaptive Loss Balancing in Deep Multitask Networks},
+  author={Chen, Zhao and Badrinarayanan, Vijay and Lee, Chen-Yu and Rabinovich, Andrew},
+  booktitle={International Conference on Machine Learning (ICML)},
+  year={2018},
+  note={arXiv:1711.02257}
+}
+
+% PCGrad (gradient surgery; foundational to GCR-PPO)
+@inproceedings{yu2020pcgrad,
+  title={Gradient Surgery for Multi-Task Learning},
+  author={Yu, Tianhe and Kumar, Saurabh and Gupta, Abhishek and Levine, Sergey and Hausman, Karol and Finn, Chelsea},
+  booktitle={Advances in Neural Information Processing Systems (NeurIPS)},
+  year={2020},
+  note={arXiv:2001.06782}
+}
