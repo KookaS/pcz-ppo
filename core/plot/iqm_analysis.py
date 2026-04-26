@@ -23,8 +23,8 @@ from fig_data import RESULTS_CSV, load_results, query
 
 LL_PRIMARY_WEIGHTS = "10.00,5.00,0.50,0.50"
 # Canonical K=6 weights prefix (env default, proportional to K=4/K=8).  Without
-# this filter one empty-weights seed-42 row silently wins chronologically-latest
-# dedupe and contaminates K=6 stats — see render_claims.py ``LL_K6_WEIGHTS``
+# this filter an empty-weights row silently wins chronologically-latest dedupe
+# and contaminates K=6 stats — see render_claims.py ``LL_K6_WEIGHTS``.
 LL_K6_WEIGHTS = "10.00,3.00"
 
 

@@ -4,7 +4,7 @@ Reads from results.csv via fig_data.  Maps lunarlander-k{N} env names
 to K values automatically.
 
 Usage:
-    uv run python paper/fig_kscaling.py
+    cd /workspace && uv run python artifacts/pcz-ppo/paper/fig_kscaling.py
 """
 
 import argparse
@@ -36,7 +36,7 @@ K_ENV_MAP = {
 
 def main():
     parser = argparse.ArgumentParser(description="K-scaling figure")
-    parser.add_argument("--output", default="paper/fig_kscaling.pdf")
+    parser.add_argument("--output", default="artifacts/pcz-ppo/paper/fig_kscaling.pdf")
     parser.add_argument("--timesteps", type=int, default=500000)
     args = parser.parse_args()
 

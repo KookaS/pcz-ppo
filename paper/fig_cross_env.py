@@ -4,7 +4,7 @@ Plots PCZ-PPO vs PPO across environments using min-max normalized reward so
 scales are comparable. Raw absolute numbers live in Table~\\ref{tab:cross_env}.
 
 Usage:
-    uv run python paper/fig_cross_env.py
+    cd /workspace && uv run python artifacts/pcz-ppo/paper/fig_cross_env.py
 """
 
 import argparse
@@ -37,7 +37,7 @@ ENV_CONFIGS = [
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", default="paper/fig_cross_env.pdf")
+    parser.add_argument("--output", default="artifacts/pcz-ppo/paper/fig_cross_env.pdf")
     parser.add_argument("--timesteps", type=int, default=500000)
     args = parser.parse_args()
 
@@ -48,8 +48,8 @@ def main():
         "lunarlander": "10.00,5.00,0.50,0.50",
         "lunarlander-k6": "10.00,3.00,1.00,1.00,0.50,0.50",
     }
-    # Apply ent_coef filter only on LunarLander family (fixed-entropy tuning runs
-    # collide there); other envs use cosine schedule consistently.
+    # Apply ent_coef filter only on LunarLander family (HP sweeps collide
+    # there); other envs use cosine schedule consistently.
     LL_ENVS = {"lunarlander", "lunarlander-k2", "lunarlander-k6", "lunarlander-k8"}
     labels, pcz_m, pcz_s, ppo_m, ppo_s, k_values, ratios, seeds_str = [], [], [], [], [], [], [], []
     for cfg in ENV_CONFIGS:

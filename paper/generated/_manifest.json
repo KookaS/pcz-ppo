@@ -1,16 +1,4 @@
 {
-  "LLM_k2_delta": {
-    "sha256": "739ceac734f2ad48653753a7ea3a931797cb08a28605c8e6fcadbb3942359fa4",
-    "source": "PCZ mean - Standard mean (LLM K=2)"
-  },
-  "LLM_k2_pcz_stat": {
-    "sha256": "897ad6411d50f33deccb48a178359d3e155625f18795c021f1018c87418976f4",
-    "source": "llm_alignment/runs/result_k2_{mode}_s{42,43,44}.json"
-  },
-  "LLM_k2_standard_stat": {
-    "sha256": "897ad6411d50f33deccb48a178359d3e155625f18795c021f1018c87418976f4",
-    "source": "llm_alignment/runs/result_k2_{mode}_s{42,43,44}.json"
-  },
   "LLMfact_k4_main_critic": {
     "sha256": "55fad8b8f6fe1cf0829528166472f6c88fb0259b6aee1036f17e01f026aff0b1",
     "source": "LLM factorial K=4 main-effect critic"
@@ -391,13 +379,9 @@
     "sha256": "53b7367cb5a1881cd819100db3f9c856c9beb07c785468debf1a36ec6d7c4945",
     "source": "GDPO - GRPO (PCZ applied to GRPO, magnitude of harm)"
   },
-  "abl_zca_var_ratio": {
-    "sha256": "bccba76597e97179577a9f4198b4ad96fc88f968afd8340decaf7b9de6673593",
-    "source": "A1 std / ZCA std (variance reduction factor of ZCA vs A1)"
-  },
   "ca11_w1111_cohen_d": {
     "sha256": "17fef6301760bd9a7717bd7acd94da2327d79a0c0f4b78783f031a3dd48e3e6c",
-    "source": "CA11 E47.1 weights=1.00,1.00,1.00,1.00 n=5+5"
+    "source": "weight-sensitivity weights=1.00,1.00,1.00,1.00 n=5+5"
   },
   "ca11_w1111_delta": {
     "sha256": "e5c0c745dd7fdb35a1a68a8077ff575c5612dd276d186af726dfae1d9ac2c715",
@@ -413,11 +397,11 @@
   },
   "ca11_w1111_welch_p": {
     "sha256": "e531f93fa6db59aeec9b074895514574fffab4c9320399149d4935a7545a4b0d",
-    "source": "CA11 E47.1 weights=1.00,1.00,1.00,1.00 n=5+5"
+    "source": "weight-sensitivity weights=1.00,1.00,1.00,1.00 n=5+5"
   },
   "ca11_w3333_cohen_d": {
     "sha256": "4e15e95d81b3cfde373e29a683012804fd52e8f75696044e899bd2d9a6ad8425",
-    "source": "CA11 E47.1 weights=3.00,3.00,3.00,3.00 n=5+5"
+    "source": "weight-sensitivity weights=3.00,3.00,3.00,3.00 n=5+5"
   },
   "ca11_w3333_delta": {
     "sha256": "5989999221c19c0ad5e451a18d9cee55214970e4fa0b28f6ba8022a21f25ba8f",
@@ -433,11 +417,11 @@
   },
   "ca11_w3333_welch_p": {
     "sha256": "d5efb2328f2cde864c6932233bb43badd733c77a4ba46dceaba9820c19f689b1",
-    "source": "CA11 E47.1 weights=3.00,3.00,3.00,3.00 n=5+5"
+    "source": "weight-sensitivity weights=3.00,3.00,3.00,3.00 n=5+5"
   },
   "ca11_w5311_cohen_d": {
     "sha256": "de6e4905538ff0fbdab590917ab0e302f2149ab0c75240cc430140a712f08c6d",
-    "source": "CA11 E47.1 weights=5.00,3.00,1.00,1.00 n=5+5"
+    "source": "weight-sensitivity weights=5.00,3.00,1.00,1.00 n=5+5"
   },
   "ca11_w5311_delta": {
     "sha256": "abb77c166a4493512db927ac19879ba85d21085e0c20c50020f0a19ecf2ab027",
@@ -453,7 +437,7 @@
   },
   "ca11_w5311_welch_p": {
     "sha256": "fd07d1d8aa458c1ac66289132d3aeaa1f1c96df99a70d585dc4edd080732fce6",
-    "source": "CA11 E47.1 weights=5.00,3.00,1.00,1.00 n=5+5"
+    "source": "weight-sensitivity weights=5.00,3.00,1.00,1.00 n=5+5"
   },
   "ceBW_delta": {
     "sha256": "e09d7ea072ba7c64a78769172367d6dc3f20103b4b7bd78fb76726578fa2c186",
@@ -569,19 +553,19 @@
   },
   "compstat_ll_fuel_main_cv_rl": {
     "sha256": "5cc6fa2f7a5b9dc411e81c7a7c1e3f49198012d5266868748e6ca47f77a10b5b",
-    "source": "results.csv comp/fuel_main_mean across 267 runs on env=lunarlander"
+    "source": "results.csv comp/fuel_main_mean across 292 runs on env=lunarlander"
   },
   "compstat_ll_fuel_side_cv_rl": {
     "sha256": "3b33ebecccf2108a139d6b5c4db9abe9f45909493ce360ddb432eda02e295bd8",
-    "source": "results.csv comp/fuel_side_mean across 267 runs on env=lunarlander"
+    "source": "results.csv comp/fuel_side_mean across 292 runs on env=lunarlander"
   },
   "compstat_ll_landing_cv_rl": {
-    "sha256": "ad854a02d8cc82dd87cf283de55d1b459031edafc9d243153bd2243f744a3741",
-    "source": "results.csv comp/landing_mean across 267 runs on env=lunarlander"
+    "sha256": "3a753d5bd722208284aee313f8cf542ed57088cafea8c209b686949b8fa7a46f",
+    "source": "results.csv comp/landing_mean across 292 runs on env=lunarlander"
   },
   "compstat_ll_shaping_cv_rl": {
-    "sha256": "6c8592c62c822935c0062748009d228ebdc7cf30e59a9b2542ef814cfd5ac8c3",
-    "source": "results.csv comp/shaping_mean across 267 runs on env=lunarlander"
+    "sha256": "c7e2f0c37cf423d238eabd7c70082b13a52075c4ba65dbf528ee7f700ddb086a",
+    "source": "results.csv comp/shaping_mean across 292 runs on env=lunarlander"
   },
   "grpoBW_1M_seeds": {
     "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
@@ -635,25 +619,73 @@
     "sha256": "8ebe6050b55663e94961d07806bf857834be2c3cd4cf8f19854c96d387aa4690",
     "source": "algo=torchrl-grpo env=lunarlander-k8 ts=500000 weights=*"
   },
+  "hp19_k4_equal_pcz_best_stat": {
+    "sha256": "2c8025a1d79104e0a4cbfc7feddb37e767dfe22ad5e119b60bb6124509a7b3cc",
+    "source": "HP-fairness sweep env=lunarlander ts=500000 pcz best=equal/0.0003/cosine n=3"
+  },
+  "hp19_k4_equal_ppo_best_stat": {
+    "sha256": "ef87ea6b9cf2b86dfb5068e16f8ac999ed7e4a321906cf140d69b06ecca7b0f8",
+    "source": "HP-fairness sweep env=lunarlander ts=500000 ppo best=equal/0.0003/cosine n=3"
+  },
+  "hp19_k4_flat_pcz_best_stat": {
+    "sha256": "a19dd78ec9ac4850af849fa8fd9b024edf867c9cbdec19587a7879d79a4c8b6f",
+    "source": "HP-fairness sweep env=lunarlander ts=500000 pcz best=flat/0.0003/cosine n=3"
+  },
+  "hp19_k4_flat_ppo_best_stat": {
+    "sha256": "82f5e82b4d25a3b144e5d75a04070bb9b79964f60bbd6ba8a4a1668dee7bc6e5",
+    "source": "HP-fairness sweep env=lunarlander ts=500000 ppo best=flat/0.0003/cosine n=3"
+  },
+  "hp19_k4_heterog_pcz_best_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "HP-fairness sweep env=lunarlander ts=500000 pcz best=heterog/0.0003/e00 n=3"
+  },
+  "hp19_k4_heterog_pcz_best_stat": {
+    "sha256": "8bb08c80f74476796da5499f48936109267f8dc4a123c851ca0bfbe857827150",
+    "source": "HP-fairness sweep env=lunarlander ts=500000 pcz best=heterog/0.0003/e00 n=3"
+  },
+  "hp19_k4_heterog_ppo_best_seeds": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "HP-fairness sweep env=lunarlander ts=500000 ppo best=heterog/0.0003/e00 n=3"
+  },
+  "hp19_k4_heterog_ppo_best_stat": {
+    "sha256": "8f6af27c4713c8517c3ec9e2361a5ccf7513ead75c5fdf1834081126cde867f1",
+    "source": "HP-fairness sweep env=lunarlander ts=500000 ppo best=heterog/0.0003/e00 n=3"
+  },
+  "hp19_k4_mod_pcz_best_stat": {
+    "sha256": "800fcc504f34324937000ae0718c6a17e6324239a48e4f14dd2a2cfb427b5230",
+    "source": "HP-fairness sweep env=lunarlander ts=500000 pcz best=moderate/0.0003/cosine n=3"
+  },
+  "hp19_k4_mod_ppo_best_stat": {
+    "sha256": "af37e4fdc6df9165ef8177508c18312e80eb40b7a976af28d32af52ec4dcfe88",
+    "source": "HP-fairness sweep env=lunarlander ts=500000 ppo best=moderate/0.0003/cosine n=3"
+  },
+  "hp19_k4_ncells_pcz": {
+    "sha256": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
+    "source": "HP-fairness sweep env=lunarlander ts=500000 pcz best=heterog/0.0003/e00 n=3"
+  },
+  "hp19_k4_ncells_ppo": {
+    "sha256": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
+    "source": "HP-fairness sweep env=lunarlander ts=500000 ppo best=flat/0.0003/cosine n=3"
+  },
   "k2_delta": {
-    "sha256": "b804b6396f1bc75e71915a3e66aedcfbd1ec27cf21b1ba02d49ac8ab5ca2b081",
-    "source": "env=lunarlander-k2 ts=500000 weights=*"
+    "sha256": "16bde1526b8675813e23567f990f65faafc166b2b6c7d72f56c2454b25cbdea3",
+    "source": "env=lunarlander-k2 ts=500000 weights=10.00,6.00"
   },
   "k2_pcz_seeds": {
     "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
-    "source": "env=lunarlander-k2 ts=500000 weights=*"
+    "source": "env=lunarlander-k2 ts=500000 weights=10.00,6.00"
   },
   "k2_pcz_stat": {
     "sha256": "51ef569e3057e62232056e72c94643843b0f430cee1096f4b508671a640c463c",
-    "source": "env=lunarlander-k2 ts=500000 weights=*"
+    "source": "env=lunarlander-k2 ts=500000 weights=10.00,6.00"
   },
   "k2_ppo_stat": {
-    "sha256": "fcd86309f7ed1889100d1cd50bf8abfe0530bf7cac8c065dff159fadca6aefb5",
-    "source": "env=lunarlander-k2 ts=500000 weights=*"
+    "sha256": "f54c2427641f7f1d79fa8b9804e6aa569671697b0ccc68158fc987b3341c6dd3",
+    "source": "env=lunarlander-k2 ts=500000 weights=10.00,6.00"
   },
   "k2_ratio": {
-    "sha256": "39c282a388a62ebf5589ab8ff24214ea7b0481dabceccf06ec971d8415b9bbeb",
-    "source": "env=lunarlander-k2 ts=500000 weights=*"
+    "sha256": "6a9ab77d0b66eac3e6c6cfd543ca358354bd82f939c809181db9298e13dc9623",
+    "source": "env=lunarlander-k2 ts=500000 weights=10.00,6.00"
   },
   "k2_symznorm_seeds": {
     "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
@@ -664,15 +696,15 @@
     "source": "algo=torchrl-pcz-ppo-symznorm env=lunarlander-k2 ts=500000 weights=*"
   },
   "k2_var_ratio": {
-    "sha256": "1523e9e982ff804c6d979e1bb2c6f3d7bae35307e8ce458bffc0d12a442b98da",
-    "source": "env=lunarlander-k2 ts=500000 weights=*"
+    "sha256": "88930bd051d214a973581b9492a5ca110aea3fdd5dc65a68bc444b6173877bbd",
+    "source": "env=lunarlander-k2 ts=500000 weights=10.00,6.00"
   },
   "k2_welch_d": {
-    "sha256": "0d00c37539f0a03508aa902f0ab58adc7965f1f4554b118559cc21f5eb0edfa1",
+    "sha256": "3100be89adc99bf172e3a39e79c7ae29298d92549beef55d6604d9b2cf22f843",
     "source": "env=lunarlander-k2 ts=500000 weights=* rule=chrono-latest n=5"
   },
   "k2_welch_p": {
-    "sha256": "8c0d4f22b2bdb476491072db3f14b4a706f00513b0b8ce7491175d0e2580e0aa",
+    "sha256": "fe0595a70ff7d9b4ab027f02767d11e0489e0542a4b64ca3271bbd7382a89bed",
     "source": "env=lunarlander-k2 ts=500000 weights=* rule=chrono-latest n=5"
   },
   "k4_1M_pcz_stat": {
@@ -1089,143 +1121,143 @@
   },
   "rr4_k4_pcz_over_znorm_ratio": {
     "sha256": "25205f2e2f02dc71036ee827e19c49b893b231a3d1af240e35a3ac55aa8cdcb6",
-    "source": "E46.1 rr4_noise_amp: LL K=4 s42 50k frames canonical weights"
+    "source": "noise-amp: LL K=4 s42 50k frames canonical weights"
   },
   "rr4_k6_pcz_over_znorm_ratio": {
     "sha256": "0b350f3a2dca2f4a27799acace1f70dbe80c3173dfc096ef2f23c897878cf351",
-    "source": "E46.1 rr4_noise_amp: LL K=6 s42 50k frames canonical weights"
+    "source": "noise-amp: LL K=6 s42 50k frames canonical weights"
   },
   "rr4_k6_pcz_postnorm_std": {
     "sha256": "0b350f3a2dca2f4a27799acace1f70dbe80c3173dfc096ef2f23c897878cf351",
-    "source": "E46.1 rr4_noise_amp: LL K=6 s42 50k frames canonical weights"
+    "source": "noise-amp: LL K=6 s42 50k frames canonical weights"
   },
   "rr4_k8_pcz_over_znorm_ratio": {
     "sha256": "767c595aaec7aeed99ec12f377f43060d8e765a9b728c040053118010c9c3ce6",
-    "source": "E46.1 rr4_noise_amp: LL K=8 s42 50k frames canonical weights"
+    "source": "noise-amp: LL K=8 s42 50k frames canonical weights"
   },
   "rr4_k8_pcz_postnorm_std": {
     "sha256": "767c595aaec7aeed99ec12f377f43060d8e765a9b728c040053118010c9c3ce6",
-    "source": "E46.1 rr4_noise_amp: LL K=8 s42 50k frames canonical weights"
+    "source": "noise-amp: LL K=8 s42 50k frames canonical weights"
   },
   "rr4_pcz_over_znorm_ratio": {
     "sha256": "25205f2e2f02dc71036ee827e19c49b893b231a3d1af240e35a3ac55aa8cdcb6",
-    "source": "E46.1 rr4_noise_amp: LL K=4 s42 50k frames canonical weights"
+    "source": "noise-amp: LL K=4 s42 50k frames canonical weights"
   },
   "rr4_pcz_postnorm_std": {
     "sha256": "25205f2e2f02dc71036ee827e19c49b893b231a3d1af240e35a3ac55aa8cdcb6",
-    "source": "E46.1 rr4_noise_amp: LL K=4 s42 50k frames canonical weights"
+    "source": "noise-amp: LL K=4 s42 50k frames canonical weights"
   },
   "rr4_raw_over_pcz_ratio": {
     "sha256": "07848c7427b4e21b49ae11234f706f669e05aca0b1f4bb5cac4a5d79ece223a7",
-    "source": "E46.1 rr4_noise_amp: LL K=4 s42 50k frames canonical weights"
+    "source": "noise-amp: LL K=4 s42 50k frames canonical weights"
   },
   "rr4_raw_postnorm_std": {
     "sha256": "8053202ac1b1369b0cd76450cecb9c8cb142811b2a1e6c48ff734f452da13e7b",
-    "source": "E46.1 rr4_noise_amp: LL K=4 s42 50k frames canonical weights"
+    "source": "noise-amp: LL K=4 s42 50k frames canonical weights"
   },
   "rr4_znorm_postnorm_std": {
     "sha256": "5717e7c840171019a4eeab5b79a7f894a4986eaff93d04ec5b12c9a189f594bf",
-    "source": "E46.1 rr4_noise_amp: LL K=4 s42 50k frames canonical weights"
+    "source": "noise-amp: LL K=4 s42 50k frames canonical weights"
   },
   "rr6_delta_e00": {
     "sha256": "b86dac1c8e268ba35132f03bf165678cec2f21e076638a71a2a46f8c1baf91e3",
-    "source": "RR6 PCZ\u2212PPO at lr=3e-4 ent=0.0"
+    "source": "entropy-sweep PCZ\u2212PPO at lr=3e-4 ent=0.0"
   },
   "rr6_delta_e01": {
     "sha256": "f65bcc827a61af12ba9685dc2b84d21ef51b484233f815637769d5918978e064",
-    "source": "RR6 PCZ\u2212PPO at lr=3e-4 ent=0.01"
+    "source": "entropy-sweep PCZ\u2212PPO at lr=3e-4 ent=0.01"
   },
   "rr6_delta_e03": {
     "sha256": "a617af31ac39ac5ab779fe86bd07e8f3c7340cd374beb37ba7f9fb5cbc87bdd9",
-    "source": "RR6 PCZ\u2212PPO at lr=3e-4 ent=0.03"
+    "source": "entropy-sweep PCZ\u2212PPO at lr=3e-4 ent=0.03"
   },
   "rr6_delta_e05": {
     "sha256": "33cb9d3c026a3a2fbd85b8eeadfd0c92f9295328bd219e2d2e07ea5d540e81d3",
-    "source": "RR6 PCZ\u2212PPO at lr=3e-4 ent=0.05"
+    "source": "entropy-sweep PCZ\u2212PPO at lr=3e-4 ent=0.05"
   },
   "rr6_delta_e10": {
     "sha256": "b41c735e9fee8fae757abcb8848d3c6d46fd3dfddf086b5d4d050ec403924f62",
-    "source": "RR6 PCZ\u2212PPO at lr=3e-4 ent=0.1"
+    "source": "entropy-sweep PCZ\u2212PPO at lr=3e-4 ent=0.1"
   },
   "rr6_pcz_e00_seeds": {
     "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
-    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.0 n=5"
+    "source": "entropy-sweep torchrl-pcz-ppo-running lr=3e-4 ent=0.0 n=5"
   },
   "rr6_pcz_e00_stat": {
     "sha256": "bed75c59fc264a256304ae6a78ac003de02ffe8e748423cbb620f2f7c3384341",
-    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.0 n=5"
+    "source": "entropy-sweep torchrl-pcz-ppo-running lr=3e-4 ent=0.0 n=5"
   },
   "rr6_pcz_e01_seeds": {
     "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
-    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.01 n=5"
+    "source": "entropy-sweep torchrl-pcz-ppo-running lr=3e-4 ent=0.01 n=5"
   },
   "rr6_pcz_e01_stat": {
     "sha256": "d50cb681136091cea97dcf20068cb9d256af2e0233e77444cef1ed2d402feba7",
-    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.01 n=5"
+    "source": "entropy-sweep torchrl-pcz-ppo-running lr=3e-4 ent=0.01 n=5"
   },
   "rr6_pcz_e03_seeds": {
     "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
-    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.03 n=5"
+    "source": "entropy-sweep torchrl-pcz-ppo-running lr=3e-4 ent=0.03 n=5"
   },
   "rr6_pcz_e03_stat": {
     "sha256": "3049774e91aef58ee9ab6346da0c657b9431c8fc77b23f244aae05d5b3b343d7",
-    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.03 n=5"
+    "source": "entropy-sweep torchrl-pcz-ppo-running lr=3e-4 ent=0.03 n=5"
   },
   "rr6_pcz_e05_seeds": {
     "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
-    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.05 n=5"
+    "source": "entropy-sweep torchrl-pcz-ppo-running lr=3e-4 ent=0.05 n=5"
   },
   "rr6_pcz_e05_stat": {
     "sha256": "f45520b46d19a52400578fd416ffc262f6876f25c92e4ef1af38b51f7caedf0f",
-    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.05 n=5"
+    "source": "entropy-sweep torchrl-pcz-ppo-running lr=3e-4 ent=0.05 n=5"
   },
   "rr6_pcz_e10_seeds": {
     "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
-    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.1 n=5"
+    "source": "entropy-sweep torchrl-pcz-ppo-running lr=3e-4 ent=0.1 n=5"
   },
   "rr6_pcz_e10_stat": {
     "sha256": "f3a8f8f8e38d3b64822a87947c6cad1037e52cc74ada40ed70fdbc5fa136de13",
-    "source": "RR6 E48.3 torchrl-pcz-ppo-running lr=3e-4 ent=0.1 n=5"
+    "source": "entropy-sweep torchrl-pcz-ppo-running lr=3e-4 ent=0.1 n=5"
   },
   "rr6_ppo_e00_seeds": {
     "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
-    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.0 n=5"
+    "source": "entropy-sweep torchrl-ppo lr=3e-4 ent=0.0 n=5"
   },
   "rr6_ppo_e00_stat": {
     "sha256": "15796f00062bf3efa02c655f00c8da872ddb2b99813ff2ec9bc80a9f6880027b",
-    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.0 n=5"
+    "source": "entropy-sweep torchrl-ppo lr=3e-4 ent=0.0 n=5"
   },
   "rr6_ppo_e01_seeds": {
     "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
-    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.01 n=5"
+    "source": "entropy-sweep torchrl-ppo lr=3e-4 ent=0.01 n=5"
   },
   "rr6_ppo_e01_stat": {
     "sha256": "2c6a538234db76c5bc18c2f685230670cf99b6721fe503e77c85eba538bd9edf",
-    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.01 n=5"
+    "source": "entropy-sweep torchrl-ppo lr=3e-4 ent=0.01 n=5"
   },
   "rr6_ppo_e03_seeds": {
     "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
-    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.03 n=5"
+    "source": "entropy-sweep torchrl-ppo lr=3e-4 ent=0.03 n=5"
   },
   "rr6_ppo_e03_stat": {
     "sha256": "b62879d4a7a7f8e4f9ddb6dcaf9e88d83e5a8791a4dbea170572e53b889b337e",
-    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.03 n=5"
+    "source": "entropy-sweep torchrl-ppo lr=3e-4 ent=0.03 n=5"
   },
   "rr6_ppo_e05_seeds": {
     "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
-    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.05 n=5"
+    "source": "entropy-sweep torchrl-ppo lr=3e-4 ent=0.05 n=5"
   },
   "rr6_ppo_e05_stat": {
     "sha256": "728b372de5a51ba091d22aa690128f89f44cc8e886a31b0914eb148d08fa9462",
-    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.05 n=5"
+    "source": "entropy-sweep torchrl-ppo lr=3e-4 ent=0.05 n=5"
   },
   "rr6_ppo_e10_seeds": {
     "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
-    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.1 n=5"
+    "source": "entropy-sweep torchrl-ppo lr=3e-4 ent=0.1 n=5"
   },
   "rr6_ppo_e10_stat": {
     "sha256": "d2761d746ea3e3ba89b89c93d857cd43b6cb49c85951bb6177efaeb443804fe6",
-    "source": "RR6 E48.3 torchrl-ppo lr=3e-4 ent=0.1 n=5"
+    "source": "entropy-sweep torchrl-ppo lr=3e-4 ent=0.1 n=5"
   },
   "w10_bw_4M_delta": {
     "sha256": "87c1088e4a489c2a4eaf7abc01f999c33df41092658e829f2c6fbcbbda46faa2",
@@ -1297,22 +1329,22 @@
   },
   "w7_delta_best": {
     "sha256": "b86dac1c8e268ba35132f03bf165678cec2f21e076638a71a2a46f8c1baf91e3",
-    "source": "W7 peak-vs-peak PCZ\u2212PPO at lr=3e-4 ent=0.0"
+    "source": "PPO-baseline-audit peak-vs-peak PCZ\u2212PPO at lr=3e-4 ent=0.0"
   },
   "w7_pcz_best_seeds": {
     "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
-    "source": "W7 E48.2 torchrl-pcz-ppo-running lr=3e-4 ent=0.0 weights=10.00,5.00,0.50,0.50 n=5"
+    "source": "PPO-baseline-audit torchrl-pcz-ppo-running lr=3e-4 ent=0.0 weights=10.00,5.00,0.50,0.50 n=5"
   },
   "w7_pcz_best_stat": {
     "sha256": "bed75c59fc264a256304ae6a78ac003de02ffe8e748423cbb620f2f7c3384341",
-    "source": "W7 E48.2 torchrl-pcz-ppo-running lr=3e-4 ent=0.0 weights=10.00,5.00,0.50,0.50 n=5"
+    "source": "PPO-baseline-audit torchrl-pcz-ppo-running lr=3e-4 ent=0.0 weights=10.00,5.00,0.50,0.50 n=5"
   },
   "w7_ppo_best_seeds": {
     "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
-    "source": "W7 E48.2 torchrl-ppo lr=3e-4 ent=0.0 weights=10.00,5.00,0.50,0.50 n=5"
+    "source": "PPO-baseline-audit torchrl-ppo lr=3e-4 ent=0.0 weights=10.00,5.00,0.50,0.50 n=5"
   },
   "w7_ppo_best_stat": {
     "sha256": "15796f00062bf3efa02c655f00c8da872ddb2b99813ff2ec9bc80a9f6880027b",
-    "source": "W7 E48.2 torchrl-ppo lr=3e-4 ent=0.0 weights=10.00,5.00,0.50,0.50 n=5"
+    "source": "PPO-baseline-audit torchrl-ppo lr=3e-4 ent=0.0 weights=10.00,5.00,0.50,0.50 n=5"
   }
 }

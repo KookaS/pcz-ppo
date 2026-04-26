@@ -833,7 +833,7 @@ def main():
         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     )
 
-    # Expose the RL seed to env factories for bit-reproducibility
+    # Expose the RL seed to env factories
     # before any env construction. The trading env reads PCZ_BASE_SEED to
     # derive per-worker data_seed deterministically across machines (previously
     # keyed on os.getpid() which varies by machine).

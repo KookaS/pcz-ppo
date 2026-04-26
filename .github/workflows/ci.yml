@@ -21,19 +21,19 @@ jobs:
         run: uv sync --extra torchrl
 
       - name: render_claims.py --check (fragments match results.csv)
-        run: uv run python paper/render_claims.py --check
+        run: uv run python artifacts/pcz-ppo/paper/render_claims.py --check
 
       - name: lint_hardcoded_numbers.py (no hand-typed claims)
-        run: uv run python paper/lint_hardcoded_numbers.py
+        run: uv run python artifacts/pcz-ppo/paper/lint_hardcoded_numbers.py
 
       - name: paper_build.py --check (figures match data)
-        run: uv run python paper/paper_build.py --check
+        run: uv run python artifacts/pcz-ppo/paper/paper_build.py --check
 
       - name: paper_build.py --audit --strict (no orphan figures/bib)
-        run: uv run python paper/paper_build.py --audit --strict
+        run: uv run python artifacts/pcz-ppo/paper/paper_build.py --audit --strict
 
       - name: Paper tests
-        run: uv run pytest paper/tests/ -v
+        run: uv run pytest artifacts/pcz-ppo/paper/tests/ -v
 
   smoke-test:
     name: Algorithm smoke test

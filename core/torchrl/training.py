@@ -390,13 +390,12 @@ def train_loop(
                 if hasattr(loss_module.entropy_coeff, "item")
                 else float(loss_module.entropy_coeff),
             }
-            # Capture σ and μ of the
-            # scalar reward signal that enters GAE *after* normalization.  For
-            # PCZ-PPO-running this is the weighted sum of per-component
-            # z-scores; for PPO-znorm it is the aggregate-z-scored scalar; for
-            # raw PPO it is the unnormalized weighted scalar.  Comparing this
-            # series across algorithms at the same seed+env answers: does
-            # per-component z-norm amplify or attenuate the noise floor
+            # Capture σ and μ of the scalar reward signal that enters GAE *after*
+            # normalization.  For PCZ-PPO-running this is the weighted sum of
+            # per-component z-scores; for PPO-znorm it is the aggregate-z-scored
+            # scalar; for raw PPO it is the unnormalized weighted scalar.
+            # Comparing this series across algorithms at the same seed+env
+            # answers: does per-component z-norm amplify or attenuate noise
             # relative to aggregate z-norm?  See paper §6.
             try:
                 r_postnorm = batch["next", "reward"]
@@ -414,7 +413,7 @@ def train_loop(
                         metrics[f"reward_components/{cname}_std"] = comp.std().item()
                 except Exception:
                     pass
-            # Grad norm + approx KL from the final minibatch.
+            # Log grad norm + approx KL from the final minibatch.
             # _last_loss_vals is a TensorDict. `bool(td)` raises; `key in td` is safe.
             metrics["train/grad_norm"] = _last_grad_norm
             if _last_loss_vals is not None:

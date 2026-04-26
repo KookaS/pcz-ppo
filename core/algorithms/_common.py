@@ -822,7 +822,7 @@ class MultiComponentHalfCheetahK8(gym.Wrapper):
     Their sum = reward_run. Per-joint ctrl costs (bhip, bknee, bfoot, fhip,
     fknee, ffoot) sum to ctrl_cost. Total preserved: sum(K=8) = original reward.
 
-    Provides a second env family with K=8 for the K-scaling claim.
+    Provides a second env family with K=8 for the K-scaling ablation.
     """
 
     def step(self, action):

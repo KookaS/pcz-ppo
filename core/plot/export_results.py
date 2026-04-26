@@ -12,12 +12,12 @@ Usage::
     # Export from MLflow
     python -m core.plot.export_results \
         --tracking-uri http://127.0.0.1:5050 \
-        --output data/results.csv
+        --output artifacts/pcz-ppo/data/results.csv
 
     # Append new runs (skip existing run_ids)
     python -m core.plot.export_results \
         --tracking-uri http://127.0.0.1:5050 \
-        --output data/results.csv \
+        --output artifacts/pcz-ppo/data/results.csv \
         --append
 """
 
@@ -90,7 +90,7 @@ def _load_existing_rows(path: str) -> list[dict]:
     Used when we need to rewrite due to new-column discovery but must
     preserve rows from OTHER experiments that are not in the current
     MLflow query. Prior behaviour dropped those rows silently — caused
-    a silent data loss regression during trading-k6 export.
+    a 151-row regression during a trading-k6 export.
     """
     if not os.path.exists(path):
         return []
@@ -166,8 +166,7 @@ def export_results(
     # CRITICAL: Union with existing CSV columns so cross-experiment columns
     # from older envs are preserved. Without this union, rewriting the CSV
     # after a new-column discovery silently drops `comp/*` columns belonging
-    # to other experiments (a prior export dropped LL comp columns when
-    # trading introduced new comp/entry_gain_* etc.).
+    # to other experiments.
     comp_columns_this = _discover_component_columns(runs, client)
     existing_comp_cols = [c for c in existing_columns if c.startswith("comp/")]
     # Preserve order: existing comp columns first (stable), then new ones
@@ -187,7 +186,7 @@ def export_results(
         # preserve rows from other experiments (or older runs no longer in
         # MLflow) by carrying them over with empty values in the new cols.
         # Without the carry-over, cross-experiment rows and legacy rows get
-        # silently deleted when a new export discovers new comp/* columns.
+        # silently deleted when a new export discovers additional comp/* columns.
         preserved_rows = [
             r for r in _load_existing_rows(output_path) if r.get("run_id") not in {ru.info.run_id[:12] for ru in runs}
         ]
@@ -287,7 +286,7 @@ def main():
     parser.add_argument(
         "--output",
         type=str,
-        default="data/results.csv",
+        default="artifacts/pcz-ppo/data/results.csv",
         help="Output CSV path.",
     )
     parser.add_argument(

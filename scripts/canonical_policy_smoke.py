@@ -4,7 +4,7 @@ Runs a trivial policy (hold_flat / no-op) and an oracle policy (env-specific,
 informed) for N episodes each, and asserts that
 ``oracle_mean - trivial_mean > max(oracle_std, trivial_std)``.
 
-Motivation: Training on a degenerate environment where the
+Motivation: training on a degenerate environment where the
 trivial policy already sits at optimum wastes compute; worse, both algorithms
 converge to the trivial policy and the resulting "tie" gets mis-interpreted
 as evidence about algorithm differences rather than evidence about the env.

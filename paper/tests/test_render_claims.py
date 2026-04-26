@@ -2,7 +2,7 @@
 
 Run from /workspace::
 
-    uv run pytest paper/tests/test_render_claims.py -v
+    uv run pytest artifacts/pcz-ppo/paper/tests/test_render_claims.py -v
 
 Covers:
   * Formatter edge cases (sign, zero, NaN/inf rejection, rounding boundaries)
@@ -324,7 +324,7 @@ class TestHeadlineClaims:
     # + last-row-in-CSV-order); the present values are the ones that a
     # reviewer re-computing from raw results.csv should obtain.
     def test_k4_pcz_stat(self, gen):
-        # n=15 snapshot is +159.8 ± 24.4 (was +157.7 ± 28.4 at n=10).
+        # n=15 snapshot: +159.8 ± 24.4 (was +157.7 ± 28.4 at n=10).
         assert (gen / "k4_pcz_stat.tex").read_text().strip() == "+159.8 \\pm 24.4"
 
     def test_k4_ppo_stat(self, gen):
@@ -339,9 +339,11 @@ class TestHeadlineClaims:
         # Canonical-weight filter (10.00,3.00 prefix) excludes one contaminating
         # seed-42 row that was accidentally run with env-default weights and
         # logged with an empty ``component_weights`` column (2026-04-17 audit).
-        # n=15 snapshot is 1.15 (ratio compressed from earlier n=10 value of 1.52
-        # as PPO batch with cosine entropy schedule strengthened).  Direction
-        # preserved: PCZ still beats PPO.
+        # n=10 snapshot: 167.2/110.3 = 1.52, Welch p=0.002.
+        # n=15 snapshot (first): 163.6/122.7 = 1.33.
+        # n=15 snapshot (current): 163.6/142.0 = 1.15.  Direction preserved;
+        # PCZ still beats PPO; the point-ratio compressed because PPO's later
+        # seed batch landed on canonical weights with cosine entropy schedule.
         assert (gen / "k6_ratio.tex").read_text().strip() == "1.15"
 
     def test_k8_ratio(self, gen):
@@ -351,22 +353,21 @@ class TestHeadlineClaims:
         assert (gen / "k8_ratio.tex").read_text().strip() == "8.44"
 
     def test_k2_ratio(self, gen):
-        # PPO wins at K=2; ratio is
-        # K=2 batch (PPO seeds 47-51 plus MH validation) plus chrono-latest
-        # dedupe replacing weak earlier PPO with newer canonical-config runs.
-        # Note: this needs review — a flip from PCZ-loses to PCZ-wins at K=2
-        # contradicts the paper's narrative; if the new value is real, §K=2
-        # should be reframed.  Test pinned to current data; investigate
-        # before paper submission.
-        assert (gen / "k2_ratio.tex").read_text().strip() == "1.53"
+        # PPO wins at K=2 (ratio 0.83 = PCZ/PPO < 1). K=2 is a negative control:
+        # homogeneous components give PCZ no advantage, consistent with theory.
+        # Previous value 1.53 was a spurious contaminated comparison (unequal
+        # weight filters let April-18 equal-weight PPO override the paired
+        # "10.00,6.00" runs). Fixed by explicit weights= filter in render_claims.
+        assert (gen / "k2_ratio.tex").read_text().strip() == "0.83"
 
     def test_ceBW_ratio(self, gen):
-        assert (gen / "ceBW_ratio.tex").read_text().strip() == "1.25"
+        # 1.25 (3 seeds) → 1.16 (5 seeds, April 2026).
+        assert (gen / "ceBW_ratio.tex").read_text().strip() == "1.16"
 
     def test_ceHC_ratio(self, gen):
-        # Both algorithms parity-tier; sign unchanged for the paper's
-        # "no PCZ advantage at K=2 all-dense" narrative.
-        assert (gen / "ceHC_ratio.tex").read_text().strip() == "0.88"
+        # 1.02 → 0.88 → 0.90 with additional HalfCheetah seeds.
+        # Both algorithms still parity-tier; narrative unchanged.
+        assert (gen / "ceHC_ratio.tex").read_text().strip() == "0.90"
 
     def test_k4_delta(self, gen):
         # n=15: +159.8 - (+119.1) = +40.7 (was +45.7 at n=10).
@@ -381,14 +382,15 @@ class TestHeadlineClaims:
         assert (gen / "ablA1_stat.tex").read_text() == (gen / "k4_pcz_stat.tex").read_text()
 
 
-# --- CA12.1: weight-consistency guard ------------------------------------
+# --- Weight-consistency guard --------------------------------------------
 
 
 class TestWeightConsistency:
     """Every headline K-row must have a single canonical weight config after
-    dedupe.  Without the ``weights=`` filter on ``_emit_pcz_ppo_pair``, an
-    empty-weights seed-42 row can win chronologically-latest dedupe and pull
-    PCZ down ~12 pts and double SD.  The filter uses ``LL_K6_WEIGHTS='10.00,3.00'`` but
+    dedupe.  Root cause of a K=6 weight-filter drift bug: the ``weights=`` prefix on
+    ``_emit_pcz_ppo_pair`` was ``None``, admitting an empty-weights seed-42
+    row that won chronologically-latest dedupe and pulled PCZ down ~12 pts
+    and doubled SD.  The filter now uses ``LL_K6_WEIGHTS='10.00,3.00'`` but
     the test below enforces the invariant structurally: *whatever* filter
     is applied, every resolved seed must share one weight string.  This
     catches silent re-entry if a future ``export_results`` run adds a
@@ -403,7 +405,7 @@ class TestWeightConsistency:
 
     HEADLINE_CONFIGS = [
         # (prefix, env, filter_weights, expected_canonical_weights)
-        ("k2", "lunarlander-k2", None, "10.00,6.00"),
+        ("k2", "lunarlander-k2", "10.00,6.00", "10.00,6.00"),
         ("k4", "lunarlander", rc.LL_PRIMARY_WEIGHTS, "10.00,5.00,0.50,0.50"),
         ("k6", "lunarlander-k6", rc.LL_K6_WEIGHTS, "10.00,3.00,1.00,1.00,0.50,0.50"),
         ("k8", "lunarlander-k8", None, "10.00,1.00,1.00,1.00,1.00,1.00,0.50,0.50"),
@@ -469,8 +471,7 @@ class TestMissingData:
 
     def test_insufficient_seeds_raises(self):
         rows = rc.load_results()
-        # Pick an algorithm with known small n — popart at LL K=4 has 3 seeds
-        # (popart has n=3 seeds; multihead has n=10).
+        # Pick an algorithm with known small n — popart at LL K=4 has 3 seeds.
         with pytest.raises(LookupError, match="seeds, expected >= 999"):
             rc.q_required(
                 rows,

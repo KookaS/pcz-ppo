@@ -54,23 +54,23 @@ Usage
 ::
 
     # Fast staleness check (used by pre-commit; skips PDF stage):
-    uv run python paper/paper_build.py --check
+    uv run python artifacts/pcz-ppo/paper/paper_build.py --check
 
     # Full check including PDF:
-    uv run python paper/paper_build.py --check --pdf
+    uv run python artifacts/pcz-ppo/paper/paper_build.py --check --pdf
 
     # Rebuild stale figures + fragments + PDF (the cascade — default):
-    uv run python paper/paper_build.py --build
+    uv run python artifacts/pcz-ppo/paper/paper_build.py --build
 
     # Inspect the DAG (figures + fragments + PDF):
-    uv run python paper/paper_build.py --dag
+    uv run python artifacts/pcz-ppo/paper/paper_build.py --dag
 
     # Force every stage to rebuild regardless of lock state:
-    uv run python paper/paper_build.py --build --force
+    uv run python artifacts/pcz-ppo/paper/paper_build.py --build --force
 
     # Rebuild figures + fragments only, skip PDF (rare; e.g. when
     # latexmk is broken and you just want to refresh the figs):
-    uv run python paper/paper_build.py --build --no-pdf
+    uv run python artifacts/pcz-ppo/paper/paper_build.py --build --no-pdf
 """
 
 from __future__ import annotations
@@ -88,7 +88,17 @@ from pathlib import Path
 # ── Per-paper configuration ──────────────────────────────────────────
 
 PAPER_DIR = Path(__file__).resolve().parent
-REPO_ROOT = PAPER_DIR.parent  # paper/ → repo root
+
+
+def _find_repo_root(start: Path) -> Path:
+    """Walk up from start until we find a .git directory (repo root)."""
+    for p in [start, *start.parents]:
+        if (p / ".git").exists():
+            return p
+    return start.parents[2]  # fallback: artifacts/pcz-ppo/paper → repo root
+
+
+REPO_ROOT = _find_repo_root(PAPER_DIR)
 LOCKFILE = PAPER_DIR / "paper_build.lock.json"
 GENERATED_DIR = PAPER_DIR / "generated"
 MAIN_TEX = PAPER_DIR / "pcz_ppo.tex"
@@ -177,6 +187,11 @@ def parse_outputs(fig_path: Path) -> list[str] | None:
     return _parse_string_list(fig_path, "OUTPUTS")
 
 
+def _has_output_flag(fig_path: Path) -> bool:
+    """Return True if the figure script declares an ``--output`` argparse flag."""
+    return '"--output"' in fig_path.read_text()
+
+
 def resolve_globs(base: Path, patterns: list[str]) -> list[Path]:
     """Resolve glob patterns relative to base.  Sorted, deduplicated, files only."""
     out: set[Path] = set()
@@ -194,7 +209,7 @@ def fragments_stage() -> Stage | None:
     if not RENDER_CLAIMS.exists():
         return None
     # render_claims reads results.csv via fig_data
-    results_csv = REPO_ROOT / "data/results.csv"
+    results_csv = REPO_ROOT / "artifacts/pcz-ppo/data/results.csv"
     inputs = [
         results_csv.resolve() if results_csv.exists() else results_csv,
         FIG_DATA.resolve(),
@@ -232,12 +247,18 @@ def figure_stages() -> list[Stage]:
             outputs = [(PAPER_DIR / o).resolve() for o in declared_outputs]
         else:
             outputs = [fig.with_suffix(".pdf"), fig.with_suffix(".png")]
+        # Pass primary PDF output path explicitly so figure scripts don't rely on
+        # a workspace-relative default (e.g. "artifacts/pcz-ppo/paper/fig_*.pdf").
+        primary_pdf = next((o for o in outputs if o.suffix == ".pdf"), None)
+        fig_cmd = ["uv", "run", "python", str(fig.relative_to(REPO_ROOT))]
+        if primary_pdf is not None and _has_output_flag(fig):
+            fig_cmd += ["--output", str(primary_pdf)]
         stages.append(
             Stage(
                 name=fig.stem,
                 inputs=all_inputs,
                 outputs=outputs,
-                cmd=["uv", "run", "python", str(fig.relative_to(REPO_ROOT))],
+                cmd=fig_cmd,
             )
         )
     return stages
@@ -313,7 +334,7 @@ def cmd_check(stages: list[Stage], lock: dict) -> int:
     for s, reason in stale:
         print(f"  - {s.name:30s}  ({reason})", file=sys.stderr)
     print(
-        "\nFix: uv run python paper/paper_build.py --build",
+        "\nFix: uv run python artifacts/pcz-ppo/paper/paper_build.py --build",
         file=sys.stderr,
     )
     return 1
@@ -462,7 +483,7 @@ def cmd_audit(strict: bool = False) -> int:
         for name in orphan_frags:
             print(f"    generated/{name}.tex")
         print(
-            "  Fix: re-run `uv run python paper/render_claims.py` "
+            "  Fix: re-run `uv run python artifacts/pcz-ppo/paper/render_claims.py` "
             "(it prunes orphans automatically) and commit the deletions."
         )
     return 1 if strict else 0

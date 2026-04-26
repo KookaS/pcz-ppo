@@ -15,18 +15,18 @@ Usage::
     # Export all runs from an experiment
     python -m core.plot.export_metrics \\
         --tracking-uri http://127.0.0.1:5050 \\
-        --output-dir data/metrics
+        --output-dir artifacts/pcz-ppo/data/metrics
 
     # Append mode — skip runs that already have a parquet file
     python -m core.plot.export_metrics \\
         --tracking-uri http://127.0.0.1:5050 \\
-        --output-dir data/metrics \\
+        --output-dir artifacts/pcz-ppo/data/metrics \\
         --append
 
     # Export specific metrics only
     python -m core.plot.export_metrics \\
         --tracking-uri http://127.0.0.1:5050 \\
-        --output-dir data/metrics \\
+        --output-dir artifacts/pcz-ppo/data/metrics \\
         --metrics "rollout/reward_mean" "train/loss"
 
     # List available metrics
@@ -37,7 +37,7 @@ Usage::
     # Legacy CSV output (single file, all runs)
     python -m core.plot.export_metrics \\
         --tracking-uri http://127.0.0.1:5050 \\
-        --output-dir data/metrics \\
+        --output-dir artifacts/pcz-ppo/data/metrics \\
         --format csv
 """
 
@@ -216,8 +216,8 @@ def main():
     parser.add_argument(
         "--output-dir",
         type=str,
-        default="data/metrics",
-        help="Output directory for metric files (default: data/metrics).",
+        default="artifacts/pcz-ppo/data/metrics",
+        help="Output directory for metric files (default: artifacts/pcz-ppo/data/metrics).",
     )
     parser.add_argument(
         "--metrics",

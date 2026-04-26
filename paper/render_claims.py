@@ -18,8 +18,8 @@ shorthand defined in the preamble).
 
 Usage::
 
-    uv run python paper/render_claims.py
-    uv run python paper/render_claims.py --check
+    cd /workspace && uv run python artifacts/pcz-ppo/paper/render_claims.py
+    cd /workspace && uv run python artifacts/pcz-ppo/paper/render_claims.py --check
       # --check: render to tempdir and fail if content differs from committed
       # files.  Used in CI and the pre-commit hook.
 
@@ -39,8 +39,8 @@ Design notes
 * Writes are atomic (tempfile + rename) so a crash mid-render never leaves
   a truncated fragment that latexmk would pick up.
 
-Weight-filter discipline (CA12.2 — MANDATORY for every K-emit site)
--------------------------------------------------------------------
+Weight-filter discipline (MANDATORY for every K-emit site)
+----------------------------------------------------------
 Every headline K-scaling emit MUST pass an explicit ``weights=`` argument
 that uniquely identifies the canonical reward-weight configuration.  The
 ``fig_data.query`` filter is a ``startswith`` prefix match, so the filter
@@ -49,14 +49,13 @@ share the same leading components.  ``weights=None`` is ONLY safe when
 ``results.csv`` contains zero off-canonical rows for that (algorithm, env,
 total_timesteps) triple — verify manually before relying on it.
 
-Why this matters: a single empty-weights seed-42 row won
-chronologically-latest dedupe and drove K=6 PCZ from +167 down to +155
-with doubled SD (Welch p 0.002→0.214, var-ratio 0.9×→0.4×).  ``--check``
-passed because the drift was *within* the filter.  The test
-``TestWeightConsistency`` in ``tests/test_render_claims.py`` now enforces
-the invariant structurally: every resolved seed in every headline K-row
-must share a single canonical weight string.  If you add a new K-row,
-add it to ``HEADLINE_CONFIGS`` in that test class.
+Why this matters: a single empty-weights seed row can win chronologically-latest
+dedupe and drive K=6 PCZ from +167 down to +155 with doubled SD (Welch p
+0.002→0.214, var-ratio 0.9×→0.4×).  ``--check`` catches fragment drift but not
+filter drift.  The test ``TestWeightConsistency`` in
+``tests/test_render_claims.py`` enforces the invariant structurally: every
+resolved seed in every headline K-row must share a single canonical weight
+string.  If you add a new K-row, add it to ``HEADLINE_CONFIGS`` in that test.
 """
 
 from __future__ import annotations
@@ -79,17 +78,17 @@ _MANIFEST = _GEN_DIR / "_manifest.json"
 
 LL_PRIMARY_WEIGHTS = "10.00,5.00,0.50,0.50"
 # Canonical K=6 weights (env default; proportional to K=4/K=8). Filter prevents
-# one empty-weights seed-42 row from silently contaminating the K=6 stats —
-# without this filter the dedupe picks the equal-weights accidental run and
-# drives the mean from +167 down to +155 with doubled std (variant).
+# an off-canonical seed from silently contaminating the K=6 stats —
+# without this filter the dedupe picks an equal-weights accidental run and
+# drives the mean from +167 down to +155 with doubled std.
 LL_K6_WEIGHTS = "10.00,3.00"
 
-# CA11 weight-config sensitivity matrix (E47.1, LL K=4 500k, n=5 each)
-CA11_W5311 = "5.00,3.00,1.00,1.00"
-CA11_W3333 = "3.00,3.00,3.00,3.00"
-CA11_W1111 = "1.00,1.00,1.00,1.00"
+# Weight-config sensitivity matrix (LL K=4 500k, n=5 each)
+K4_WEIGHTS_MODERATE = "5.00,3.00,1.00,1.00"
+K4_WEIGHTS_FLAT = "3.00,3.00,3.00,3.00"
+K4_WEIGHTS_EQUAL = "1.00,1.00,1.00,1.00"
 
-# (2026-04-19) — K=8 4M weight-allocation hypothesis.
+# K=8 4M weight-allocation experiment weights.
 # H7 = "headline" weights (analogous to K=6 canonical structure: high primary,
 # moderate per-component, halved fuel). PCZ +212.9 vs PPO +175.7 — PCZ wins.
 # H8 = SNR-informed weights with velocity ZEROED (CV=177 → "pure noise"
@@ -97,16 +96,16 @@ CA11_W1111 = "1.00,1.00,1.00,1.00"
 # component is pathological for PCZ (per-component variance accounting still
 # uses the zeroed channel, but it contributes 0 to the scalar reward → degenerate
 # normalisation). Documented in §Limitations as the "non-zero weights required"
-# usage constraint (R2 in Risk Ledger).
-RR16_H7_WEIGHTS = "10.00,1.00,1.00,1.00,1.00,1.00,0.50,0.50"
-RR16_H8_WEIGHTS = "10.00,5.00,0.00,1.00,0.50,0.50,0.50,0.50"
-# extra (turn 46, 2026-04-19) — K=8/4M weight sensitivity
-# extension matching the K=4 CA11 pattern. Three additional configs beyond H7
+# usage constraint.
+K8_WEIGHTS_HETEROG = "10.00,1.00,1.00,1.00,1.00,1.00,0.50,0.50"
+K8_WEIGHTS_ZEROED_VEL = "10.00,5.00,0.00,1.00,0.50,0.50,0.50,0.50"
+# K=8/4M additional weight-sensitivity configs beyond H7,
+# matching the K=4 sensitivity pattern. Three additional configs beyond H7
 # (heterogeneous 20x spread, the only config where PCZ wins):
 #   moderate: 5,3,1,1,1,1,0.5,0.5 (10x spread) — PCZ collapses +2.7 vs PPO +189.8
 #   flat:     3,3,3,3,3,3,3,3     (1x, uniform) — PCZ collapses +1.8 vs PPO +213.5
-RR16_MODERATE_WEIGHTS = "5.00,3.00,1.00,1.00,1.00,1.00,0.50,0.50"
-RR16_FLAT_WEIGHTS = "3.00,3.00,3.00,3.00,3.00,3.00,3.00,3.00"
+K8_WEIGHTS_MODERATE = "5.00,3.00,1.00,1.00,1.00,1.00,0.50,0.50"
+K8_WEIGHTS_FLAT = "3.00,3.00,3.00,3.00,3.00,3.00,3.00,3.00"
 
 # --- formatting helpers ---------------------------------------------------
 
@@ -251,6 +250,7 @@ def q_required(
     min_seeds: int = 1,
     label: str,
     ent_coef_schedule: str | None = None,
+    learning_rate: str | None = None,
 ) -> dict:
     """Query that raises if fewer than ``min_seeds`` runs match.
 
@@ -260,6 +260,9 @@ def q_required(
     ``ent_coef_schedule`` (optional) restricts to runs with an exact-match
     schedule string — used to isolate canonical-schedule headline runs from
     fixed-entropy tuning-audit runs that share seeds.
+    ``learning_rate`` (optional) restricts to an exact LR — use for canonical
+    K-scaling rows when HP-sweep data at non-canonical LRs shares seeds, so that
+    non-canonical LR cells don't displace canonical seeds via chrono-latest dedupe.
     """
     import numpy as np
 
@@ -270,11 +273,13 @@ def q_required(
         total_timesteps=total_timesteps,
         weights=weights,
         ent_coef_schedule=ent_coef_schedule,
+        learning_rate=learning_rate,
     )
     if q["seeds"] < min_seeds:
         raise LookupError(
             f"[{label}] query({algorithm=}, {env=}, {total_timesteps=}, {weights=}, "
-            f"{ent_coef_schedule=}) returned {q['seeds']} seeds, expected >= {min_seeds}"
+            f"{ent_coef_schedule=}, {learning_rate=}) returned {q['seeds']} seeds, "
+            f"expected >= {min_seeds}"
         )
     evals = [float(r["eval_mean"]) for r in q["runs"] if r.get("eval_mean")]
     q["mean_raw"] = float(np.mean(evals))
@@ -296,6 +301,7 @@ def _emit_pcz_ppo_pair(
     weights: str | None,
     min_seeds: int = 1,
     ent_coef_schedule: str | None = None,
+    learning_rate: str | None = None,
 ) -> None:
     """Emit standard fragments for a (PCZ vs PPO) comparison at one (env, ts, weights).
 
@@ -307,6 +313,9 @@ def _emit_pcz_ppo_pair(
     ``ent_coef_schedule`` restricts to a specific entropy schedule (e.g.
     ``"0.1:0.01"``) — use this for headline K-scaling queries so that seeds
     shared with fixed-entropy tuning audits don't override the dedupe.
+    ``learning_rate`` (optional) restricts to exact LR — use when HP-sweep data
+    lands in results.csv to prevent non-canonical LR cells from displacing
+    canonical seeds via chrono-latest.
     """
     pcz = q_required(
         rows,
@@ -317,6 +326,7 @@ def _emit_pcz_ppo_pair(
         min_seeds=min_seeds,
         label=f"{prefix}_pcz",
         ent_coef_schedule=ent_coef_schedule,
+        learning_rate=learning_rate,
     )
     ppo = q_required(
         rows,
@@ -327,6 +337,7 @@ def _emit_pcz_ppo_pair(
         min_seeds=min_seeds,
         label=f"{prefix}_ppo",
         ent_coef_schedule=ent_coef_schedule,
+        learning_rate=learning_rate,
     )
     src = f"env={env} ts={total_timesteps} weights={weights or '*'}"
 
@@ -374,7 +385,7 @@ def _emit_pcz_ppo_pair_exact_weights(
 
     Required for the empty-weights regime (env default, all-1.0 weights at K=8
     4M): ``query`` filters via ``startswith``, so ``weights=""`` would admit
-    every run.  Used by the equal-weights negative-control fragments.
+    every run.  Used by the K=8/4M equal-weights negative-control fragments.
     """
     import numpy as np
 
@@ -542,6 +553,7 @@ def _emit_single(
     weights: str | None = None,
     min_seeds: int = 1,
     ent_coef_schedule: str | None = None,
+    learning_rate: str | None = None,
 ) -> None:
     q = q_required(
         rows,
@@ -552,6 +564,7 @@ def _emit_single(
         min_seeds=min_seeds,
         label=prefix,
         ent_coef_schedule=ent_coef_schedule,
+        learning_rate=learning_rate,
     )
     src = f"algo={algorithm} env={env} ts={total_timesteps} weights={weights or '*'}"
     reg.add(f"{prefix}_mean", fmt_signed(q["mean"]), src)
@@ -564,7 +577,7 @@ def _emit_single(
 def _load_llm_results(k: int) -> dict[str, list[float]]:
     """Aggregate held-out eval ``total_reward`` across seeds for standard/pcz modes at K.
 
-    Data source: llm_alignment/runs/result_k{K}_{mode}_s{seed}.json
+    Data source: artifacts/pcz-ppo/llm_alignment/runs/result_k{K}_{mode}_s{seed}.json
     (separate data pipeline from results.csv; LLM experiments use TRL/RLOO).
 
     We intentionally use ``total_reward`` (eval-time raw composite) rather than
@@ -632,9 +645,9 @@ def _emit_llm_k2_claims(reg: Registry) -> None:
 def _load_llm_ppo_results(k: int, seeds: list[int] | None = None, suffix: str = "") -> dict[str, list[float]]:
     """Aggregate held-out eval ``total_reward`` for PPO-critic runs (Phase A/B/C/D).
 
-    Data source: ``llm_alignment/runs/result_ppo_k{K}_{mode}_s{seed}{suffix}.json``.
+    Data source: ``artifacts/pcz-ppo/llm_alignment/runs/result_ppo_k{K}_{mode}_s{seed}{suffix}.json``.
 
-    suffix="" reads live files (500-step for K=6 after turn 84).
+    suffix="" reads live files (500-step for K=6).
     suffix="_200step" reads 200-step backup files (K=6 s43-46 preserved via backup script).
 
     Distinct from ``_load_llm_results`` which reads ``result_k{K}_*`` (RLOO legacy).
@@ -745,6 +758,7 @@ def _emit_k_inference(reg: Registry, rows: list[dict]) -> None:
             min_seeds=10,
             label=f"{prefix}_pcz_inference",
             ent_coef_schedule="0.1:0.01",
+            learning_rate="0.0003",  # guard: canonical LR only — excludes HP-sweep cells at non-canonical LRs
         )
         ppo = q_required(
             rows,
@@ -755,6 +769,7 @@ def _emit_k_inference(reg: Registry, rows: list[dict]) -> None:
             min_seeds=10,
             label=f"{prefix}_ppo_inference",
             ent_coef_schedule="0.1:0.01",
+            learning_rate="0.0003",  # guard: canonical LR only
         )
         v_p = np.array([float(r["eval_mean"]) for r in pcz["runs"]])
         v_o = np.array([float(r["eval_mean"]) for r in ppo["runs"]])
@@ -777,7 +792,8 @@ def _emit_k_inference(reg: Registry, rows: list[dict]) -> None:
 
         # BCa 95% CI on the mean difference (10 000 resamples, fixed seed).
         # Percentile CI undercovers at n=10 with heavy tails (K=8 especially)
-        # — BCa corrects for bias and acceleration per Efron (1987).
+        # — BCa corrects for bias and acceleration per Efron (1987).  See
+        # BCa is appropriate for small-n heavy-tailed distributions (Efron 1987).
         def _delta_stat(p_sample, o_sample, axis=-1):
             return np.mean(p_sample, axis=axis) - np.mean(o_sample, axis=axis)
 
@@ -833,7 +849,8 @@ def _emit_k_inference(reg: Registry, rows: list[dict]) -> None:
         ppo_iqm_hi = float(ppo_iqm_res.confidence_interval.high)
         # Probability of superiority (A12 / stochastic dominance) and its
         # Mann–Whitney U two-sided p-value.  A12 = P(X > Y) over all pairs,
-        # with 0.5 weight on ties.  Reported as a formal test.
+        # with 0.5 weight on ties.  Reported as a formal test (previously
+        # formally tested rather than read off the IQM figure).
         n_pairs = len(v_p) * len(v_o)
         n_gt = int(np.sum(v_p[:, None] > v_o[None, :]))
         n_eq = int(np.sum(v_p[:, None] == v_o[None, :]))
@@ -897,33 +914,38 @@ def _emit_k_inference(reg: Registry, rows: list[dict]) -> None:
 def _emit_k2_basic_inference(reg: Registry, rows: list[dict]) -> None:
     """Emit k2_welch_p and k2_welch_d at n=5.
 
-    K=2 was originally reported in Table 3 with a hand-typed ``d=-0.89`` that
-    had the wrong sign: PCZ-PPO actually wins at K=2 (+151.6 vs PPO +99.3,
-    n=5 each, d≈+1.0).  This emitter produces fragment-backed values so the
-    error cannot recur.
+    Both arms use the canonical paired weight "10.00,6.00" (Apr-11/13 batch)
+    so the comparison is balanced.  Earlier versions used weights=None which
+    caused PPO to resolve to equal-weight Apr-18 runs (PCZ had no equal-weight
+    data), inflating the spurious PCZ/PPO ratio from 0.83→1.53 and flipping d
+    from -0.83→+1.01.  This is the correct paired comparison; d is negative
+    (PPO wins at K=2, consistent with the homogeneous-component hypothesis).
     """
     import numpy as np
     from scipy import stats as sp
 
+    _K2_WEIGHTS = "10.00,6.00"
     pcz = q_required(
         rows,
         algorithm="torchrl-pcz-ppo-running",
         env="lunarlander-k2",
         total_timesteps=500000,
-        weights=None,
+        weights=_K2_WEIGHTS,
         min_seeds=5,
         label="k2_pcz_inference",
         ent_coef_schedule="0.1:0.01",
+        learning_rate="0.0003",  # guard: canonical LR — prevents HP-sweep seeds from displacing canonical
     )
     ppo = q_required(
         rows,
         algorithm="torchrl-ppo",
         env="lunarlander-k2",
         total_timesteps=500000,
-        weights=None,
+        weights=_K2_WEIGHTS,
         min_seeds=5,
         label="k2_ppo_inference",
         ent_coef_schedule="0.1:0.01",
+        learning_rate="0.0003",  # guard: canonical LR only
     )
     v_p = np.array([float(r["eval_mean"]) for r in pcz["runs"]])
     v_o = np.array([float(r["eval_mean"]) for r in ppo["runs"]])
@@ -937,7 +959,7 @@ def _emit_k2_basic_inference(reg: Registry, rows: list[dict]) -> None:
 
 
 def _emit_rr4_noise_amp(reg: Registry) -> None:
-    """Emit noise-amplification fragments from the E46.1 signal-tier experiment.
+    """Emit noise-amplification fragments from the signal-tier experiment.
 
     Measures σ of the scalar reward *after normalization* that enters GAE
     under three variants on identical seed+env (LunarLander K={4,6,8}, seed
@@ -948,11 +970,10 @@ def _emit_rr4_noise_amp(reg: Registry) -> None:
 
     Reports the final-3 batches (so EMA has warmed up) and the PCZ/znorm
     amplification ratio that the paper's §3 mechanism claim asserts.  The
-    K-scaling extension tests whether the amplification
-    factor is K-invariant (prediction: ratio ≈ sqrt(Σw_i²) × correlation
-    inflation; theoretical bound is K-invariant at ~11, observed growth
-    reflects component correlation).  See experiment dir
-    ``experiments/E46.1_noise_amp/``.
+    K-scaling extension tests whether the amplification factor is K-invariant
+    (prediction: ratio ≈ sqrt(Σw_i²) × correlation inflation; theoretical bound
+    is K-invariant at ~11, observed growth reflects component correlation).
+    Data from ``artifacts/pcz-ppo/experiments/E46.1_noise_amp/``.
     """
     import json as _json
 
@@ -980,7 +1001,7 @@ def _emit_rr4_noise_amp(reg: Registry) -> None:
                 raw = data.get("torchrl-ppo")
             if not (pcz and znm and raw):
                 continue
-        src = f"E46.1 rr4_noise_amp: LL K={K} s42 50k frames canonical weights"
+        src = f"noise-amp: LL K={K} s42 50k frames canonical weights"
         prefix = f"rr4_k{K}"
         reg.add(f"{prefix}_pcz_postnorm_std", fmt_ratio(pcz["postnorm_std_final3"], decimals=1), src)
         reg.add(f"{prefix}_znorm_postnorm_std", fmt_ratio(znm["postnorm_std_final3"], decimals=1), src)
@@ -1004,7 +1025,7 @@ def _emit_rr4_noise_amp(reg: Registry) -> None:
 
 
 def _emit_ca11_weight_sensitivity(reg: Registry, rows: list[dict]) -> None:
-    """Emit CA11 weight-config sensitivity fragments (E47.1, LL K=4 500k n=5).
+    """Emit weight-config sensitivity fragments (LL K=4 500k, n=5).
 
     Shows that the PCZ advantage is monotone in weight heterogeneity:
       canonical (10,5,0.5,0.5) d=+1.04 (paper headline)
@@ -1020,9 +1041,9 @@ def _emit_ca11_weight_sensitivity(reg: Registry, rows: list[dict]) -> None:
     from scipy import stats as _stats
 
     specs = [
-        ("ca11_w5311", CA11_W5311),
-        ("ca11_w3333", CA11_W3333),
-        ("ca11_w1111", CA11_W1111),
+        ("ca11_w5311", K4_WEIGHTS_MODERATE),
+        ("ca11_w3333", K4_WEIGHTS_FLAT),
+        ("ca11_w1111", K4_WEIGHTS_EQUAL),
     ]
     for prefix, weights in specs:
         _emit_pcz_ppo_pair(reg, rows, prefix, env="lunarlander", total_timesteps=500000, weights=weights, min_seeds=5)
@@ -1053,17 +1074,17 @@ def _emit_ca11_weight_sensitivity(reg: Registry, rows: list[dict]) -> None:
         )
         d = (pcz_vals.mean() - ppo_vals.mean()) / float(np.sqrt(pooled)) if pooled > 0 else 0.0
         _t, p = _stats.ttest_ind(pcz_vals, ppo_vals, equal_var=False)
-        src = f"CA11 E47.1 weights={weights} n={len(pcz_vals)}+{len(ppo_vals)}"
+        src = f"weight-sensitivity weights={weights} n={len(pcz_vals)}+{len(ppo_vals)}"
         reg.add(f"{prefix}_cohen_d", fmt_signed(d, decimals=2), src)
         reg.add(f"{prefix}_welch_p", fmt_plain(float(p), decimals=3), src)
 
 
 def _emit_w7_baseline_audit(reg: Registry, rows: list[dict]) -> None:
-    """Emit baseline-strength audit fragments (E48.2, LL K=4 500k, n=2 each cell).
+    """Emit PPO baseline-strength audit fragments (LL K=4 500k, n=2 each cell).
 
     Paper-framing: the canonical comparison uses cosine entropy schedule 0.1→0.01
-    for BOTH PPO and PCZ-PPO.  W7 asks "what if we give PPO its own best fixed-
-    entropy tuning?" and answers: PPO's peak config is lr=3e-4 ent=0.0.  At that
+    for BOTH PPO and PCZ-PPO.  This audit asks "what if we give PPO its own best
+    fixed-entropy tuning?" and answers: PPO's peak config is lr=3e-4 ent=0.0.  At that
     config, PPO achieves 167.3 ± 15.6 (n=2) — higher than its canonical 112.0 ±
     56.2 (n=10).  PCZ-PPO at the same config achieves 180.8 ± 41.6 (n=2).  So
     even at PPO's peak tuning, PCZ-PPO matches or slightly exceeds PPO; the
@@ -1077,7 +1098,7 @@ def _emit_w7_baseline_audit(reg: Registry, rows: list[dict]) -> None:
     import numpy as np
 
     # Filter directly on rows (bypassing query's dedupe which keeps latest-per-seed
-    # and would miss W7 runs that share seeds with other E47.x / headline runs).
+    # and would miss fixed-entropy runs that share seeds with canonical headline runs).
     # Dedupe within this lr+ent+ent_schedule-empty subset ourselves.
     def _grab(algo: str) -> tuple[list[float], list[str]]:
         matching = [
@@ -1105,7 +1126,7 @@ def _emit_w7_baseline_audit(reg: Registry, rows: list[dict]) -> None:
         if len(vals) < 2:
             continue
         arr = np.asarray(vals, dtype=float)
-        src = f"W7 E48.2 {algo} lr=3e-4 ent=0.0 weights={LL_PRIMARY_WEIGHTS} n={len(arr)}"
+        src = f"PPO-baseline-audit {algo} lr=3e-4 ent=0.0 weights={LL_PRIMARY_WEIGHTS} n={len(arr)}"
         reg.add(f"w7_{tag}_best_mean", fmt_signed(float(arr.mean())), src)
         reg.add(f"w7_{tag}_best_std", fmt_plain(float(arr.std(ddof=1))), src)
         reg.add(f"w7_{tag}_best_seeds", fmt_int(len(arr)), src)
@@ -1119,12 +1140,12 @@ def _emit_w7_baseline_audit(reg: Registry, rows: list[dict]) -> None:
         reg.add(
             "w7_delta_best",
             fmt_signed(delta),
-            "W7 peak-vs-peak PCZ−PPO at lr=3e-4 ent=0.0",
+            "PPO-baseline-audit peak-vs-peak PCZ−PPO at lr=3e-4 ent=0.0",
         )
 
 
 def _emit_rr6_entropy_sweep(reg: Registry, rows: list[dict]) -> None:
-    """Emit entropy-coupling sweep fragments (E48.3, LL K=4 500k, lr=3e-4).
+    """Emit entropy-coupling sweep fragments (LL K=4 500k, lr=3e-4).
 
     Paired PCZ and PPO runs at five fixed entropy coefficients (no cosine schedule)
     to measure the tuning envelope.  Finding: PCZ tolerates entropy up to 0.05 and
@@ -1163,7 +1184,7 @@ def _emit_rr6_entropy_sweep(reg: Registry, rows: list[dict]) -> None:
             if len(vals) < 2:
                 continue
             arr = np.asarray(vals, dtype=float)
-            src = f"RR6 E48.3 {algo} lr=3e-4 ent={ent} n={len(arr)}"
+            src = f"entropy-sweep {algo} lr=3e-4 ent={ent} n={len(arr)}"
             reg.add(f"rr6_{tag}_e{slug}_mean", fmt_signed(float(arr.mean())), src)
             reg.add(f"rr6_{tag}_e{slug}_std", fmt_plain(float(arr.std(ddof=1))), src)
             reg.add(f"rr6_{tag}_e{slug}_seeds", fmt_int(len(arr)), src)
@@ -1175,7 +1196,7 @@ def _emit_rr6_entropy_sweep(reg: Registry, rows: list[dict]) -> None:
             reg.add(
                 f"rr6_delta_e{slug}",
                 fmt_signed(delta),
-                f"RR6 PCZ−PPO at lr=3e-4 ent={ent}",
+                f"entropy-sweep PCZ−PPO at lr=3e-4 ent={ent}",
             )
 
 
@@ -1190,8 +1211,7 @@ def _emit_a15_vs_a1_k(
 ) -> None:
     """Emit A15 (symznorm) vs A1 (running) inferential fragments at one K.
 
-    Generalised to K=4 (champion arbitration), K=6,
-    and K=8. Fragments:
+    Generalised to K=4 (champion arbitration), K=6, and K=8. Fragments:
       ``{prefix}_delta, _welch_p, _welch_d, _bca_ci, _paired_p, _var_ratio``
     """
     import numpy as np
@@ -1216,6 +1236,7 @@ def _emit_a15_vs_a1_k(
         min_seeds=min_seeds,
         label=f"{prefix}_A1",
         ent_coef_schedule="0.1:0.01",
+        learning_rate="0.0003",  # guard: canonical LR only — excludes HP-sweep non-canonical cells
     )
     by_seed_a15 = {r["seed"]: float(r["eval_mean"]) for r in a15["runs"]}
     by_seed_a1 = {r["seed"]: float(r["eval_mean"]) for r in a1["runs"]}
@@ -1268,8 +1289,9 @@ def _emit_component_stats(reg: Registry, rows: list[dict]) -> None:
     """Emit run-level σ/|μ| fragments for Table 12 (tab:app_comp_stats).
 
     The table's historical per-step column was hand-typed from a mixed subset
-    The per-step σ/|μ| and run-level σ/|μ| differ for BW ``crash`` (52.6× vs
-    14.2× respectively).  We add a run-level column alongside the per-step column and pin
+    and reviewers flagged a discrepancy (BW ``crash`` was reported at
+    per-step σ/|μ| = 52.6×, while a reviewer's run-level recomputation gave
+    14.2×).  We add a run-level column alongside the per-step column and pin
     the run-level values to ``results.csv`` so they cannot drift.
 
     Subset: all runs with non-empty comp/{name}_mean column for the (env, comp)
@@ -1314,6 +1336,150 @@ def _emit_component_stats(reg: Registry, rows: list[dict]) -> None:
         reg.add(f"compstat_{tag}_{comp}_cv_rl", fmt_ratio(cv_rl, decimals=2), src)
 
 
+def _emit_hp_sweep_claims(
+    reg: Registry,
+    rows: list[dict],
+    *,
+    env: str,
+    total_timesteps: int,
+    prefix: str,
+    weight_tiers: dict[str, str],
+    lrs: list[str] = ("0.0001", "0.0003", "0.001"),
+    min_n: int = 2,
+) -> None:
+    """Emit HP-fairness sweep claims: best cell per algo and peak delta.
+
+    Fragment naming:
+      {prefix}_pcz_best_{mean,std,seeds,stat,tier,lr,ent}
+      {prefix}_ppo_best_{mean,std,seeds,stat,tier,lr,ent}
+      {prefix}_peak_delta   (PCZ-best − PPO-best means)
+      {prefix}_peak_a12     (Vargha-Delaney A12, PCZ-best vs PPO-best cells)
+      {prefix}_ncells_{pcz,ppo}  (n cells with n>=min_n)
+
+    Skips silently if insufficient data for either algo (fragment stays
+    unreferenced until data arrives, matching the existing no-op pattern
+    for optional extensions above).
+    """
+    import itertools
+
+    import numpy as np
+
+    ts_str = str(total_timesteps)
+    seeds = {"42", "43", "44"}
+
+    # ent-config filter specs: (slug, sched_match, coef_match)
+    # cosine matches on schedule only; fixed variants match coef with empty sched.
+    ent_configs = [
+        ("cosine", "0.1:0.01", None),
+        ("e00", "", "0.0"),
+        ("e01", "", "0.01"),
+    ]
+
+    def _collect_cell(
+        algo: str, w_csv: str, lr: str, ent_slug: str, ent_sched: str, ent_coef: str | None
+    ) -> list[float]:
+        vals: dict[str, float] = {}
+        for r in rows:
+            if r.get("algorithm") != algo:
+                continue
+            if r.get("env") != env:
+                continue
+            if r.get("total_timesteps") != ts_str:
+                continue
+            if r.get("seed") not in seeds:
+                continue
+            if not r.get("eval_mean"):
+                continue
+            # weight match
+            if w_csv:
+                if not r.get("component_weights", "").startswith(w_csv):
+                    continue
+            # lr match
+            if r.get("learning_rate") != lr:
+                continue
+            # ent match
+            r_sched = r.get("ent_coef_schedule", "")
+            r_coef = r.get("ent_coef", "")
+            if ent_sched:  # cosine: require matching schedule
+                if r_sched != ent_sched:
+                    continue
+            else:  # fixed: require empty schedule + exact coef
+                if r_sched:
+                    continue
+                if ent_coef is not None and r_coef != ent_coef:
+                    continue
+            seed = r["seed"]
+            # latest-seed-first dedupe (consistent with query())
+            if seed not in vals or r.get("date", "") > vals.get(f"_date_{seed}", ""):
+                vals[seed] = float(r["eval_mean"])
+                vals[f"_date_{seed}"] = r.get("date", "")
+        return [v for k, v in vals.items() if not k.startswith("_date_")]
+
+    def _a12(x: list[float], y: list[float]) -> float:
+        """Vargha-Delaney A12: P(X > Y) + 0.5*P(X == Y)."""
+        wins = sum(1 for xi, yi in itertools.product(x, y) if xi > yi)
+        ties = sum(1 for xi, yi in itertools.product(x, y) if xi == yi)
+        return (wins + 0.5 * ties) / (len(x) * len(y))
+
+    algo_specs = [
+        ("ppo", "torchrl-ppo"),
+        ("pcz", "torchrl-pcz-ppo-running"),
+    ]
+
+    best_per_algo: dict[str, dict] = {}
+    for algo_slug, algo in algo_specs:
+        best_mean = float("-inf")
+        best_vals: list[float] = []
+        best_cell_label = ("?", "?", "?")
+        n_cells = 0
+        for tier_name, w_csv in weight_tiers.items():
+            for lr in lrs:
+                for ent_slug, ent_sched, ent_coef in ent_configs:
+                    vals = _collect_cell(algo, w_csv, lr, ent_slug, ent_sched, ent_coef)
+                    if len(vals) < min_n:
+                        continue
+                    n_cells += 1
+                    m = float(np.mean(vals))
+                    if m > best_mean:
+                        best_mean = m
+                        best_vals = vals
+                        best_cell_label = (tier_name, lr, ent_slug)
+        best_per_algo[algo_slug] = {
+            "vals": best_vals,
+            "label": best_cell_label,
+            "n_cells": n_cells,
+        }
+
+    # Require both algos to have data before emitting anything
+    for slug in ("ppo", "pcz"):
+        if not best_per_algo[slug]["vals"]:
+            return
+
+    src_base = f"HP-fairness sweep env={env} ts={total_timesteps}"
+    for slug in ("ppo", "pcz"):
+        vals = np.asarray(best_per_algo[slug]["vals"], dtype=float)
+        tier, lr, ent = best_per_algo[slug]["label"]
+        n_cells = best_per_algo[slug]["n_cells"]
+        src = f"{src_base} {slug} best={tier}/{lr}/{ent} n={len(vals)}"
+        reg.add(f"{prefix}_{slug}_best_mean", fmt_signed(float(vals.mean())), src)
+        reg.add(f"{prefix}_{slug}_best_std", fmt_plain(float(vals.std(ddof=max(1, len(vals) - 1)))), src)
+        reg.add(f"{prefix}_{slug}_best_seeds", fmt_int(len(vals)), src)
+        reg.add(
+            f"{prefix}_{slug}_best_stat", fmt_stat(float(vals.mean()), float(vals.std(ddof=max(1, len(vals) - 1)))), src
+        )
+        reg.add(f"{prefix}_{slug}_best_tier", tier, src)
+        reg.add(f"{prefix}_{slug}_best_lr", lr, src)
+        reg.add(f"{prefix}_{slug}_best_ent", ent, src)
+        reg.add(f"{prefix}_ncells_{slug}", fmt_int(n_cells), src)
+
+    pcz_vals = best_per_algo["pcz"]["vals"]
+    ppo_vals = best_per_algo["ppo"]["vals"]
+    delta = float(np.mean(pcz_vals)) - float(np.mean(ppo_vals))
+    reg.add(f"{prefix}_peak_delta", fmt_signed(delta), f"{src_base} peak_delta PCZ−PPO")
+    a12 = _a12(pcz_vals, ppo_vals)
+    reg.add(f"{prefix}_peak_a12", fmt_plain(a12, decimals=2), f"{src_base} Vargha-Delaney A12 PCZ>PPO")
+
+
 def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Registry:
     reg = Registry(used_filter=used_filter)
 
@@ -1328,7 +1494,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         "k2",
         env="lunarlander-k2",
         total_timesteps=500000,
-        weights=None,
+        weights="10.00,6.00",  # explicit filter — equal-weight PPO runs (Apr-18) must not override paired runs
         min_seeds=5,
         ent_coef_schedule="0.1:0.01",
     )
@@ -1341,6 +1507,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         weights=LL_PRIMARY_WEIGHTS,
         min_seeds=10,
         ent_coef_schedule="0.1:0.01",
+        learning_rate="0.0003",  # guard: canonical LR — prevents HP-sweep cells from displacing canonical seeds
     )
     _emit_pcz_ppo_pair(
         reg,
@@ -1351,6 +1518,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         weights=LL_K6_WEIGHTS,
         min_seeds=10,
         ent_coef_schedule="0.1:0.01",
+        learning_rate="0.0003",  # guard: canonical LR — prevents future HP-sweep cells at K=6 from contaminating
     )
     _emit_pcz_ppo_pair(
         reg,
@@ -1361,10 +1529,10 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         weights=None,
         min_seeds=10,
         ent_coef_schedule="0.1:0.01",
+        learning_rate="0.0003",  # guard: canonical LR — prevents future HP-sweep cells at K=8 from contaminating
     )
     # Inferential statistics (Welch, Cohen's d, bootstrap CI, permutation,
-    # Holm) derived from the same dedup'd rows used above.  Added 2026-04-16
-    # to resolve a K=6 stale-stats issue; see §A.3 of the paper.
+    # Holm) derived from the same dedup'd rows used above; see §A.3 of the paper.
     _emit_k_inference(reg, rows)
     # K=2 basic inference (Welch p, Cohen's d) at n=5.  Kept separate from
     # the Holm family (K=4,6,8) because K=2 is a supporting-evidence row,
@@ -1393,17 +1561,84 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
     # --- Appendix component-statistics table (tab:app_comp_stats) run-level column ---
     _emit_component_stats(reg, rows)
 
-    # --- noise-amplification signal-tier measurement ---
+    # --- Noise-amplification signal-tier measurement ---
     _emit_rr4_noise_amp(reg)
 
-    # --- CA11 weight-config sensitivity (E47.1, LL K=4 500k n=5) ---
+    # --- Weight-config sensitivity (LL K=4 500k, n=5) ---
     _emit_ca11_weight_sensitivity(reg, rows)
 
-    # --- W7 PPO baseline-strength audit (E48.2, LL K=4 500k) ---
+    # --- PPO baseline-strength audit (LL K=4 500k) ---
     _emit_w7_baseline_audit(reg, rows)
 
-    # --- entropy-coupling sweep (E48.3, LL K=4 500k, lr=3e-4) ---
+    # --- Entropy-coupling sweep (LL K=4 500k, lr=3e-4) ---
     _emit_rr6_entropy_sweep(reg, rows)
+
+    # --- HP-fairness sweep (K=4/500k; K=8/4M added when data arrives) ---
+    # No-ops until enough cells have n>=2; fragments become active as sweep fills.
+    # Global best across all tiers (PCZ best = heterog, PPO best = flat at current data).
+    _emit_hp_sweep_claims(
+        reg,
+        rows,
+        env="lunarlander",
+        total_timesteps=500000,
+        prefix="hp19_k4",
+        weight_tiers={
+            "heterog": "10.00,5.00,0.50,0.50",
+            "moderate": "5.00,3.00,1.00,1.00",
+            "flat": "3.00,3.00,3.00,3.00",
+            "equal": "1.00,1.00,1.00,1.00",
+        },
+    )
+    # Per-tier: canonical heterog tier specifically (full HP search, n=3 per cell).
+    _emit_hp_sweep_claims(
+        reg,
+        rows,
+        env="lunarlander",
+        total_timesteps=500000,
+        prefix="hp19_k4_heterog",
+        weight_tiers={"heterog": "10.00,5.00,0.50,0.50"},
+    )
+    # Per-tier: moderate (CA11 analog).
+    _emit_hp_sweep_claims(
+        reg,
+        rows,
+        env="lunarlander",
+        total_timesteps=500000,
+        prefix="hp19_k4_mod",
+        weight_tiers={"moderate": "5.00,3.00,1.00,1.00"},
+    )
+    # Per-tier: flat (confirms Table 9 catastrophic failure with HP search).
+    _emit_hp_sweep_claims(
+        reg,
+        rows,
+        env="lunarlander",
+        total_timesteps=500000,
+        prefix="hp19_k4_flat",
+        weight_tiers={"flat": "3.00,3.00,3.00,3.00"},
+    )
+    # Per-tier: equal (same failure mode, equal weights).
+    _emit_hp_sweep_claims(
+        reg,
+        rows,
+        env="lunarlander",
+        total_timesteps=500000,
+        prefix="hp19_k4_equal",
+        weight_tiers={"equal": "1.00,1.00,1.00,1.00"},
+    )
+    # K=8/4M: emits once K=8/4M HP-sweep data lands; no-op until then.
+    _emit_hp_sweep_claims(
+        reg,
+        rows,
+        env="lunarlander-k8",
+        total_timesteps=4000000,
+        prefix="hp19_k8",
+        weight_tiers={
+            "heterog": "10.00,1.00,1.00,1.00,1.00,1.00,0.50,0.50",
+            "moderate": "5.00,3.00,1.00,1.00,1.00,1.00,0.50,0.50",
+            "flat": "3.00,3.00,3.00,3.00,3.00,3.00,3.00,3.00",
+            "equal": "1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00",
+        },
+    )
 
     # --- Ablation table (tab:ablation) on LunarLander K=4, primary weights ---
     ablation_rows = [
@@ -1441,9 +1676,10 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
             weights=LL_PRIMARY_WEIGHTS,
             min_seeds=3,
             ent_coef_schedule="0.1:0.01",
+            learning_rate="0.0003",  # guard: canonical LR only — excludes HP-sweep non-canonical cells
         )
 
-    # --- extensions: PopArt at K=6 and K=8, Multi-head at K=2/K=6 ---
+    # --- PopArt at K=6 and K=8, Multi-head at K=2/K=6 ---
     # These emit calls are no-ops until Batch A of the mega-chain completes
     # (paper prose using \cnum{ablPopArt_k6_stat} etc. will trigger the fragment).
     # Min_seeds relaxed to 3 to allow intermediate renders.
@@ -1469,9 +1705,9 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
             pass  # Data not yet available; fragment stays unreferenced.
     # Derived ablation deltas used in "Key Finding" narrative cells
     # "Decomposition adds X" = A1 (PCZ running) - A7 (PPO weighted running)
-    # ent_coef_schedule filter is MANDATORY (CA12.2 pattern): without it,
+    # ent_coef_schedule filter is MANDATORY: without it,
     # non-canonical-entropy A1 runs silently drag the mean (e.g. +157.7 → +72.4)
-    # and the delta sign flips. See bug fix.
+    # and the delta sign flips.
     ablA1 = q_required(
         rows,
         algorithm="torchrl-pcz-ppo-running",
@@ -1481,6 +1717,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         min_seeds=10,
         label="decomp_delta_A1",
         ent_coef_schedule="0.1:0.01",
+        learning_rate="0.0003",  # guard: canonical LR only — excludes HP-sweep non-canonical cells
     )
     ablA7 = q_required(
         rows,
@@ -1524,9 +1761,9 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
 
     # ZCA variance ratio vs A1 (computed only if both present at min_seeds=3).
     # Stored under cross-context prefix `abl_zca_var_ratio` (CROSS_CONTEXT_PREFIXES).
-    # CA12.2 pattern: both q_required MUST filter ent_coef_schedule="0.1:0.01",
-    # otherwise A1 no-filter std blows up (+157.7 → +72.4 contamination) and the
-    # ratio inflates 6× (bug fix).
+    # Both q_required MUST filter ent_coef_schedule="0.1:0.01": without it,
+    # non-canonical A1 runs blow up the std (+157.7 → +72.4 contamination) and
+    # the ratio inflates 6×.
     try:
         ablA1_for_zca = q_required(
             rows,
@@ -1537,6 +1774,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
             min_seeds=3,
             label="zca_baseline_A1",
             ent_coef_schedule="0.1:0.01",
+            learning_rate="0.0003",  # guard: canonical LR only — excludes HP-sweep non-canonical cells
         )
         ablZCA_for_ratio = q_required(
             rows,
@@ -1559,10 +1797,9 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
 
     # --- IQM / P(improvement) fragments ---
     # Probability of improvement: P(PCZ > PPO) via pairwise comparisons.
-    # CA12.2 pattern: both queries MUST filter ent_coef_schedule="0.1:0.01",
-    # otherwise non-canonical-entropy runs contaminate the per-K pools. At K=4
-    # this pushes P(PCZ>PPO) from 73% (canonical) down to 71% silently (Cycle
-    # 50 bug fix).
+    # Both queries MUST filter ent_coef_schedule="0.1:0.01": without it,
+    # non-canonical-entropy runs contaminate the per-K pools and silently
+    # push P(PCZ>PPO) from 73% (canonical) down to 71% at K=4.
     for prefix, env, weights in [
         ("k4", "lunarlander", LL_PRIMARY_WEIGHTS),
         ("k6", "lunarlander-k6", LL_K6_WEIGHTS),
@@ -1578,6 +1815,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
                 min_seeds=5,
                 label=f"iqm_{prefix}_pcz",
                 ent_coef_schedule="0.1:0.01",
+                learning_rate="0.0003",  # guard: canonical LR only — excludes HP-sweep non-canonical cells
             )
             ppo_q = q_required(
                 rows,
@@ -1588,6 +1826,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
                 min_seeds=5,
                 label=f"iqm_{prefix}_ppo",
                 ent_coef_schedule="0.1:0.01",
+                learning_rate="0.0003",  # guard: canonical LR only — excludes HP-sweep non-canonical cells
             )
             pcz_e = [float(r["eval_mean"]) for r in pcz_q["runs"]]
             ppo_e = [float(r["eval_mean"]) for r in ppo_q["runs"]]
@@ -1635,6 +1874,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         pcz_w: str | None,
         out_key: str,
         baseline_w: str | None = None,
+        learning_rate: str | None = None,
     ) -> None:
         # Apply the same canonical filters on the baseline side as on PCZ.
         b = query(
@@ -1644,6 +1884,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
             total_timesteps=baseline_ts,
             weights=baseline_w if baseline_w is not None else pcz_w,
             ent_coef_schedule="0.1:0.01" if "lunarlander" in baseline_env else None,
+            learning_rate=learning_rate,
         )
         p = query(
             rows,
@@ -1652,6 +1893,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
             total_timesteps=pcz_ts,
             weights=pcz_w,
             ent_coef_schedule="0.1:0.01" if "lunarlander" in pcz_env else None,
+            learning_rate=learning_rate,
         )
         if b["seeds"] == 0 or p["seeds"] == 0:
             return
@@ -1662,9 +1904,36 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
             f"{baseline_algo}({baseline_env},{baseline_ts}) - PCZ-PPO({pcz_env},{pcz_ts})",
         )
 
-    _delta("torchrl-ppo", "lunarlander", 500000, "lunarlander", 500000, LL_PRIMARY_WEIGHTS, "cm_k4_ppo")
-    _delta("torchrl-grpo", "lunarlander", 500000, "lunarlander", 500000, LL_PRIMARY_WEIGHTS, "cm_k4_grpo500k")
-    _delta("torchrl-grpo", "lunarlander", 1000000, "lunarlander", 500000, LL_PRIMARY_WEIGHTS, "cm_k4_grpo1M")
+    _delta(
+        "torchrl-ppo",
+        "lunarlander",
+        500000,
+        "lunarlander",
+        500000,
+        LL_PRIMARY_WEIGHTS,
+        "cm_k4_ppo",
+        learning_rate="0.0003",
+    )  # guard: canonical LR
+    _delta(
+        "torchrl-grpo",
+        "lunarlander",
+        500000,
+        "lunarlander",
+        500000,
+        LL_PRIMARY_WEIGHTS,
+        "cm_k4_grpo500k",
+        learning_rate="0.0003",
+    )  # guard: canonical LR
+    _delta(
+        "torchrl-grpo",
+        "lunarlander",
+        1000000,
+        "lunarlander",
+        500000,
+        LL_PRIMARY_WEIGHTS,
+        "cm_k4_grpo1M",
+        learning_rate="0.0003",
+    )  # guard: canonical LR
     _delta("torchrl-ppo", "lunarlander-k8", 500000, "lunarlander-k8", 500000, None, "cm_k8_ppo")
     _delta("torchrl-grpo", "lunarlander-k8", 1000000, "lunarlander-k8", 500000, None, "cm_k8_grpo1M")
     _delta("torchrl-grpo", "bipedalwalker", 1000000, "bipedalwalker", 500000, None, "cm_bw_grpo1M")
@@ -1679,6 +1948,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         total_timesteps=500000,
         weights="1.00,1.00,1.00,1.00",
         ent_coef_schedule="0.1:0.01",
+        learning_rate="0.0003",  # guard: canonical LR only — excludes HP-sweep equal-weight cells
     )
     pr = query(
         rows,
@@ -1687,6 +1957,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         total_timesteps=500000,
         weights=LL_PRIMARY_WEIGHTS,
         ent_coef_schedule="0.1:0.01",
+        learning_rate="0.0003",  # guard: canonical LR only — excludes HP-sweep non-canonical cells
     )
     if eq["seeds"] > 0 and pr["seeds"] > 0:
         reg.add(
@@ -1717,6 +1988,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         total_timesteps=500000,
         weights=LL_PRIMARY_WEIGHTS,
         ent_coef_schedule="0.1:0.01",
+        learning_rate="0.0003",  # guard: canonical LR only — excludes HP-sweep non-canonical cells
     )
     if a5["seeds"] > 0 and a1["seeds"] > 0 and a1["std_raw"] > 0:
         reg.add(
@@ -1763,7 +2035,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
     ]:
         _emit_pcz_ppo_pair(reg, rows, prefix, env=env, total_timesteps=500000, weights=None, min_seeds=5)
 
-    # --- HC K-scaling (Batch B, turn 25) — negative control: homogeneous-scale env ---
+    # --- HC K-scaling — negative control: homogeneous-scale env ---
     # PCZ loses across all K on HalfCheetah at 500k (undertrained but directionally clear):
     #   K=2 Δ-9, K=4 Δ-30, K=6 Δ-44, K=8 Δ-238. Variance reduction 2.7-3.6× at K∈{2,4,8}.
     # Supports "heterogeneity-required" claim (HC components are all homogeneous CV ~0.8-1.9).
@@ -1835,12 +2107,11 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         min_seeds=3,
     )
 
-    # --- W10 plateau validation (4M steps, LunarLander K=4) ---
-    # turn 61: extended from n=3 to n=10. At n=10 the
-    # "converge to the same asymptote" story from n=3 no longer holds: PCZ
-    # retains a directional mean advantage (+29.2, d=+0.77, Welch p=0.11)
-    # plus 2.72x lower cross-seed variance. Prose in §Limitations /
-    # Conclusion updated accordingly.
+    # --- Plateau validation (4M steps, LunarLander K=4) ---
+    # Extended from n=3 to n=10. At n=10 the "converge to the same asymptote"
+    # story from n=3 no longer holds: PCZ retains a directional mean advantage
+    # (+29.2, d=+0.77, Welch p=0.11) plus 2.72x lower cross-seed variance.
+    # Prose in §Limitations / Conclusion updated accordingly.
     _emit_single(
         reg,
         rows,
@@ -1861,7 +2132,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
     )
     # Pair-fragment block (delta, ratio, var_ratio) at LL K=4 4M canonical
     # cosine-entropy schedule. The ent_coef_schedule filter is essential —
-    # without it the fixed-entropy seeds would bleed into the pair.
+    # without it the fixed-entropy tuning-audit seeds would bleed into the pair.
     _emit_pcz_ppo_pair(
         reg,
         rows,
@@ -1872,14 +2143,14 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         ent_coef_schedule="0.1:0.01",
         min_seeds=3,
     )
-    # K=8 4M HEADLINE (H7, 2026-04-19): under K-analogous heterogeneous
-    # weights (10,1,1,1,1,1,0.5,0.5), PCZ-PPO +212.9 ± 11.8 BEATS matched-infra PPO
-    # +175.7 ± 33.0 (n=3 each) with ~2.8x lower cross-seed variance. Earlier "K=8 4M
-    # collapses" result was an equal-weights / quasi-equal-weights artifact — exactly
-    # the failure mode CA11 (Table 9, K=4 weight sensitivity) already documented at
-    # K=4: equal-weights d=-3.45, flat d=-7.04 are catastrophic for PCZ. Retain
-    # `w10_k8_pcz` / `w10_k8_ppo` fragment names so existing \cnum{} citations in the
-    # paper auto-update to the headline (H7) numbers.
+    # K=8 4M HEADLINE: under K-analogous heterogeneous weights (10,1,1,1,1,1,0.5,0.5),
+    # PCZ-PPO +212.9 ± 11.8 BEATS matched-infra PPO +175.7 ± 33.0 (n=3 each) with
+    # ~2.8x lower cross-seed variance. Earlier "K=8 4M collapses" result was an
+    # equal-weights / quasi-equal-weights artifact — exactly the failure mode
+    # (Table 9, K=4 weight sensitivity) already documented at K=4: equal-weights
+    # d=-3.45, flat d=-7.04 are catastrophic for PCZ. Retain `w10_k8_pcz` /
+    # `w10_k8_ppo` fragment names so existing \cnum{} citations in the paper
+    # auto-update to the headline numbers.
     _emit_single(
         reg,
         rows,
@@ -1887,7 +2158,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         algorithm="torchrl-pcz-ppo-running",
         env="lunarlander-k8",
         total_timesteps=4000000,
-        weights=RR16_H7_WEIGHTS,
+        weights=K8_WEIGHTS_HETEROG,
         min_seeds=3,
     )
     _emit_single(
@@ -1897,11 +2168,11 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         algorithm="torchrl-ppo",
         env="lunarlander-k8",
         total_timesteps=4000000,
-        weights=RR16_H7_WEIGHTS,
+        weights=K8_WEIGHTS_HETEROG,
         min_seeds=3,
     )
 
-    # H7 pair-fragment block (mean / std / seeds / stat / delta / ratio /
+    # K=8/4M heterog pair-fragment block (mean / std / seeds / stat / delta / ratio /
     # var_ratio for both algorithms). Same data as w10_k8_* above; pair shape is
     # convenient when prose wants the matched-pair stats together.
     _emit_pcz_ppo_pair(
@@ -1910,11 +2181,11 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         "rr16h7_k8_4M",
         env="lunarlander-k8",
         total_timesteps=4000000,
-        weights=RR16_H7_WEIGHTS,
+        weights=K8_WEIGHTS_HETEROG,
         min_seeds=3,
     )
 
-    # H8 NEGATIVE CONTROL: zero-weighting `velocity` (CV=177, "pure noise")
+    # K=8/4M H8 NEGATIVE CONTROL: zero-weighting `velocity` (CV=177, "pure noise")
     # drives PCZ +0.2 ± 7.0 vs PPO +183.5 ± 26.5 (n=3 each). The zero-weighted
     # component still contributes to per-component variance accounting but
     # contributes 0 to the scalar reward — degenerate per-component normalisation.
@@ -1926,14 +2197,14 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         "rr16h8_k8_4M",
         env="lunarlander-k8",
         total_timesteps=4000000,
-        weights=RR16_H8_WEIGHTS,
+        weights=K8_WEIGHTS_ZEROED_VEL,
         min_seeds=3,
     )
 
-    # EQUAL-WEIGHTS NEGATIVE CONTROL: env default (no --reward-component-weights
+    # K=8/4M EQUAL-WEIGHTS NEGATIVE CONTROL: env default (no --reward-component-weights
     # flag passed → all components weight 1.0). PCZ-running (n=6 across two re-launches)
     # = -2.3 ± 7.5 vs PPO (n=6) = +185.8 ± 17.6.  Same collapse mechanism as H8 but
-    # via a different failure mode — equal weights at K=8 produce CA11 d=-3.45 / d=-7.04
+    # via a different failure mode — equal weights at K=8 produce d=-3.45 / d=-7.04
     # territory at K=4, and the K=8 long-horizon picture matches.  Filter by exact
     # empty `component_weights` (env default) since `query()` does prefix-match and
     # ``weights=""`` would match every run.
@@ -1948,7 +2219,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         min_seeds=3,
     )
 
-    # moderate + flat (turn 46) — completes the K=8/4M weight-
+    # K=8/4M moderate + flat — completes the K=8/4M weight-
     # sensitivity table (tab:weight_sensitivity_k8). Same story as K=4 Table 9:
     # PCZ requires heterogeneous weights. Cohen's d: H7 +1.50 → moderate -8.30
     # → flat -12.42 → equal -13.90 (monotone, PCZ only wins at max heterogeneity).
@@ -1956,8 +2227,8 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
     from scipy import stats as _stats
 
     for prefix, weights in [
-        ("rr16_moderate_k8_4M", RR16_MODERATE_WEIGHTS),
-        ("rr16_flat_k8_4M", RR16_FLAT_WEIGHTS),
+        ("rr16_moderate_k8_4M", K8_WEIGHTS_MODERATE),
+        ("rr16_flat_k8_4M", K8_WEIGHTS_FLAT),
     ]:
         _emit_pcz_ppo_pair(
             reg,
@@ -2013,9 +2284,9 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         ]
 
     for prefix, weights_match, exact in [
-        ("rr16h7_k8_4M", RR16_H7_WEIGHTS, False),
-        ("rr16_moderate_k8_4M", RR16_MODERATE_WEIGHTS, False),
-        ("rr16_flat_k8_4M", RR16_FLAT_WEIGHTS, False),
+        ("rr16h7_k8_4M", K8_WEIGHTS_HETEROG, False),
+        ("rr16_moderate_k8_4M", K8_WEIGHTS_MODERATE, False),
+        ("rr16_flat_k8_4M", K8_WEIGHTS_FLAT, False),
         ("rr16_equal_k8_4M", "", True),
     ]:
         pcz_r = _filter_rows("torchrl-pcz-ppo-running", weights_match, exact)
@@ -2025,12 +2296,11 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         reg.add(f"{prefix}_cohen_d", fmt_signed(d, decimals=2), src)
         reg.add(f"{prefix}_welch_p", fmt_plain(p, decimals=3), src)
 
-    # --- W10 cross-env plateau (4M steps, BipedalWalker K=3 and HalfCheetah K=2) ---
-    # turn 71 (2026-04-21): BW 4M extended to n=10 reveals CATASTROPHIC PPO
-    # instability — 3/10 PPO seeds (s47, s50, s51) collapse to the -92 reward floor
-    # while all 10 PCZ seeds learn. BW 4M n=10: PCZ +252.8 ± 35.4 vs PPO +156.0 ± 174.7
-    # (Δ=+96.8, var ratio 4.93×). This flips the n=5 "tied at plateau" reading.
-    # HC: K=2 all-dense — still n=5 pending HC 4M in-flight (chain-launched 04:23).
+    # --- Cross-env plateau (4M steps, BipedalWalker K=3 and HalfCheetah K=2) ---
+    # BW 4M extended to n=10 reveals CATASTROPHIC PPO instability — 3/10 PPO seeds
+    # collapse to the -92 reward floor while all 10 PCZ seeds learn.
+    # BW 4M n=10: PCZ +252.8 ± 35.4 vs PPO +156.0 ± 174.7 (Δ=+96.8, var ratio 4.93×).
+    # This flips the n=5 "tied at plateau" reading.
     for prefix, algo, env in [
         ("w10_bw_pcz", "torchrl-pcz-ppo-running", "bipedalwalker"),
         ("w10_bw_ppo", "torchrl-ppo", "bipedalwalker"),
@@ -2046,12 +2316,12 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
             total_timesteps=4000000,
             min_seeds=3,
         )
-    # Pair fragments for BW 4M (delta, var_ratio, seeds) — n=10 after turn 71.
+    # Pair fragments for BW 4M (delta, var_ratio, seeds) — n=10.
     _emit_pcz_ppo_pair(reg, rows, "w10_bw_4M", env="bipedalwalker", total_timesteps=4000000, weights=None, min_seeds=5)
     # Pair fragments for HC 4M — will auto-update from n=5 to n=10 once HC chain completes.
     _emit_pcz_ppo_pair(reg, rows, "w10_hc_4M", env="halfcheetah", total_timesteps=4000000, weights=None, min_seeds=3)
 
-    # --- clean-decomposition trading ablation (turn 77) ---
+    # --- Clean-decomposition trading ablation ---
     # trading-k3-clean = [pnl_gain, pnl_loss, txn_cost]. Tests whether dropping
     # noise-dominated residual/spread/borrow_cost flips the trading PCZ-vs-PPO null.
     # Finding: clean decomposition improves BOTH PPO (+56) and PCZ (+55) vs K=4
@@ -2097,7 +2367,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         "env=trading-k3-clean 100k equal-weights",
     )
 
-    # --- trading heterogeneous-weight sweep (turn 76, 2026-04-21) ---
+    # --- Trading heterogeneous-weight sweep ---
     # 100k trading-k4 and trading-k8, n=5 per cell. Tests whether canonical-style
     # heterogeneous weights flip the trading null found under equal weights.
     # All three head-to-head comparisons stay null — strengthens the trading null.
@@ -2144,22 +2414,21 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         reg.add(f"{prefix}_welch_p", fmt_plain(float(p), decimals=2), f"env={env} 100k weights={weights}")
 
     # --- LLM alignment (Qwen2.5-0.5B, QLoRA, 200 steps) ---
-    # Data lives in llm_alignment/runs/result_k{K}_{mode}_s{seed}.json,
+    # Data lives in artifacts/pcz-ppo/llm_alignment/runs/result_k{K}_{mode}_s{seed}.json,
     # not results.csv. K=2 has 3 seeds; K=4+ have 1 seed (signal check).
     for k in [2, 4, 6, 8]:
         _emit_llm_claims_for_k(reg, k)
 
-    # --- LLM 2x2 factorial (turn 78): {PPO, RLOO} x {standard, PCZ} at K=4 ---
+    # --- LLM 2x2 factorial: {PPO, RLOO} x {standard, PCZ} at K=4 ---
     # RLOO data in llm_alignment/runs/result_k4_{mode}_s{seed}.json (s42-44 n=3).
     # PPO data in llm_alignment/runs/result_ppo_k4_{mode}_s{seed}.json (s42-44 n=3).
     # Finding: critic dominates (PPO >> RLOO, p<0.001); PCZ null in both (p=0.99).
     import json as _json_fact
-    from pathlib import Path as _Path_fact
 
     import numpy as _np_fact
     from scipy import stats as _stats_fact
 
-    _base_fact = _Path_fact("llm_alignment/runs")
+    _base_fact = _PAPER_DIR.parent / "llm_alignment" / "runs"
 
     def _load_fact(critic: str, mode: str, seed: int):
         if critic == "rloo":
@@ -2226,7 +2495,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
         "LLM factorial K=4 Welch p PCZ",
     )
 
-    # --- LLM alignment: PPO-critic runs (Phase A/B/C/D, turn 62) ---
+    # --- LLM alignment: PPO-critic runs ---
     # Separate `result_ppo_k{K}_*.json` data from RLOO `result_k{K}_*.json`.
     # K=4: n=3 (seeds 42-44) — NULL. K=6: n=5 (seeds 42-46) — variance-reduction signal.
     _emit_llm_ppo_claims_for_k(reg, 4, seeds=[42, 43, 44])
@@ -2234,7 +2503,7 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
     # was lost when live s42 was overwritten by the 500-step rerun; fall back to
     # balanced n=4 for the 200-step claim).
     _emit_llm_ppo_claims_for_k(reg, 6, seeds=[43, 44, 45, 46], suffix="_200step", prefix="LLMppo")
-    # 500-step K=6 extension (turn 84). Reveals pattern reversal vs 200-step.
+    # 500-step K=6 extension. Reveals pattern reversal vs 200-step.
     _emit_llm_ppo_claims_for_k(reg, 6, seeds=[42, 43, 44, 45, 46], suffix="", prefix="LLMppo_500")
 
     # --- Sample efficiency (fig_sample_efficiency data used in prose) ---
@@ -2351,7 +2620,7 @@ def check() -> int:
             for m in mismatches:
                 print(m, file=sys.stderr)
             print(
-                "\nFix: run `uv run python paper/render_claims.py` and commit the updated fragments.",
+                "\nFix: run `uv run python artifacts/pcz-ppo/paper/render_claims.py` and commit the updated fragments.",
                 file=sys.stderr,
             )
             return 1

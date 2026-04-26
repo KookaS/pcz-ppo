@@ -8,16 +8,16 @@ hash-checked pipeline.
 
 ```bash
 # Rebuild stale figures + fragments after new experiment data lands:
-uv run python paper/paper_build.py --build
+uv run python artifacts/pcz-ppo/paper/paper_build.py --build
 
 # Also compile the PDF:
-uv run python paper/paper_build.py --build --pdf
+uv run python artifacts/pcz-ppo/paper/paper_build.py --build --pdf
 
 # Inspect the DAG:
-uv run python paper/paper_build.py --dag
+uv run python artifacts/pcz-ppo/paper/paper_build.py --dag
 
 # Verify nothing is stale (run automatically by pre-commit):
-uv run python paper/paper_build.py --check
+uv run python artifacts/pcz-ppo/paper/paper_build.py --check
 ```
 
 ## The DAG
@@ -92,14 +92,14 @@ flaky for a commit-time gate. CI is where PDF freshness gets enforced.
    ```bash
    uv run python -m core.plot.export_results \
        --tracking-uri http://<IP>:5050 \
-       --output data/results.csv --append
+       --output artifacts/pcz-ppo/data/results.csv --append
    uv run python -m core.plot.export_metrics \
        --tracking-uri http://<IP>:5050 \
-       --output-dir data/metrics --append
+       --output-dir artifacts/pcz-ppo/data/metrics --append
    ```
 3. Rebuild the paper:
    ```bash
-   uv run python paper/paper_build.py --build --pdf
+   uv run python artifacts/pcz-ppo/paper/paper_build.py --build --pdf
    ```
 4. Commit the updated `results.csv`, parquets, `generated/*.tex`,
    `fig_*.{pdf,png}`, `paper_build.lock.json`, and `pcz_ppo.pdf` together.
@@ -110,7 +110,7 @@ with a clear message pointing at the stale stage(s).
 
 ## Adding a new figure
 
-1. Create `paper/fig_myplot.py`. Save as
+1. Create `artifacts/pcz-ppo/paper/fig_myplot.py`. Save as
    `fig_myplot.pdf` + `fig_myplot.png` (default naming).
 2. Declare inputs:
    ```python
@@ -158,7 +158,7 @@ or post-process with `qpdf`).
 **Can I see which inputs changed?** `--check` prints the stage and
 reason. For deeper debugging:
 ```bash
-uv run python paper/paper_build.py --dag | less
+uv run python artifacts/pcz-ppo/paper/paper_build.py --dag | less
 ```
 
 ## Design notes
@@ -169,7 +169,8 @@ uv run python paper/paper_build.py --dag | less
   source of truth, easy to inspect.
 * **Why not DVC?** For one paper with MLflow already handling training
   lineage, DVC adds a tool without removing anything. Honest tradeoff
-  considered and rejected in favour of simplicity. Revisit when paper #2 exists.
+  Revisit
+  when paper #2 exists.
 * **Why is PDF compile not in pre-commit?** 30–60 s runtime, occasional
   LaTeX warnings-as-errors. Pre-commit needs to be fast (<5 s total) to
   stay useful. CI is the right place for PDF enforcement.

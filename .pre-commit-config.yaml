@@ -30,6 +30,7 @@ repos:
         args: [--markdown-linebreak-ext=md]
       - id: check-yaml
       - id: check-json
+        exclude: 'devcontainer\.json$'  # JSONC (has comments)
       - id: check-toml
 
   # Paper numerical claims ↔ data consistency
@@ -57,6 +58,8 @@ repos:
       # Second-and-a-half layer: catch caption text that claims a seed
       # count (e.g. "3--5 seeds", "n=3") when the table body pulls
       # \cnum{*_seeds} fragments resolving to values outside that claim.
+      # Closes the specific drift that bit us on 2026-04-20 when n went
+      # from 5 to 10 for the cross-env block but the caption didn't.
       - id: pcz-lint-caption-drift
         name: PCZ paper table captions match fragment seed counts
         entry: uv run python paper/lint_caption_drift.py
@@ -64,12 +67,25 @@ repos:
         pass_filenames: false
         files: '^(paper/.*\.tex|paper/generated/.*_seeds\.tex)$'
 
+      # Manifest schema lint: experiment manifest.json files must be
+      # config-snapshot only. Forbid prose (verdict, interpretation) and
+      # numeric-result fields (results, derived_ratios, headline_metric,
+      # coverage_notes); numbers belong in eval/eval_summary.json and
+      # prose belongs in journal.md.
+      - id: pcz-lint-manifest-schema
+        name: PCZ experiment manifests are config-snapshot only
+        entry: uv run python tools/lint_manifest.py
+        language: system
+        pass_filenames: false
+        files: '^experiments/.*/manifest\.json$'
+
       # Third layer: full paper-build DAG staleness check.  Extends the
       # claims check to figures: each fig_*.py declares INPUTS; any
       # change to a figure script, fig_data.py, results.csv, or any
       # parquet/JSON referenced by a figure's INPUTS invalidates the
       # corresponding output hash and fails the commit.
-      # PDF compile is intentionally OFF (too slow/flaky for pre-commit).
+      # PDF compile is intentionally OFF (too slow/flaky for pre-commit);
+      # CI runs `paper_build.py --build --pdf` to verify PDF freshness.
       - id: pcz-paper-build-check
         name: PCZ paper figures + fragments match data (paper_build --check)
         entry: uv run python paper/paper_build.py --check

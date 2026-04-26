@@ -21,7 +21,7 @@ from pathlib import Path
 
 import numpy as np
 
-# Resolve paths relative to this file (paper/)
+# Resolve paths relative to this file (artifacts/pcz-ppo/paper/)
 _PAPER_DIR = Path(__file__).parent
 _DATA_DIR = _PAPER_DIR.parent / "data"
 RESULTS_CSV = _DATA_DIR / "results.csv"
@@ -43,6 +43,7 @@ def query(
     seed: int | None = None,
     weights: str | None = None,
     ent_coef_schedule: str | None = None,
+    learning_rate: str | None = None,
 ) -> dict:
     """Filter results and compute aggregate stats.
 
@@ -52,6 +53,10 @@ def query(
         ent_coef_schedule: Entropy schedule filter (exact match). Pass
             ``"0.1:0.01"`` to restrict to canonical cosine-schedule runs and
             exclude fixed-entropy tuning-audit runs that share seeds.
+        learning_rate: Learning rate exact-match filter (e.g. "0.0003"). Pass
+            when HP-sweep runs at non-canonical LRs share seeds with
+            canonical runs — prevents chrono-latest from displacing canonical
+            seeds with non-canonical HP cells.
 
     Returns:
         {"mean": float, "std": float, "seeds": int, "runs": [filtered rows]}
@@ -69,6 +74,8 @@ def query(
         filtered = [r for r in filtered if r.get("component_weights", "").startswith(weights)]
     if ent_coef_schedule is not None:
         filtered = [r for r in filtered if r.get("ent_coef_schedule", "") == ent_coef_schedule]
+    if learning_rate is not None:
+        filtered = [r for r in filtered if r.get("learning_rate", "") == learning_rate]
 
     if not filtered:
         return {"mean": 0.0, "std": 0.0, "seeds": 0, "runs": []}
@@ -116,6 +123,7 @@ def load_parquet_curves(
     metrics_dir: str | Path | None = None,
     weights: str | None = None,
     ent_coef_schedule: str | None = None,
+    learning_rate: str | None = None,
 ) -> list[dict]:
     """Load time-series from parquet files for learning curve plots.
 
@@ -126,6 +134,7 @@ def load_parquet_curves(
         weights: Component weights prefix filter (e.g. "10.00,5.00"). None skips filtering.
         ent_coef_schedule: Entropy schedule exact-match filter (e.g. "0.1:0.01").
             None skips filtering. Use "" to match runs with empty schedule.
+        learning_rate: Exact-match filter (e.g. "0.0003"). None skips filtering.
 
     Returns list of {"seed": int, "steps": np.array, "values": np.array}
     """
@@ -146,6 +155,7 @@ def load_parquet_curves(
         and (seeds is None or int(r["seed"]) in seeds)
         and (weights is None or r.get("component_weights", "").startswith(weights))
         and (ent_coef_schedule is None or r.get("ent_coef_schedule", "") == ent_coef_schedule)
+        and (learning_rate is None or r.get("learning_rate", "") == learning_rate)
     ]
 
     # Dedupe: one row per seed (keep last, matching `query` convention)

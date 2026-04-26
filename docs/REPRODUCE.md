@@ -26,27 +26,27 @@ Wall-clock: ~2–5 min depending on network.
 ## Step 2: Verify the Data Pipeline
 
 The repository includes pre-committed experiment data:
-- `data/results.csv` — 1 row per run, final metrics + hyperparameters
-- `data/metrics/*.parquet` — full time-series (tracked via git-lfs)
+- `artifacts/pcz-ppo/data/results.csv` — 1 row per run, final metrics + hyperparameters
+- `artifacts/pcz-ppo/data/metrics/*.parquet` — full time-series (tracked via git-lfs)
 
 Check that git-lfs has downloaded the parquet files:
 
 ```bash
 git lfs pull
-ls data/metrics/*.parquet | wc -l   # should be > 100
+ls artifacts/pcz-ppo/data/metrics/*.parquet | wc -l   # should be > 100
 ```
 
 ## Step 3: Rebuild Figures and Paper Fragments
 
 ```bash
 # Rebuild all stale stages (figures + generated/*.tex fragments)
-uv run python paper/paper_build.py --build
+uv run python artifacts/pcz-ppo/paper/paper_build.py --build
 
 # Expected output: "Rebuilt N/7 stages" (or "All stages up-to-date")
 ```
 
 The build DAG has 7 stages:
-1. `fragments` — renders all `generated/*.tex` numerical claims from `data/results.csv`
+1. `fragments` — renders all `generated/*.tex` numerical claims from `results.csv`
 2. `fig_ablation_bar` — ablation bar chart
 3. `fig_cross_env` — cross-environment comparison figure
 4. `fig_kscaling` — K-scaling results figure
@@ -59,15 +59,15 @@ Wall-clock for a full rebuild from scratch: ~3–5 min (figures) + ~30 s (PDF).
 ## Step 4: Compile the PDF
 
 ```bash
-uv run python paper/paper_build.py --build --pdf
+uv run python artifacts/pcz-ppo/paper/paper_build.py --build --pdf
 ```
 
-Output: `paper/pcz_ppo.pdf` (35 pages).
+Output: `artifacts/pcz-ppo/paper/pcz_ppo.pdf` (35 pages).
 
 ## Step 5: Run Paper Tests
 
 ```bash
-uv run pytest paper/tests/ -v
+uv run pytest artifacts/pcz-ppo/paper/tests/ -v
 ```
 
 Tests cover:
@@ -81,10 +81,10 @@ Tests cover:
 
 ```bash
 # Re-renders all fragments to a tempdir and diffs against committed files
-uv run python paper/render_claims.py --check
+uv run python artifacts/pcz-ppo/paper/render_claims.py --check
 
 # Check for hand-typed numerical claims (should be none)
-uv run python paper/lint_hardcoded_numbers.py
+uv run python artifacts/pcz-ppo/paper/lint_hardcoded_numbers.py
 ```
 
 Both should exit 0.
@@ -108,7 +108,7 @@ for seed in 42 43 44 45 46; do
     uv run python -m core.train \
         --algorithm torchrl-pcz-ppo-running \
         --env lunarlander \
-        --seed $seed \
+        --seeds $seed \
         --total-timesteps 500000 \
         --reward-component-weights 10.0,5.0,0.5,0.5 \
         --ent-coef-schedule 0.1:0.01 \
@@ -123,11 +123,11 @@ See `docs/architecture.md` for the full environment catalog and training configu
 ```bash
 uv run python -m core.plot.export_results \
     --tracking-uri http://127.0.0.1:5050 \
-    --output data/results.csv --append
+    --output artifacts/pcz-ppo/data/results.csv --append
 
 uv run python -m core.plot.export_metrics \
     --tracking-uri http://127.0.0.1:5050 \
-    --output-dir data/metrics --append
+    --output-dir artifacts/pcz-ppo/data/metrics --append
 ```
 
 Then re-run Step 3 to rebuild figures from the new data.
@@ -138,13 +138,13 @@ Then re-run Step 3 to rebuild figures from the new data.
 |----------|------|
 | Python dependencies (`uv sync`) | ~2.5 GB |
 | Parquet files (`data/metrics/`) | ~150 MB (200+ files × ~200–500 KB each) |
-| `data/results.csv` | ~300 KB |
+| `results.csv` | ~300 KB |
 | Generated figures (PDF+PNG × 5) | ~10 MB |
 | Compiled PDF | ~700 KB |
 
 ## Troubleshooting
 
-**PDF compile fails:** Check `paper/pcz_ppo.log` for LaTeX errors. Common cause: missing LaTeX package. Install `texlive-full` or the specific package reported.
+**PDF compile fails:** Check `artifacts/pcz-ppo/paper/pcz_ppo.log` for LaTeX errors. Common cause: missing LaTeX package. Install `texlive-full` or the specific package reported.
 
 **`paper_build.py --check` fails:** A figure or fragment is stale. Run `--build` to regenerate. If the check still fails after building, a figure script has a non-deterministic output (check for unseeded random calls).
 

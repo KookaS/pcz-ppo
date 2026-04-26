@@ -26,7 +26,7 @@ hand-typed stats).  Together they close the mechanical-drift loop.
 
 Usage
 -----
-    uv run python paper/lint_caption_drift.py
+    uv run python artifacts/pcz-ppo/paper/lint_caption_drift.py
 
 Exit code 1 on any violation.
 """

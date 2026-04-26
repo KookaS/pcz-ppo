@@ -476,7 +476,7 @@ ENV_REGISTRY: dict[str, EnvConfig] = {
         norm_obs=True,
         wrapper_fn=_make_trading(3),
         max_episode_steps=4000,
-        description="Financial trading K=3 clean (K=4 minus borrow_cost/residual)",
+        description="Financial trading K=3 (K=4 minus borrow_cost/residual; clean decomposition ablation)",
         extra="trading",
     ),
     "trading-k4": EnvConfig(

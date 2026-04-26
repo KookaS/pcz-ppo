@@ -1,0 +1,173 @@
+{
+  "K4_torchrl-pcz-ppo-running": {
+    "K": 4,
+    "algorithm": "torchrl-pcz-ppo-running",
+    "env": "lunarlander",
+    "mlflow_run_id": "b6a91c2b15a3474eb0101a96676b3a83",
+    "mlflow_run_name": "rr4_torchrl-pcz-ppo-running_s42",
+    "n_metric_points": 7,
+    "postnorm_std_final3": 26.54340934753418,
+    "postnorm_std_median": 29.090394973754883,
+    "postnorm_std_trace": [
+      56.383689880371094,
+      42.477970123291016,
+      35.95624923706055,
+      29.090394973754883,
+      27.219491958618164,
+      26.490402221679688,
+      25.920333862304688
+    ]
+  },
+  "K4_torchrl-ppo": {
+    "K": 4,
+    "algorithm": "torchrl-ppo",
+    "env": "lunarlander",
+    "mlflow_run_id": "083bb926b4974951992e41ff1fa62c0c",
+    "mlflow_run_name": "rr4_torchrl-ppo_s42",
+    "n_metric_points": 7,
+    "postnorm_std_final3": 67.51643880208333,
+    "postnorm_std_median": 69.06645202636719,
+    "postnorm_std_trace": [
+      74.71790313720703,
+      74.28782653808594,
+      69.06645202636719,
+      67.1908950805664,
+      71.25762939453125,
+      65.32504272460938,
+      65.96664428710938
+    ]
+  },
+  "K4_torchrl-ppo-znorm": {
+    "K": 4,
+    "algorithm": "torchrl-ppo-znorm",
+    "env": "lunarlander",
+    "mlflow_run_id": "cb4cf963acff4c9aac5424f60ddb3ef2",
+    "mlflow_run_name": "rr4_torchrl-ppo-znorm_s42",
+    "n_metric_points": 7,
+    "postnorm_std_final3": 1.0,
+    "postnorm_std_median": 1.0,
+    "postnorm_std_trace": [
+      1.0,
+      1.0,
+      1.0,
+      1.0000001192092896,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "K6_torchrl-pcz-ppo-running": {
+    "K": 6,
+    "algorithm": "torchrl-pcz-ppo-running",
+    "env": "lunarlander-k6",
+    "mlflow_run_id": "adbc878159934b78a1034fef034b72c4",
+    "mlflow_run_name": "rr4k6_torchrl-pcz-ppo-running_s42",
+    "n_metric_points": 7,
+    "postnorm_std_final3": 34.74406878153483,
+    "postnorm_std_median": 40.97321319580078,
+    "postnorm_std_trace": [
+      67.59089660644531,
+      53.25109100341797,
+      47.53899002075195,
+      40.97321319580078,
+      38.331912994384766,
+      34.79153823852539,
+      31.108755111694336
+    ]
+  },
+  "K6_torchrl-ppo": {
+    "K": 6,
+    "algorithm": "torchrl-ppo",
+    "env": "lunarlander-k6",
+    "mlflow_run_id": "23ecd9e7cabc4bc5be1fc9af22e80f4f",
+    "mlflow_run_name": "rr4k6_torchrl-ppo_s42",
+    "n_metric_points": 7,
+    "postnorm_std_final3": 68.8093376159668,
+    "postnorm_std_median": 87.0549087524414,
+    "postnorm_std_trace": [
+      92.35157012939453,
+      99.05422973632812,
+      95.21115112304688,
+      87.0549087524414,
+      85.35679626464844,
+      62.753318786621094,
+      58.31789779663086
+    ]
+  },
+  "K6_torchrl-ppo-znorm": {
+    "K": 6,
+    "algorithm": "torchrl-ppo-znorm",
+    "env": "lunarlander-k6",
+    "mlflow_run_id": "bd0f547a29b04b39b13c973ca397026d",
+    "mlflow_run_name": "rr4k6_torchrl-ppo-znorm_s42",
+    "n_metric_points": 7,
+    "postnorm_std_final3": 0.999999980131785,
+    "postnorm_std_median": 1.0,
+    "postnorm_std_trace": [
+      1.0,
+      0.9999999403953552,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.9999999403953552
+    ]
+  },
+  "K8_torchrl-pcz-ppo-running": {
+    "K": 8,
+    "algorithm": "torchrl-pcz-ppo-running",
+    "env": "lunarlander-k8",
+    "mlflow_run_id": "b1c0d0c9b2ff4602a93742fe1fd7af86",
+    "mlflow_run_name": "rr4k8_torchrl-pcz-ppo-running_s42",
+    "n_metric_points": 7,
+    "postnorm_std_final3": 28.437346776326496,
+    "postnorm_std_median": 37.664424896240234,
+    "postnorm_std_trace": [
+      67.18243408203125,
+      54.961647033691406,
+      46.90012741088867,
+      37.664424896240234,
+      32.783390045166016,
+      30.23170280456543,
+      22.296947479248047
+    ]
+  },
+  "K8_torchrl-ppo": {
+    "K": 8,
+    "algorithm": "torchrl-ppo",
+    "env": "lunarlander-k8",
+    "mlflow_run_id": "10cc6988baf64d4483cfd19b75a2d92a",
+    "mlflow_run_name": "rr4k8_torchrl-ppo_s42",
+    "n_metric_points": 7,
+    "postnorm_std_final3": 71.0339241027832,
+    "postnorm_std_median": 86.81050872802734,
+    "postnorm_std_trace": [
+      96.51139068603516,
+      95.2168960571289,
+      91.82772064208984,
+      86.81050872802734,
+      81.48543548583984,
+      74.41474914550781,
+      57.20158767700195
+    ]
+  },
+  "K8_torchrl-ppo-znorm": {
+    "K": 8,
+    "algorithm": "torchrl-ppo-znorm",
+    "env": "lunarlander-k8",
+    "mlflow_run_id": "165faece8b00414cacce8ee702bcec87",
+    "mlflow_run_name": "rr4k8_torchrl-ppo-znorm_s42",
+    "n_metric_points": 7,
+    "postnorm_std_final3": 1.0,
+    "postnorm_std_median": 1.0,
+    "postnorm_std_trace": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  }
+}

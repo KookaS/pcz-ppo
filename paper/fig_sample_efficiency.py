@@ -3,7 +3,7 @@
 Reads from results.csv via fig_data.  Queries runs at each timestep budget.
 
 Usage:
-    uv run python paper/fig_sample_efficiency.py
+    cd /workspace && uv run python artifacts/pcz-ppo/paper/fig_sample_efficiency.py
 """
 
 import argparse
@@ -30,7 +30,7 @@ TIMESTEP_LABELS = ["100k", "200k", "500k", "1M"]
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", default="paper/fig_sample_efficiency.pdf")
+    parser.add_argument("--output", default="artifacts/pcz-ppo/paper/fig_sample_efficiency.pdf")
     parser.add_argument("--env", default="lunarlander")
     args = parser.parse_args()
 

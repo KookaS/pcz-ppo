@@ -8,7 +8,7 @@ When a reinforcement learning environment decomposes its reward into K heterogen
 - A drop-in TorchRL PPO variant (`torchrl-pcz-ppo-running`) — per-component z-normalization as a ~60-line preprocessing wrapper on the reward buffer, no architectural changes.
 - A systematic K-scaling sweep (K∈{2,4,6,8}) with pre-registered seeds, Holm–Bonferroni correction, BCa bootstrap CIs, IQM, and stochastic-dominance tests.
 - A 20-variant ablation suite (ZCA, symlog→z-norm, asymmetric clip, GRPO, multi-head critic, PopArt, …).
-- A **data-driven paper pipeline**: every number in the PDF is backed by a fragment in `paper/generated/` rendered from `data/results.csv` — hand-typed numbers are forbidden and caught by pre-commit.
+- A **data-driven paper pipeline**: every number in the PDF is backed by a fragment in `paper/generated/` rendered from `results.csv` — hand-typed numbers are forbidden and caught by pre-commit.
 
 ## Install
 
@@ -66,16 +66,16 @@ The committed `data/results.csv` and `data/metrics/*.parquet` files are sufficie
 
 ```bash
 # Rebuild stale figures and all generated/*.tex fragments
-uv run python paper/paper_build.py --build
+uv run python artifacts/pcz-ppo/paper/paper_build.py --build
 
 # Also recompile the PDF (requires latexmk)
-uv run python paper/paper_build.py --build --pdf
+uv run python artifacts/pcz-ppo/paper/paper_build.py --build --pdf
 
 # Run paper tests (formatter, fragment registry, headline-number regression)
-uv run pytest paper/tests/
+uv run pytest artifacts/pcz-ppo/paper/tests/
 
 # Check that committed fragments match current data (CI gate)
-uv run python paper/render_claims.py --check
+uv run python artifacts/pcz-ppo/paper/render_claims.py --check
 ```
 
 If you have an MLflow instance with your own runs, export first:
@@ -83,11 +83,11 @@ If you have an MLflow instance with your own runs, export first:
 ```bash
 uv run python -m core.plot.export_results \
     --tracking-uri http://127.0.0.1:5050 \
-    --output data/results.csv --append
+    --output artifacts/pcz-ppo/data/results.csv --append
 
 uv run python -m core.plot.export_metrics \
     --tracking-uri http://127.0.0.1:5050 \
-    --output-dir data/metrics --append
+    --output-dir artifacts/pcz-ppo/data/metrics --append
 ```
 
 See `docs/REPRODUCE.md` for full step-by-step instructions including expected wall-clock times.
@@ -120,5 +120,5 @@ At 4M steps on LunarLander K=8 with heterogeneous weights (10,1,1,1,1,1,0.5,0.5)
 
 ## License
 
-Code: [Apache-2.0](LICENSE)
-Paper text and figures (`paper/`): [CC-BY-4.0](paper/LICENSE)
+Code: [Apache-2.0](LICENSE)  
+Paper text and figures (`artifacts/pcz-ppo/paper/`): [CC-BY-4.0](artifacts/pcz-ppo/paper/LICENSE)

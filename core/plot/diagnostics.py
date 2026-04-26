@@ -3,27 +3,27 @@
 Reads per-run parquet files, computes structured diagnostics, optionally
 generates plots, and produces a summary report.  Output goes to a sibling
 ``diagnostics/`` directory next to ``metrics/`` (gitignored, but visible
-in the IDE).  Only the insights extracted from these belong in your research notes.
+in the IDE).  Only the insights extracted from these belong in the journal.
 
 Usage::
 
     # Diagnose all runs in a metrics directory
     python -m core.plot.diagnostics \
-        --metrics-dir data/metrics
+        --metrics-dir artifacts/pcz-ppo/data/metrics
 
     # Diagnose specific runs
     python -m core.plot.diagnostics \
-        --metrics-dir data/metrics \
+        --metrics-dir artifacts/pcz-ppo/data/metrics \
         --runs 4c82ae6af43f 5cba0dc849c7
 
-    # With plots (to data/diagnostics/)
+    # With plots (to artifacts/pcz-ppo/data/diagnostics/)
     python -m core.plot.diagnostics \
-        --metrics-dir data/metrics \
+        --metrics-dir artifacts/pcz-ppo/data/metrics \
         --plots
 
     # Cross-seed analysis for a specific algorithm+env
     python -m core.plot.diagnostics \
-        --metrics-dir data/metrics \
+        --metrics-dir artifacts/pcz-ppo/data/metrics \
         --cross-seed --algo torchrl-pcz-ppo-running --env lunarlander
 """
 
@@ -739,8 +739,10 @@ def run_diagnostics(
     """
     if output_dir is None:
         # Derive output path from metrics_dir:
-        # data/metrics -> data/diagnostics
-        parent = os.path.dirname(metrics_dir)  # data/
+        # artifacts/pcz-ppo/data/metrics -> artifacts/pcz-ppo/data/diagnostics
+        # The diagnostics/ dir is gitignored by the blanket /artifacts/*/**
+        # rule — only parquet and results.csv are allowed through.
+        parent = os.path.dirname(metrics_dir)  # artifacts/pcz-ppo/data
         output_dir = os.path.join(parent, "diagnostics")
 
     os.makedirs(output_dir, exist_ok=True)
@@ -820,7 +822,7 @@ def main():
     parser.add_argument(
         "--metrics-dir",
         type=str,
-        default="data/metrics",
+        default="artifacts/pcz-ppo/data/metrics",
         help="Directory containing per-run parquet files.",
     )
     parser.add_argument(

@@ -3,7 +3,7 @@
 Complement to ``fig_learning_curves.py`` (500k headline). At 4M steps:
   - K=4 with canonical weights (10,5,0.5,0.5): PCZ-PPO and PPO converge
     near the same asymptote (sample-efficiency framing, §5.3).
-  - K=8 weight-sensitivity (§Limitations):
+  - K=8 weight-sensitivity (negative control, §Limitations):
       * Heterogeneous weights (10,1,1,1,1,1,0.5,0.5) — PCZ wins.
       * Equal weights (env default, all 1.0) — PCZ collapses, PPO healthy.
       * Zero-vel weights (10,5,0,1,0.5,0.5,0.5,0.5) — PCZ collapses.
@@ -15,7 +15,7 @@ between 500k and 4M and a single parameterised script would be a pile of
 if/else branches.
 
 Usage:
-    uv run python paper/fig_learning_curves_4M.py
+    cd /workspace && uv run python artifacts/pcz-ppo/paper/fig_learning_curves_4M.py
 """
 
 import argparse
@@ -132,7 +132,7 @@ PPO_COLOR = "#FF9800"
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", default="paper/fig_learning_curves_4M.pdf")
+    parser.add_argument("--output", default="artifacts/pcz-ppo/paper/fig_learning_curves_4M.pdf")
     args = parser.parse_args()
 
     # Panel definitions: (env, weights_exact, title, schedule).  Titles are

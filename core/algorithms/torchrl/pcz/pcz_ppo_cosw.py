@@ -3,7 +3,7 @@
 Anneals per-component weights from equal (all 1.0) at training start to
 the user-configured target weights at training end using a cosine
 schedule.  Intended to test the "weight initialization matters" hypothesis
-testing whether PCZ-PPO is sensitive to starting weights — a gentle ramp
+Hypothesis: if PCZ-PPO is sensitive to starting weights, a gentle ramp
 from equal weights should stabilise early training.
 
 At step 0:  w_eff = ones(D)

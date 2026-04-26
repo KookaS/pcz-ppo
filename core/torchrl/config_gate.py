@@ -1,8 +1,8 @@
 """Config Regression Gate (G3).
 
 Snapshots TorchRLConfig defaults to ``config_defaults.json`` and detects drift
-at training launch. Motivated by an adam_eps incident where a default change
-silently contaminated 6+ experiments.
+at training launch. Motivated by an adam_eps incident where a silent default
+change contaminated multiple experiments.
 
 Workflow
 --------

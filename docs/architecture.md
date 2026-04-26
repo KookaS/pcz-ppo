@@ -248,6 +248,39 @@ The `/monitor` skill provides system-level observability for training workloads.
 
 Invoke via `/monitor <context>` (e.g., `/monitor watch CPU and memory during PCZ training`).
 
+## Experiment Manifest Schema
+
+Each experiment under `artifacts/pcz-ppo/experiments/<id>_<slug>/` carries a `manifest.json` that snapshots the configuration so the run can be reproduced. **Manifests are config-snapshot only** — numeric results live in `eval/eval_summary.json`, prose interpretation lives in `project/pcz-ppo/journal.md`.
+
+Allowed top-level keys:
+
+| Key | Type | Purpose |
+|-----|------|---------|
+| `experiment_id` | str | Stable label, e.g. `E48.3` |
+| `name` | str | Slug describing the experiment |
+| `date` | str (ISO) | Launch date |
+| `git_commit`, `git_branch` | str | Repo state at launch |
+| `cli_command_template` | str | Reproducible CLI (with `{algo}`, `{seed}` placeholders) |
+| `algorithms` | list[str] | Algorithm registry keys |
+| `seeds` | list[int] | Seeds used |
+| `total_timesteps` | int | Training horizon |
+| `environment` | str | Env registry key |
+| `key_hyperparams` | object | Non-default hyperparameters |
+| `weight_configs` | list[str] | Weight CSVs swept (optional) |
+| `mlflow_run_ids` | str / list | Pointer back to MLflow |
+| `artifact_files` | list[str] | Files inside the experiment dir |
+| `tier` | str | `signal` / `confirmed` / `full` etc. |
+| `eval_summary_n` | int | Number of runs in `eval_summary.json` |
+| `related_backlog` | str | Backlog item this experiment closes (optional) |
+
+**Forbidden** keys (rejected by `artifacts/pcz-ppo/tools/lint_manifest.py`):
+
+- `verdict`, `interpretation` — prose belongs in `journal.md`
+- `results`, `derived_ratios`, `headline_metric` — numbers belong in `eval/eval_summary.json`
+- `coverage_notes` — superseded by `eval_summary_n` plus narrative in `journal.md`
+
+The lint runs as the `pcz-lint-manifest-schema` pre-commit hook on any `manifest.json` change. The discipline keeps the data → paper pipeline single-sourced: numbers always come from `results.csv` / `eval_summary.json`, never from a hand-typed manifest field that can drift.
+
 ## PPO-MultiHead Special Architecture
 
 `ppo_multihead.py` has a unique architecture not shared by other variants:

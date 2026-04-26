@@ -24,7 +24,7 @@ IMPORTANT — component semantics are APPROXIMATE, not exact financial quantitie
 Invariant: sum(components) == reward exactly (verified bit-exact for all K).
 Bankruptcy edge case: base env sets reward=0 on done=True, swallowing the
 catastrophic loss. Not an issue at 5bp fees (bankruptcy ≈ impossible) but
-a latent bug in gym_trading_env (bankruptcy reward swallowed on done=True).
+a latent bug in gym_trading_env (not fixed at 5bp fees where bankruptcy is rare).
 
 Design:
 - Mean-reverting OU-like synthetic price generator (learnable signal via z-score)
@@ -104,7 +104,7 @@ def make_ou_data(n_steps: int = 5000, seed: int = 42) -> pd.DataFrame:
     return df
 
 
-# Kept for backwards-compatibility tests; not used by the active registry.
+# Kept for backwards-compatibility tests; unused by the registry.
 def make_sample_data(n_steps: int = 5000, seed: int = 42) -> pd.DataFrame:
     return make_ou_data(n_steps=n_steps, seed=seed)
 
@@ -118,7 +118,7 @@ class MultiComponentTradingEnv(gym.Wrapper):
 
     K_COMPONENTS = {
         2: ["pnl", "costs"],
-        3: ["pnl_gain", "pnl_loss", "txn_cost"],  # K=4 minus borrow_cost/residual
+        3: ["pnl_gain", "pnl_loss", "txn_cost"],  # K=4 minus borrow_cost/residual (clean decomposition)
         4: ["pnl_gain", "pnl_loss", "txn_cost", "borrow_cost"],
         6: ["entry_pnl", "hold_pnl", "txn_cost", "borrow_cost", "spread_proxy", "residual"],
         8: [
@@ -203,7 +203,7 @@ class MultiComponentTradingEnv(gym.Wrapper):
 
         elif self.k == 3:
             # Clean decomposition: drops borrow_cost/residual + spread entirely.
-            # sum(components) != reward (by design; ablation variant).
+            # sum(components) != reward (by design; clean-decomposition ablation).
             components["pnl_gain"] = float(max(raw_pnl, 0.0))
             components["pnl_loss"] = float(min(raw_pnl, 0.0))
             components["txn_cost"] = raw_txn

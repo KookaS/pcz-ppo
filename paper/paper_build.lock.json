@@ -1,23 +1,35 @@
 {
   "fig_ablation_bar": {
-    "input_hash": "df376f00b6a9a4b9686049ce9232998e077c0de825693ef4f2329eb3e4c25c0d"
+    "input_hash": "c9bd00629622fd4df61667724a2ddc286871d19ed43aebc4c2eb4121840ac21b"
+  },
+  "fig_alignment_results": {
+    "input_hash": "b8457b1b02220744d362c11afb636cb22d5a0351747ef2d39673715d5e3fd61d"
   },
   "fig_cross_env": {
-    "input_hash": "d2ae2b5b85a104bd26e133bda1f15de50cf9059aefd7f9d63db38ad498ef3276"
+    "input_hash": "00d605cc1ee12170828a287132f746926d20f15e7166c681b634bf2948da9ca7"
+  },
+  "fig_hp_fairness": {
+    "input_hash": "2fcf0365388eba83bfc1bdec53999cb1adc7352e47b602aa8791f849802adcd1"
+  },
+  "fig_hp_peak": {
+    "input_hash": "890a2f24a6e4412ca22adea55f0a0710ab6a6eb6b59edbd433d85067d555199f"
   },
   "fig_kscaling": {
-    "input_hash": "5fccca1a31bcdb133c3adfa9aeaaaa024a9e35b10c3c2d736a39afbfd6297b44"
+    "input_hash": "638d55cba9aeea5392baa7f12798216ed3130ccf8dc5f88831ba392c16172c8b"
   },
   "fig_learning_curves_4M": {
-    "input_hash": "54530fd5e17d3a72d6c454032e70031e7c1f2476e7c9a44cc0cf774d65c9f068"
+    "input_hash": "1257ca481b3095b2cad03dd24e4cf52c97cd6ccf534302f4375b62fd6c1dbbfa"
   },
   "fig_sample_efficiency": {
-    "input_hash": "68dc073c77a2f7317a7d2a10c7ff546a2cfaa651a63ff57070f1417abb10e586"
+    "input_hash": "7864d70a2654ab3ac66d26cb813ea2397c1c979eb875afd2898b6f95557ef656"
+  },
+  "fig_weight_sensitivity": {
+    "input_hash": "a9090cc9c27d43913aa72147dc4a1e6636ef522a2ad516cff41f5a568d161a6c"
   },
   "fragments": {
-    "input_hash": "b4af1fd2980c2c6d8221575351cbb3ac41dfa10a121d011d385f9ff65a440e2a"
+    "input_hash": "1aade1ef1bf5e89d0b2175c7cfdb334dcdbc2d9d56dab10f03709a695ca02504"
   },
   "pdf": {
-    "input_hash": "420d730117eba48f5ad00453dbbad0bf00d679bf622a4ed488d16a2a58ef7858"
+    "input_hash": "839f6ae6dc392eae29dae62fd96b47736d181855d0e35319fc8ad24685400658"
   }
 }

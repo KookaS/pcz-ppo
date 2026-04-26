@@ -3,7 +3,7 @@
 Reads from results.csv via fig_data. Shows mean +/- std for each variant.
 
 Usage:
-    uv run python paper/fig_ablation_bar.py
+    cd /workspace && uv run python artifacts/pcz-ppo/paper/fig_ablation_bar.py
 """
 
 import argparse
@@ -50,7 +50,7 @@ VARIANTS = [
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", default="paper/fig_ablation.pdf")
+    parser.add_argument("--output", default="artifacts/pcz-ppo/paper/fig_ablation.pdf")
     parser.add_argument("--env", default="lunarlander")
     parser.add_argument("--timesteps", type=int, default=500000)
     args = parser.parse_args()

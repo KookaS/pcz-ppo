@@ -26,7 +26,7 @@ Patterns explicitly NOT flagged (structural / hyperparameters / labels):
 
 Usage
 -----
-    uv run python paper/lint_hardcoded_numbers.py
+    uv run python artifacts/pcz-ppo/paper/lint_hardcoded_numbers.py
 
 Exit code 1 if any unexpected hardcoded number found.
 
@@ -75,9 +75,9 @@ ALLOW_PATTERNS = [
     (r"originally 99% sparsity", "ratio describing domain property, not experiment"),
     # Hyperparameter prose
     (r"learning rate.*\\times 10\^\{-4\}", "hyperparameter: lr 3e-4"),
-    # Cohen's d (not yet fragment-backed)
+    # Cohen's d (not yet fragment-backed; tracked in backlog)
     (r"Cohen'?s \$?d\$?.{0,5}=", "Cohen's d — TODO: wire to fragment"),
-    # 95% bootstrap CIs (not yet fragment-backed)
+    # 95% bootstrap CIs (not yet fragment-backed; tracked in backlog)
     (r"\[[-+]?\d+\.\d+,\s*[-+]?\d+\.\d+\]", "bootstrap CI — TODO: wire to fragment"),
     # siunitx-style \num{} would also be acceptable (future)
     (r"\\num\{", "siunitx \\num{} — acceptable"),

@@ -29,7 +29,7 @@ import time
 from datetime import datetime
 from itertools import product
 
-# Enforce per-process memory limit to prevent OOM crashes.
+# Enforce per-process memory limit.
 # Caps at 10GB, raises MemoryError instead of OOM kill.
 # Override with MEMORY_LIMIT_GB env var.
 _max = int(os.environ.get("MEMORY_LIMIT_GB", "10")) * 1024**3
