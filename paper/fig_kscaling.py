@@ -24,6 +24,8 @@ from fig_data import load_results, query
 INPUTS = [
     "../data/results.csv",
 ]
+UNITS = "eval-mean-final,ratio"  # Layer 4: declared metric (rollout/eval/ratio/etc.)
+MIXED_UNITS_ACKNOWLEDGED = True  # Layer 4: figure mixes multiple metrics in one panel; caption explains the difference
 
 # K -> env name mapping for LunarLander variants
 K_ENV_MAP = {
@@ -47,21 +49,31 @@ def main():
     ppo_mean, ppo_std, ppo_seeds, ppo_std_raw = [], [], [], []
     mh_mean, mh_std = [], []
 
-    # Weight prefixes to filter out non-primary weight configurations
-    # IMPORTANT: these must match the canonical filters used by
-    # render_claims.py so that figure numbers equal fragment numbers.  K=6
-    # MUST apply the weight filter (there is one accidental empty-weights
-    # seed-42 row; see §A.3 Run-level deduplication rule).
+    # Filters MUST mirror render_claims.py::build_registry exactly so that
+    # the figure numbers equal the table fragments (Table~\ref{tab:kscaling}).
+    # K=2 uses (10,6) because every PCZ-PPO K=2 run was logged with that
+    # weight config; K=4/6 use canonical heterogeneous weights; K=8 needs
+    # no weight filter (only one weight configuration exists at 500k).
+    # `learning_rate="0.0003"` is the canonical-LR guard at K∈{4,6,8} that
+    # prevents HP-sweep runs with non-canonical LRs from displacing
+    # canonical seeds via chrono-latest dedupe.
     K_WEIGHTS = {
-        2: None,  # K=2 uses lunarlander-k2 env, no ambiguity
-        4: "10.00,5.00,0.50,0.50",  # K=4 primary
-        6: "10.00,3.00,1.00,1.00,0.50,0.50",  # K=6 canonical (excludes empty-weights seed-42)
-        8: None,  # K=8 uses lunarlander-k8 env, no ambiguity
+        2: "10.00,6.00",
+        4: "10.00,5.00,0.50,0.50",
+        6: "10.00,3.00,1.00,1.00,0.50,0.50",
+        8: None,
+    }
+    K_LEARNING_RATE = {
+        2: None,  # K=2 has no off-canonical-LR runs in the dataset
+        4: "0.0003",
+        6: "0.0003",
+        8: "0.0003",
     }
 
     for k in k_values:
         env = K_ENV_MAP[k]
         w = K_WEIGHTS.get(k)
+        lr = K_LEARNING_RATE.get(k)
         # ent_coef_schedule filter mirrors render_claims.py: isolates canonical
         # cosine-schedule runs from fixed-entropy tuning-audit runs
         pcz = query(
@@ -71,6 +83,7 @@ def main():
             total_timesteps=args.timesteps,
             weights=w,
             ent_coef_schedule="0.1:0.01",
+            learning_rate=lr,
         )
         ppo = query(
             rows,
@@ -79,6 +92,7 @@ def main():
             total_timesteps=args.timesteps,
             weights=w,
             ent_coef_schedule="0.1:0.01",
+            learning_rate=lr,
         )
         mh = query(
             rows,
@@ -87,6 +101,7 @@ def main():
             total_timesteps=args.timesteps,
             weights=w,
             ent_coef_schedule="0.1:0.01",
+            learning_rate=lr,
         )
 
         pcz_mean.append(pcz["mean"])

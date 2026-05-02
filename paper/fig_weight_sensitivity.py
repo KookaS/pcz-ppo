@@ -33,6 +33,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from fig_data import load_results, query
 
 INPUTS = ["../data/results.csv"]
+UNITS = "eval-mean-final"  # Layer 4: declared metric (rollout/eval/ratio/etc.)
 OUTPUTS = ["fig_weight_sensitivity.pdf", "fig_weight_sensitivity.png"]
 
 # K=8 weight tiers (LunarLander-K8 4M, cosine entropy)

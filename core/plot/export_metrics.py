@@ -34,6 +34,12 @@ Usage::
         --tracking-uri http://127.0.0.1:5050 \\
         --list-metrics
 
+    # Filter by run name (case-insensitive substring)
+    python -m core.plot.export_metrics \\
+        --tracking-uri http://127.0.0.1:5050 \\
+        --output-dir artifacts/pcz-ppo/data/metrics \\
+        --name-filter lunarlander
+
     # Legacy CSV output (single file, all runs)
     python -m core.plot.export_metrics \\
         --tracking-uri http://127.0.0.1:5050 \\
@@ -81,6 +87,7 @@ def export_experiment(
     metric_filters: list[str] | None = None,
     append: bool = False,
     fmt: str = "parquet",
+    name_filter: str | None = None,
 ) -> int:
     """Export metric histories for all runs in an experiment.
 
@@ -91,6 +98,8 @@ def export_experiment(
         metric_filters: If set, only export these metric keys.
         append: If True, skip runs already exported.
         fmt: Output format — "parquet" (default) or "csv".
+        name_filter: If set, only export runs whose run_name contains this
+            substring (case-insensitive).
 
     Returns:
         Number of runs exported.
@@ -113,6 +122,14 @@ def export_experiment(
     if not runs:
         print(f"No runs found in experiment '{experiment_name}'.")
         return 0
+
+    if name_filter is not None:
+        needle = name_filter.lower()
+        runs = [r for r in runs if needle in (r.info.run_name or "").lower()]
+        if not runs:
+            print(f"No runs match --name-filter '{name_filter}'.")
+            return 0
+        print(f"--name-filter '{name_filter}' matched {len(runs)} run(s).")
 
     existing_ids = _existing_run_ids(output_dir, fmt) if append else set()
     new_runs = [r for r in runs if r.info.run_id[:12] not in existing_ids]
@@ -243,6 +260,13 @@ def main():
         action="store_true",
         help="List available metrics and exit.",
     )
+    parser.add_argument(
+        "--name-filter",
+        type=str,
+        default=None,
+        metavar="SUBSTRING",
+        help="Only export runs whose run_name contains SUBSTRING (case-insensitive).",
+    )
     args = parser.parse_args()
 
     if args.list_metrics:
@@ -255,6 +279,7 @@ def main():
             args.metrics,
             args.append,
             args.format,
+            args.name_filter,
         )
         if count == 0:
             sys.exit(1)

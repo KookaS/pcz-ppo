@@ -2,8 +2,6 @@ cff-version: 1.2.0
 message: "If you use this software or the associated paper, please cite it as below."
 type: software
 title: "PCZ-PPO: Per-Component Z-Normalization for PPO with Heterogeneous Reward Components"
-version: "1.1"
-date-released: "2026-04-26"
 authors:
   - family-names: Charrez
     given-names: Olivier

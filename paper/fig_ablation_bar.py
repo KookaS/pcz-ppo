@@ -23,6 +23,7 @@ from fig_data import load_results, query
 INPUTS = [
     "../data/results.csv",
 ]
+UNITS = "eval-mean-final"  # Layer 4: declared metric (rollout/eval/ratio/etc.)
 
 # Script name and output name diverge here: the LaTeX cites
 # ``fig_ablation.pdf`` from before the script was renamed to
@@ -37,13 +38,13 @@ OUTPUTS = [
 # Order doesn't matter — sorted by mean in the plot
 VARIANTS = [
     {"algo": "torchrl-pcz-ppo-running", "label": "PCZ-PPO\n(running)", "color": "#2196F3"},
-    {"algo": "torchrl-ppo-weighted-running", "label": "PPO-weighted\nrunning", "color": "#64B5F6"},
-    {"algo": "torchrl-ppo-znorm-post", "label": "PPO\nz-norm-post", "color": "#90CAF9"},
+    {"algo": "torchrl-ppo-weighted-running", "label": "PPO (sum,\nrunning z-norm)", "color": "#64B5F6"},
+    {"algo": "torchrl-ppo-znorm-post", "label": "PPO (sum,\nbatch z-norm)", "color": "#90CAF9"},
     {"algo": "torchrl-ppo", "label": "PPO\n(baseline)", "color": "#FF9800"},
     {"algo": "torchrl-ppo-znorm", "label": "PPO\nagg z-norm", "color": "#FFB74D"},
-    {"algo": "torchrl-pcz-grpo", "label": "GRPO\n(no critic)", "color": "#EF5350"},
+    {"algo": "torchrl-pcz-grpo", "label": "PCZ-GRPO\n(no critic)", "color": "#EF5350"},
     {"algo": "torchrl-ppo-popart", "label": "PopArt-PPO", "color": "#E57373"},
-    {"algo": "torchrl-pcz-ppo-popart", "label": "PCZ+PopArt", "color": "#F44336"},
+    {"algo": "torchrl-pcz-ppo-popart", "label": "PCZ-PPO\n+ PopArt", "color": "#F44336"},
     {"algo": "torchrl-ppo-no-norm", "label": "No norm", "color": "#BDBDBD"},
 ]
 
@@ -57,8 +58,11 @@ def main():
 
     rows = load_results()
 
-    # Filter to primary weight config for lunarlander (10,5,0.5,0.5)
+    # Filter to primary weight config for lunarlander (10,5,0.5,0.5).
+    # `learning_rate="0.0003"` mirrors render_claims.py canonical-LR guard so
+    # ablation-bar means equal Table~\ref{tab:ablation} fragment values.
     weights = "10.00,5.00,0.50,0.50" if args.env == "lunarlander" else None
+    learning_rate = "0.0003" if args.env == "lunarlander" else None
 
     names, means, stds, colors, seeds = [], [], [], [], []
     for v in VARIANTS:
@@ -69,6 +73,7 @@ def main():
             total_timesteps=args.timesteps,
             weights=weights,
             ent_coef_schedule="0.1:0.01",
+            learning_rate=learning_rate,
         )
         if q["seeds"] == 0:
             print(f"  Skipping {v['algo']}: no data for {args.env}/{args.timesteps}")
@@ -100,7 +105,7 @@ def main():
         ax.text(
             i,
             y_pos,
-            f"{m:+.0f}\u00b1{s:.0f} ({n_seeds}s)",
+            f"{m:+.0f}\u00b1{s:.0f} (n={n_seeds})",
             ha="center",
             va="bottom" if m >= 0 else "top",
             fontsize=7,
@@ -115,7 +120,13 @@ def main():
     )
     ax.axhline(y=0, color="gray", linestyle="--", alpha=0.5)
     ax.grid(True, alpha=0.2, axis="y")
-    ax.set_ylim(top=max(means) + max(stds) + 60)
+    # Symmetric clearance: top for positive-bar n labels above bar+std, bottom
+    # for the most-negative bar's n label below bar-std.  Auto-derive from data
+    # so adding new variants doesn't silently clip annotations.
+    pad = max(stds) + 60
+    ymax = max(means) + pad
+    ymin = min(0.0, min(means) - pad)
+    ax.set_ylim(bottom=ymin, top=ymax)
 
     plt.tight_layout()
     plt.savefig(args.output, dpi=300, bbox_inches="tight")

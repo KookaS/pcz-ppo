@@ -1,35 +1,41 @@
 {
   "fig_ablation_bar": {
-    "input_hash": "c9bd00629622fd4df61667724a2ddc286871d19ed43aebc4c2eb4121840ac21b"
+    "input_hash": "a2ecd3b5236209c6d8d7580fd5ef5823529744670f5d02b8536f72eb62af97bc"
   },
   "fig_alignment_results": {
-    "input_hash": "b8457b1b02220744d362c11afb636cb22d5a0351747ef2d39673715d5e3fd61d"
+    "input_hash": "7e48103ee591960a7a88389d1085de1bacf5f24df060e9218e4be08caf2dc658"
   },
   "fig_cross_env": {
-    "input_hash": "00d605cc1ee12170828a287132f746926d20f15e7166c681b634bf2948da9ca7"
+    "input_hash": "70173f9cb074d744ade5344af4d020063176b553f49f3c34a1e7ebdfa27d119d"
+  },
+  "fig_entropy_sweep": {
+    "input_hash": "62e4675702426db4e09057ca930ed3520d8a151a57f7d8a5bd3133d70c4a6b71"
   },
   "fig_hp_fairness": {
-    "input_hash": "2fcf0365388eba83bfc1bdec53999cb1adc7352e47b602aa8791f849802adcd1"
+    "input_hash": "a570d089f9c8b1de78c15379fc779c27feff9bc064bceacfd896620c6d0e6e9b"
   },
   "fig_hp_peak": {
-    "input_hash": "890a2f24a6e4412ca22adea55f0a0710ab6a6eb6b59edbd433d85067d555199f"
+    "input_hash": "451f6e4545e90dece3df5557e415712d589c43aa50e1b6f803985d8529de5ac3"
   },
   "fig_kscaling": {
-    "input_hash": "638d55cba9aeea5392baa7f12798216ed3130ccf8dc5f88831ba392c16172c8b"
+    "input_hash": "69509c058fd607cbde29ca33fbe636970bea50f606eda55f1cf4ead7b6300885"
   },
   "fig_learning_curves_4M": {
-    "input_hash": "1257ca481b3095b2cad03dd24e4cf52c97cd6ccf534302f4375b62fd6c1dbbfa"
+    "input_hash": "f19dc1a48896c2d291d501061a51f7e8c9dfac055ecef29495e50d40a198a438"
   },
   "fig_sample_efficiency": {
-    "input_hash": "7864d70a2654ab3ac66d26cb813ea2397c1c979eb875afd2898b6f95557ef656"
+    "input_hash": "3bafa7dee4f3f8a5a0162c5f97f4b611e5282d26f2d54f91ffc24e4ce05c1824"
+  },
+  "fig_trading": {
+    "input_hash": "524cc1b5dbdf6bb83b4b5c2c7a55d627b65b30c7affcae4b3f73e0e58edd12a1"
   },
   "fig_weight_sensitivity": {
-    "input_hash": "a9090cc9c27d43913aa72147dc4a1e6636ef522a2ad516cff41f5a568d161a6c"
+    "input_hash": "55a5d2477dadf05be0a48e03295d66f9c31fffad02f73647476a495514ef6350"
   },
   "fragments": {
-    "input_hash": "1aade1ef1bf5e89d0b2175c7cfdb334dcdbc2d9d56dab10f03709a695ca02504"
+    "input_hash": "544b3d8468680b4dc2500315eb654ccc1537d00e43b7351b78403cc09e21b4e7"
   },
   "pdf": {
-    "input_hash": "839f6ae6dc392eae29dae62fd96b47736d181855d0e35319fc8ad24685400658"
+    "input_hash": "c83659800e47d0426365d64d101f1bae30b6ed00de5ad5f9ce14b035fe79eb20"
   }
 }

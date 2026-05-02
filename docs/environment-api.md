@@ -46,8 +46,8 @@ Built-in environments are configured in `core/env_config.py` via `ENV_REGISTRY`.
 |--------------|--------|------------|--------|---------|
 | `cartpole` | `CartPole-v1` | `balance center` | MlpPolicy | `uv sync` |
 | `bipedalwalker` | `BipedalWalker-v3` | `shaping energy crash` | MlpPolicy | `uv sync` |
-| `halfcheetah` | `HalfCheetah-v5` | `run ctrl_cost` | MlpPolicy | `uv sync` (MuJoCo) |
-| `humanoid` | `Humanoid-v5` | `forward alive ctrl_cost` | MlpPolicy | `uv sync` (MuJoCo) |
+| `halfcheetah` | `HalfCheetah-v4` | `run ctrl_cost` | MlpPolicy | `uv sync` (MuJoCo) |
+| `humanoid` | `Humanoid-v4` | `forward alive ctrl_cost` | MlpPolicy | `uv sync` (MuJoCo) |
 | `lunarlander` | `mo-lunar-lander-v3` | `landing shaping fuel_main fuel_side` | MlpPolicy | `uv sync` |
 | `lunarlander-k2` | `LunarLander-v3` | `landing dense` | MlpPolicy | `uv sync` |
 | `lunarlander-k8` | `LunarLander-v3` | `landing distance velocity angle leg_left leg_right fuel_main fuel_side` | MlpPolicy | `uv sync` |
@@ -57,6 +57,10 @@ Built-in environments are configured in `core/env_config.py` via `ENV_REGISTRY`.
 | `trading-k4` | (synthetic) | `pnl_gain pnl_loss txn_cost borrow_cost` | MlpPolicy | `uv sync --extra trading` |
 | `trading-k6` | (synthetic) | `entry_pnl hold_pnl txn_cost borrow_cost spread_proxy residual` | MlpPolicy | `uv sync --extra trading` |
 | `trading-k8` | (synthetic) | `entry_gain entry_loss hold_gain hold_loss txn_cost borrow_cost spread_proxy residual` | MlpPolicy | `uv sync --extra trading` |
+| `trading-hk2` | (synthetic) | `pnl_step risk_events` | MlpPolicy | `uv sync --extra trading` |
+| `trading-hk4` | (synthetic) | `pnl_step costs var_breach bankruptcy` | MlpPolicy | `uv sync --extra trading` |
+| `trading-hk6` | (synthetic) | `pnl_gain pnl_loss txn_cost borrow_cost var_breach bankruptcy` | MlpPolicy | `uv sync --extra trading` |
+| `trading-hk8` | (synthetic) | `entry_gain entry_loss hold_gain hold_loss txn_cost borrow_cost var_breach bankruptcy` | MlpPolicy | `uv sync --extra trading` |
 
 ### MO-LunarLander
 
@@ -71,7 +75,7 @@ Uses `mo-gymnasium`'s `mo-lunar-lander-v3`. The 4D reward vector is converted to
 
 This is an ideal testbed for PCZ: the shaping reward is orders of magnitude larger than fuel costs, so per-component normalization should significantly outperform aggregate normalization.
 
-**Default component weights:** `landing=5.0, shaping=3.0, fuel_main=0.5, fuel_side=0.5`. These weights are applied *after* z-normalization to express that landing is the primary objective (10x more important than fuel efficiency). Without weights, z-normalization equalizes fuel penalties with landing/shaping, causing the agent to over-optimize for fuel efficiency at the expense of actually landing (entropy collapse to deterministic "never fire engines" policy).
+**Default component weights:** `landing=10.0, shaping=5.0, fuel_main=0.5, fuel_side=0.5`. These weights are applied *after* z-normalization to express that landing is the primary objective (20x more important than fuel efficiency). Without weights, z-normalization equalizes fuel penalties with landing/shaping, causing the agent to over-optimize for fuel efficiency at the expense of actually landing (entropy collapse to deterministic "never fire engines" policy).
 
 To add a new environment, register an `EnvConfig` entry in `ENV_REGISTRY` and create a wrapper in `algorithms/_common.py` (or `env_config.py`) that produces `info["reward_components"]`.
 
@@ -137,6 +141,100 @@ Poor decompositions (don't bother with PCZ-PPO):
 - All components have similar scales → aggregate z-norm (B4) is sufficient
 - Single scalar reward (no decomposition possible) → use standard PPO (B1)
 - Components are just rescaled versions of the same signal → merge them
+
+## MPC-Relevant Internals (`trading-kN` envs)
+
+Audience: market-making / MPC baseline development. This section documents the
+planning-time state that classical-control agents (LQ-MPC, NMPC) need from the
+`trading-kN` envs, separate from the gym↔train contract above.
+
+**Source code:** `core/envs/trading.py` (`MultiComponentTradingEnv`,
+`HeteroScaleTradingEnv`); price generator in `make_ou_data()`.
+
+### Price process
+
+Mean-reverting Ornstein-Uhlenbeck (discrete-time):
+
+    x_{t+1} - x_t = θ (μ - x_t) + σ ε_t,   ε ~ N(0, 1)
+
+Parameters (hardcoded in `make_ou_data`):
+
+- `μ = 100.0` (long-run mean)
+- `θ = 0.05` (mean-reversion strength → half-life ≈ 14 steps)
+- `σ = 3.0` (per-step Gaussian noise)
+- Stationary std ≈ σ / √(2θ) ≈ 9.5; clipped to [10, 500]
+
+Equivalent AR(1) form: `x_{t+1} = a + φ x_t + σ ε_t` with `φ = 1 - θ = 0.95`,
+`a = θ μ = 5.0`. **MPC may fit (a, φ) by OLS on a rolling window of
+`info["data_close"]`** — recovers the true generator asymptotically.
+
+The OHLC data is pre-generated at env-init time (`n_steps = 5000` per worker)
+with a deterministic per-worker `data_seed`. Within an episode (max 500 steps),
+the price series is fully determined; only the random episode start position
+varies per `reset()`.
+
+### Action and position semantics
+
+- Action space: `Discrete(3)` mapped to positions `[-1, 0, +1]` (short / flat / long).
+- After `step(action)`, `info["position"]` holds the position now in force.
+- After `step(action)`, `info["data_close"]` holds the close price for the
+  current bar; `data_open / data_high / data_low / data_volume` also exposed.
+
+### Fill model
+
+`gym_trading_env` fills at `close` price (no slippage model, no queue
+dynamics). Position changes apply at the bar boundary. **For MPC, this means
+the fill model is implicit: planning over price *changes* `Δx̂_t` is exact;
+no separate fill-rate-vs-aggressiveness curve is needed at this fidelity.**
+
+### Cost model
+
+- **Trading fees** (linear): `-trading_fees × |Δposition|` per step, where
+  `trading_fees = 5e-4` (5 bps). Applied by base env, surfaces as
+  `txn_cost` after the K-decomposition.
+- **Borrow interest** (linear): `-borrow_interest_rate` per step when
+  `position ∈ {-1}` or `position > 1` (default `1e-4` per step). For
+  `K=4` this is folded into a `borrow_cost` *residual* that ALSO catches
+  log-vs-arithmetic return discrepancy and fee approximation error
+  (see `MultiComponentTradingEnv` docstring — explicit warning).
+- **No slippage, no spread** in the realized PnL (the K=6/K=8 `spread_proxy`
+  component is a *signal* derived from `(high - low) / close`, not an
+  actual cost charged by the env).
+
+### Reward scaling
+
+All components are multiplied by `REWARD_SCALE = 100.0` so per-step rewards
+are O(1) instead of O(0.01). Sum-invariant: `sum(reward_components) ==
+scalar_reward` exactly for K=2/4/6/8 (K=3 is intentionally non-summing —
+clean-decomposition ablation).
+
+### How an LQ-MPC agent accesses this state
+
+Per market-making backlog S-MKT-1.1, the agent uses **option (b) — fit AR(1)
+from observations only, no env-interface change**. Concretely:
+
+1. After each `env.step(action)`, read `info["data_close"]` and append to a
+   rolling window (default 200 samples).
+2. Once warm-up (≥30 samples), fit `x_{t+1} = a + b x_t` by OLS; clip
+   `b ∈ [0, 0.999]` for stability; recover `μ = a / (1 - b)`.
+3. Forecast `Δx̂_{t+k} = (μ - x_t)(b^{k+1} - b^k)` for `k = 0..H-1`.
+4. Solve QP over continuous position trajectory `p ∈ [-1, 1]^H`; threshold
+   `p_0*` to discrete action.
+
+Reference implementation: `core/algorithms/baselines/mpc_lq.py` (`LQMPCAgent`).
+
+### Known LQ approximations (relevant to kill-risk R-MKT-1)
+
+- **Quadratic txn cost** `(p_t - p_{t-1})²` is the LQ stand-in for the env's
+  **linear** `|Δp|` cost. The kill-risk pre-registration explicitly tests
+  whether this approximation is too coarse; if R-MKT-1 fires, NMPC via
+  `do-mpc` (with linear costs) is the documented pivot.
+- **Symmetric PnL weighting**: `pnl_gain` and `pnl_loss` weights are averaged
+  into a single `w_pnl`. Exact for default equal weights, approximate for
+  asymmetric weights (none currently used).
+- **Deterministic forecast**: noise term `σ ε_t` is dropped in planning. For
+  certainty-equivalent LQ this is standard; chance-constrained / scenario-tree
+  variants would re-introduce it.
 
 ## Verifying the Integration
 

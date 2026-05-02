@@ -55,39 +55,45 @@ def evaluate_policy(
 
     episode_returns: list[float] = []
 
-    for ep in range(n_episodes):
-        # Reset environment — seed each episode for reproducibility
-        td = env.reset(seed=seed + ep)
-        episode_return = 0.0
-        done = False
+    try:
+        for ep in range(n_episodes):
+            # Reset environment — seed each episode for reproducibility.
+            # Mod 2**31 because some RNG backends reject seeds > INT32_MAX
+            # (relevant when callers pass seed = base_seed + step_count for
+            # periodic-eval runs where step_count can reach ~10^7).
+            td = env.reset(seed=(seed + ep) % (2**31))
+            episode_return = 0.0
+            done = False
 
-        while not done:
-            # Policy forward pass (deterministic — no exploration)
-            with torch.no_grad():
-                td_device = td.to(device)
-                td_out = policy(td_device)
+            while not done:
+                # Policy forward pass (deterministic — no exploration)
+                with torch.no_grad():
+                    td_device = td.to(device)
+                    td_out = policy(td_device)
 
-            # Step environment
-            td = env.step(td_out.to(env.device))
+                # Step environment
+                td = env.step(td_out.to(env.device))
 
-            # Accumulate raw scalar reward (unweighted — no weights passed)
-            reward = td["next", "reward"]
-            if reward.numel() == 1:
-                episode_return += reward.item()
-            else:
-                episode_return += reward.sum().item()
+                # Accumulate raw scalar reward (unweighted — no weights passed)
+                reward = td["next", "reward"]
+                if reward.numel() == 1:
+                    episode_return += reward.item()
+                else:
+                    episode_return += reward.sum().item()
 
-            # Check termination
-            done_flag = td["next", "done"]
-            truncated_flag = td["next"].get("truncated", done_flag.new_zeros(done_flag.shape))
-            done = bool((done_flag | truncated_flag).any())
+                # Check termination
+                done_flag = td["next", "done"]
+                truncated_flag = td["next"].get("truncated", done_flag.new_zeros(done_flag.shape))
+                done = bool((done_flag | truncated_flag).any())
 
-            # Advance: next obs becomes current obs
-            td = td["next"]
+                # Advance: next obs becomes current obs
+                td = td["next"]
 
-        episode_returns.append(episode_return)
-
-    env.close()
+            episode_returns.append(episode_return)
+    finally:
+        # Always close the env — protects against the leaked-fd scenario
+        # if the eval loop raises mid-episode (e.g. CUDA OOM during forward).
+        env.close()
 
     returns_arr = np.array(episode_returns, dtype=np.float64)
     return {
@@ -257,6 +263,8 @@ def train_loop(
     advantage_fn: Callable | None = None,
     log_fn: Callable | None = None,
     auxiliary_loss_fn: Callable | None = None,
+    eval_fn: Callable | None = None,
+    eval_every_n_frames: int | None = None,
 ):
     """Main training loop: collect → compute advantages → PPO update.
 
@@ -276,6 +284,14 @@ def train_loop(
         auxiliary_loss_fn: Optional ``(minibatch) -> loss_tensor`` added to the
             PPO loss each minibatch step.  Used by multi-head PPO for
             per-component value supervision.
+        eval_fn: Optional ``(step) -> dict`` returning eval metrics
+            (``eval/mean_reward``, ``eval/std_reward``).  When triggered,
+            results are merged into the same metrics dict that ``log_fn``
+            receives, producing a unified time series of rollout + eval keys.
+        eval_every_n_frames: Trigger ``eval_fn`` every N training frames.
+            Decoupled from ``log_every`` so the user-requested cadence is
+            honoured even when it's tighter than the log-sampling cadence.
+            ``None`` disables periodic eval.
 
     Returns:
         Total number of frames collected.
@@ -290,6 +306,12 @@ def train_loop(
     # Log sampling: cap at ~200 data points to avoid bloating MLflow/memory
     est_total_iters = max(1, cfg.total_frames // cfg.frames_per_batch)
     log_every = max(1, est_total_iters // 200)
+
+    # Periodic eval scheduling: track the next frame-count threshold at which
+    # we should call eval_fn. We intentionally use a moving threshold (not
+    # modulo arithmetic) because frames-per-batch varies and we'd otherwise
+    # double-trigger or skip.
+    next_eval_at = eval_every_n_frames if (eval_fn is not None and eval_every_n_frames) else None
 
     for i, batch in enumerate(collector):
         batch_frames = batch.numel()
@@ -380,8 +402,34 @@ def train_loop(
             f"fps {fps:>6.0f}"
         )
 
+        # Periodic eval — runs on its own ``eval_every_n_frames`` schedule,
+        # independent of both ``log_every`` and ``log_fn``.  Decoupled so:
+        # (a) requested eval cadence isn't rate-limited by log cadence;
+        # (b) ``--no-mlflow`` runs (log_fn=None) still trigger eval.
+        eval_due = eval_fn is not None and next_eval_at is not None and total_frames >= next_eval_at
+        eval_metrics_now: dict[str, float] | None = None
+        if eval_due:
+            try:
+                result = eval_fn(total_frames)
+                if isinstance(result, dict):
+                    eval_metrics_now = result
+            except Exception as exc:
+                print(f"  [eval] periodic eval at {total_frames} failed: {exc}")
+            # Advance threshold past the current frame count (handles
+            # the case where one batch jumped over multiple eval points).
+            while next_eval_at <= total_frames:
+                next_eval_at += eval_every_n_frames
+            if eval_metrics_now:
+                em = eval_metrics_now
+                print(
+                    f"    [eval @ {total_frames:,}] mean={em.get('eval/mean_reward', float('nan')):.2f} "
+                    f"std={em.get('eval/std_reward', float('nan')):.2f}"
+                )
+
         # External logging (MLflow, etc.) — sampled every log_every iterations
-        if log_fn is not None and i % log_every == 0:
+        # OR forced when periodic eval just produced metrics so they don't
+        # get dropped between log samples.
+        if log_fn is not None and (i % log_every == 0 or eval_metrics_now is not None):
             metrics = {
                 "rollout/reward_mean": reward,
                 "train/loss": loss_val.item(),
@@ -424,6 +472,10 @@ def train_loop(
                             metrics[f"train/{k_key}"] = float(v.item()) if hasattr(v, "item") else float(v)
                     except Exception:
                         pass
+            # Merge periodic eval metrics (already computed above outside
+            # the log_fn gate so eval fires regardless of logging state).
+            if eval_metrics_now:
+                metrics.update(eval_metrics_now)
             log_fn(metrics, total_frames)
 
         # Checkpoint

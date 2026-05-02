@@ -156,15 +156,15 @@
     "source": "algo=torchrl-pcz-ppo-cosw env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
   },
   "ablA1_mean": {
-    "sha256": "9310e2eea3e79c59be837fe720a30559d75f45814475a564f0256e1758bbe69f",
+    "sha256": "2658e75081b99b7156aa034cc7cd321971ee927833b1e41dddc1a6d8f2e75ece",
     "source": "algo=torchrl-pcz-ppo-running env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
   },
   "ablA1_seeds": {
-    "sha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+    "sha256": "64aeb9975f234becd55bb4635e6e2f2da7a6b7bf0a896f0c07763bdfbfb31420",
     "source": "algo=torchrl-pcz-ppo-running env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
   },
   "ablA1_stat": {
-    "sha256": "8b15d0c5405e0188b047be1760224fac6ff3bc94dcabc57d2f1afc9b9fad759d",
+    "sha256": "158621e2bf09ba83d1ce0572b1dade108d36eba277271672cd4321a7979fc75d",
     "source": "algo=torchrl-pcz-ppo-running env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
   },
   "ablA5_seeds": {
@@ -208,15 +208,15 @@
     "source": "algo=torchrl-pcz-ppo-log env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
   },
   "ablB1_mean": {
-    "sha256": "1accba82bef33263cd0538599989da4a5bf15b9b266da103fd1b2f45f133d70b",
+    "sha256": "8d51244743c187ba5946a422bc88229616346518d8c20bd297d41005407800c7",
     "source": "algo=torchrl-ppo env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
   },
   "ablB1_seeds": {
-    "sha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+    "sha256": "64aeb9975f234becd55bb4635e6e2f2da7a6b7bf0a896f0c07763bdfbfb31420",
     "source": "algo=torchrl-ppo env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
   },
   "ablB1_stat": {
-    "sha256": "e4356af5a0a3aca2cac7798624b8c70a828bba04bb6388183b7f51dbfc15a1b2",
+    "sha256": "1acfcf8e950d9be6b5f6a98daa847cae7438b0a16f4a22cda94cacce7d591b02",
     "source": "algo=torchrl-ppo env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
   },
   "ablB2_seeds": {
@@ -293,62 +293,62 @@
   },
   "abl_a15_over_a1_bca_ci": {
     "sha256": "e8b1a313879b6c0f4d13b908c94d80a2c6f8cab758e096731517973a276290c7",
-    "source": "A15 vs A1 lunarlander 500k n=10/15, paired seeds=10, weights=10.00,5.00,0.50,0.50"
+    "source": "A15 vs A1 lunarlander 500k n=10/25, paired seeds=10, weights=10.00,5.00,0.50,0.50"
   },
   "abl_a15_over_a1_delta": {
-    "sha256": "9bd72b0255dd879ac9bef35b905f3f38a328492543e27f8a72d62f9d92a83e92",
-    "source": "A15 vs A1 lunarlander 500k n=10/15, paired seeds=10, weights=10.00,5.00,0.50,0.50"
+    "sha256": "fa6ca922569c96de38e274ab10602425295472ed70a8fa895137522b8753af7e",
+    "source": "A15 vs A1 lunarlander 500k n=10/25, paired seeds=10, weights=10.00,5.00,0.50,0.50"
   },
   "abl_a15_over_a1_k6_delta": {
-    "sha256": "564a3b1dedfcf2405eaa3e7ddbd2f958769e3ca44ae3ab6a571efce12c7579fc",
-    "source": "A15 vs A1 lunarlander-k6 500k n=10/15, paired seeds=10, weights=10.00,3.00"
+    "sha256": "60edefba1f7ca8bd0c70d42aed3d93fa625b51ac0bf44841ce3eceed5eca5071",
+    "source": "A15 vs A1 lunarlander-k6 500k n=10/25, paired seeds=10, weights=10.00,3.00"
   },
   "abl_a15_over_a1_k6_paired_p": {
     "sha256": "2d512cf771678e9069d875a6454e28170053f42f22fe8d8c9773cebf1770178f",
-    "source": "A15 vs A1 lunarlander-k6 500k n=10/15, paired seeds=10, weights=10.00,3.00"
+    "source": "A15 vs A1 lunarlander-k6 500k n=10/25, paired seeds=10, weights=10.00,3.00"
   },
   "abl_a15_over_a1_k6_var_ratio": {
-    "sha256": "dc4eebed2af0f85055c8bd561653243d92178aae441afb058c6b0ca8ac8ad270",
-    "source": "A15 vs A1 lunarlander-k6 500k n=10/15, paired seeds=10, weights=10.00,3.00"
+    "sha256": "be46f7d50b21c1e9b40dc81079a4947e257511e80023845216066a9b0bac77da",
+    "source": "A15 vs A1 lunarlander-k6 500k n=10/25, paired seeds=10, weights=10.00,3.00"
   },
   "abl_a15_over_a1_k6_welch_d": {
-    "sha256": "d25b592437834b77c87835a945266fe831fe361f6efc126c0b8324247eed6cbe",
-    "source": "A15 vs A1 lunarlander-k6 500k n=10/15, paired seeds=10, weights=10.00,3.00"
+    "sha256": "db01f54e80a5ce456ba45c26769d4f012c7bc099ff0293abf1e79be3a7cca8e9",
+    "source": "A15 vs A1 lunarlander-k6 500k n=10/25, paired seeds=10, weights=10.00,3.00"
   },
   "abl_a15_over_a1_k8_delta": {
-    "sha256": "e39f5faa05b5586616065274485f356c101e38a609129461863978dfb55f18ca",
-    "source": "A15 vs A1 lunarlander-k8 500k n=10/10, paired seeds=10, weights=None"
+    "sha256": "c2bb51b6835e1f6007c6d062c9a233dbdf2b791d0aae6b0cf342ea648a087a1d",
+    "source": "A15 vs A1 lunarlander-k8 500k n=10/20, paired seeds=10, weights=None"
   },
   "abl_a15_over_a1_k8_welch_d": {
-    "sha256": "46c6558f8d4b509d0756265c7b4c68b8f8e6a767d9647371bcc63fef22c899f9",
-    "source": "A15 vs A1 lunarlander-k8 500k n=10/10, paired seeds=10, weights=None"
+    "sha256": "d8c82ac6fe5f34d3881022b026773e12329ddbf6826c007ec77046caa2d3f2f7",
+    "source": "A15 vs A1 lunarlander-k8 500k n=10/20, paired seeds=10, weights=None"
   },
   "abl_a15_over_a1_k8_welch_p": {
-    "sha256": "cdee66a1c33e55ed23b049ebe1d6fa8d3e4edc7507d1eca30cbd66044c6be503",
-    "source": "A15 vs A1 lunarlander-k8 500k n=10/10, paired seeds=10, weights=None"
+    "sha256": "0f57620fa88183cffade3582148e99dd0f612090f42d4fbd1995a89d203416ba",
+    "source": "A15 vs A1 lunarlander-k8 500k n=10/20, paired seeds=10, weights=None"
   },
   "abl_a15_over_a1_paired_p": {
     "sha256": "ec060533064bfa1b7213ac6f087e5c901739a44030960bf0323958b4c1d8c872",
-    "source": "A15 vs A1 lunarlander 500k n=10/15, paired seeds=10, weights=10.00,5.00,0.50,0.50"
+    "source": "A15 vs A1 lunarlander 500k n=10/25, paired seeds=10, weights=10.00,5.00,0.50,0.50"
   },
   "abl_a15_over_a1_var_ratio": {
-    "sha256": "5bf8dcbf8cc68b0ec7f597a4d1319b5dd274b49132fca93cf22fc9ce375328fd",
-    "source": "A15 vs A1 lunarlander 500k n=10/15, paired seeds=10, weights=10.00,5.00,0.50,0.50"
+    "sha256": "3cdb5c35048a41d09f22764132681e09c442ff1d8c4425601ac5287c4a29ede4",
+    "source": "A15 vs A1 lunarlander 500k n=10/25, paired seeds=10, weights=10.00,5.00,0.50,0.50"
   },
   "abl_a15_over_a1_welch_d": {
-    "sha256": "95b0f9fe60f5e8e5c032f5073e612095b8508244dae05c4e01fa96681737ec14",
-    "source": "A15 vs A1 lunarlander 500k n=10/15, paired seeds=10, weights=10.00,5.00,0.50,0.50"
+    "sha256": "da3a5d58acf0f5a11bff64accdf49d80f38a4cb52de9afd3b7adf7f1f77d2e2c",
+    "source": "A15 vs A1 lunarlander 500k n=10/25, paired seeds=10, weights=10.00,5.00,0.50,0.50"
   },
   "abl_a15_over_a1_welch_p": {
-    "sha256": "5783f398f6091412aa85fa1d8f7617c9800ad285909f0c245a8586743cc2654c",
-    "source": "A15 vs A1 lunarlander 500k n=10/15, paired seeds=10, weights=10.00,5.00,0.50,0.50"
+    "sha256": "b600bcc4f4dffca61f718b19236477fb2467ff1bde7433bd7b7f291aee453e40",
+    "source": "A15 vs A1 lunarlander 500k n=10/25, paired seeds=10, weights=10.00,5.00,0.50,0.50"
   },
   "abl_a5_over_a1_sd_ratio": {
-    "sha256": "8048d1e7e392843de42064d4c1ae59880ce5b149895a2cb79b0680fbf35e488c",
+    "sha256": "08423c1ee488176f64566989e4dddd157093b0294c16e0c906f1cbd23bacaa11",
     "source": "std(A5) / std(A1) \u2014 cross-seed SD ratio for decomposition-adds-robustness claim"
   },
   "abl_a5_over_a1_var_ratio": {
-    "sha256": "2f89a8c71969329fb91785b207b6c0e9c0810e70145aff32a3ee85031e03738f",
+    "sha256": "fb9d072b57e41d245ace3e2256ac57ab4dfd42cf4c010993b4d6c3e67b44e16d",
     "source": "var(A5) / var(A1) \u2014 cross-seed VARIANCE ratio (SD^2)"
   },
   "abl_a5_s42": {
@@ -360,11 +360,11 @@
     "source": "A5 seed=44 eval_mean (single-seed illustration)"
   },
   "abl_decomp_delta": {
-    "sha256": "2df803d0e9f73ca48e3e80584d9ac8e24e61d9b69c7a99a8a1f1c320b4c9b412",
+    "sha256": "71171d8b08ae6b4958432b1995f183c8ed77cd01aa719b48355ababef57bbf88",
     "source": "A1 (pcz-ppo-running) - A7 (ppo-weighted-running), lunarlander 500k primary weights"
   },
   "abl_eqw_delta": {
-    "sha256": "b5c29062858fce80f4858ca801d3c52f6958637923c891042a29afc6ad078629",
+    "sha256": "0deacaaf1c6a27323120921af99e4c2e410fb9a4c2d6e628a6515168e97ddf07",
     "source": "equal-weights - primary-weights PCZ-PPO means"
   },
   "abl_eqw_seeds": {
@@ -503,6 +503,86 @@
     "sha256": "8bfff71593ac080bc549dd1ea35b773f3f0cdb57de78d5de26df86edd7b968fd",
     "source": "env=halfcheetah ts=500000 weights=*"
   },
+  "cfail_bw_n": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "n seeds plateau bipedalwalker 4000000ts"
+  },
+  "cfail_bw_pcz_fail_n": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "PCZ failures <0.0 in bipedalwalker 4000000ts"
+  },
+  "cfail_bw_pcz_pct": {
+    "sha256": "7ea9844ae84eccbf55e8330640865e36c43521e45a1baec24233327aab7e6595",
+    "source": "PCZ failure% <0.0 in bipedalwalker 4000000ts"
+  },
+  "cfail_bw_ppo_fail_n": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "PPO failures <0.0 in bipedalwalker 4000000ts"
+  },
+  "cfail_bw_ppo_pct": {
+    "sha256": "f4ccd05b3271c386ee55d9876c7450012a3b361e5065c09dc22075e38b3cc35c",
+    "source": "PPO failure% <0.0 in bipedalwalker 4000000ts"
+  },
+  "cfail_bw_zeroent_n": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "n seeds zero-ent bipedalwalker 4000000ts"
+  },
+  "cfail_bw_zeroent_pcz_fail_n": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "PCZ zero-ent failures <0.0 in bipedalwalker 4000000ts"
+  },
+  "cfail_bw_zeroent_pcz_pct": {
+    "sha256": "eea8254c7500ba3de996aa8ad6af399183f04e17d4a8102fde539dbc93a90012",
+    "source": "PCZ zero-ent failure% in bipedalwalker 4000000ts"
+  },
+  "cfail_bw_zeroent_ppo_fail_n": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "PPO zero-ent failures <0.0 in bipedalwalker 4000000ts"
+  },
+  "cfail_bw_zeroent_ppo_pct": {
+    "sha256": "95cf32708a31caa478a0e9141103ac567d85e5186e697e7e0c81f75589999e31",
+    "source": "PPO zero-ent failure% in bipedalwalker 4000000ts"
+  },
+  "cfail_hc_n": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "n seeds plateau halfcheetah 4000000ts"
+  },
+  "cfail_hc_pcz_fail_n": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "PCZ failures <0.0 in halfcheetah 4000000ts"
+  },
+  "cfail_hc_pcz_pct": {
+    "sha256": "f4ccd05b3271c386ee55d9876c7450012a3b361e5065c09dc22075e38b3cc35c",
+    "source": "PCZ failure% <0.0 in halfcheetah 4000000ts"
+  },
+  "cfail_hc_ppo_fail_n": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "PPO failures <0.0 in halfcheetah 4000000ts"
+  },
+  "cfail_hc_ppo_pct": {
+    "sha256": "f4ccd05b3271c386ee55d9876c7450012a3b361e5065c09dc22075e38b3cc35c",
+    "source": "PPO failure% <0.0 in halfcheetah 4000000ts"
+  },
+  "cfail_hc_zeroent_n": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "n seeds zero-ent halfcheetah 4000000ts"
+  },
+  "cfail_hc_zeroent_pcz_fail_n": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "PCZ zero-ent failures <0.0 in halfcheetah 4000000ts"
+  },
+  "cfail_hc_zeroent_pcz_pct": {
+    "sha256": "95cf32708a31caa478a0e9141103ac567d85e5186e697e7e0c81f75589999e31",
+    "source": "PCZ zero-ent failure% in halfcheetah 4000000ts"
+  },
+  "cfail_hc_zeroent_ppo_fail_n": {
+    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "source": "PPO zero-ent failures <0.0 in halfcheetah 4000000ts"
+  },
+  "cfail_hc_zeroent_ppo_pct": {
+    "sha256": "95cf32708a31caa478a0e9141103ac567d85e5186e697e7e0c81f75589999e31",
+    "source": "PPO zero-ent failure% in halfcheetah 4000000ts"
+  },
   "cm_bw_grpo1M_delta": {
     "sha256": "a7c5aeb40c72c4831eca482b5cfdd4d7edfa489e2e4a2c9b51839b302023e4b6",
     "source": "torchrl-grpo(bipedalwalker,1000000) - PCZ-PPO(bipedalwalker,500000)"
@@ -512,60 +592,60 @@
     "source": "torchrl-grpo(halfcheetah,1000000) - PCZ-PPO(halfcheetah,500000)"
   },
   "cm_k4_grpo1M_delta": {
-    "sha256": "c98d7d2401d7a2e07e65314d8264ee3bb7008b85fb6db3d94f1794d1fd930381",
+    "sha256": "e2e883de75d5ee28687dc5ed84087780e66056a51a3b9fe151c95cdd82ac94c8",
     "source": "torchrl-grpo(lunarlander,1000000) - PCZ-PPO(lunarlander,500000)"
   },
   "cm_k4_grpo500k_delta": {
-    "sha256": "7033514ff2d45356a237bdf28e58cf04d7c1036a887a8bf3dd13f3d3475d5cdf",
+    "sha256": "d384f21aec01d7b6f12bf9a0f99494d8ec61be7ebed58ae5f291968870f62735",
     "source": "torchrl-grpo(lunarlander,500000) - PCZ-PPO(lunarlander,500000)"
   },
   "cm_k4_ppo_delta": {
-    "sha256": "5328cb3909ddd16f1a8b272ace10cc01efcc7549b45166ffaf0338f9d00815bc",
+    "sha256": "b1c62a83ce66ffaaac8257385b917524e4caafa5c5da198c09343d258f7c7680",
     "source": "torchrl-ppo(lunarlander,500000) - PCZ-PPO(lunarlander,500000)"
   },
   "cm_k8_grpo1M_delta": {
-    "sha256": "a315dfcbb82da148f9abe1f48fb0a21f09c00da0f79bdc52bb93cd3613b74448",
+    "sha256": "d031b0e77c27a4a6af6f2d37d097724331e7b900f424cd80f44d8124ede36d2f",
     "source": "torchrl-grpo(lunarlander-k8,1000000) - PCZ-PPO(lunarlander-k8,500000)"
   },
   "cm_k8_ppo_delta": {
-    "sha256": "a487bbe3d2afc500ab489bd5c2e32dbf1dbcedcde82e4bf244d50319a31040c9",
+    "sha256": "29dfed33a48ebcc8c3ec707b48270147e27fd1364e81ae0a61c21554799f8f98",
     "source": "torchrl-ppo(lunarlander-k8,500000) - PCZ-PPO(lunarlander-k8,500000)"
   },
   "compstat_bw_crash_cv_rl": {
-    "sha256": "d408c9ec0b44e4aaf08e0503d301b0a5090174a40f1dd6b2429f165f9527e050",
-    "source": "results.csv comp/crash_mean across 44 runs on env=bipedalwalker"
+    "sha256": "7f24e2de1cef32cd0bf81c1a9c1f3d294a3b777b54741f835ac41fb15874278b",
+    "source": "results.csv comp/crash_mean across 49 runs on env=bipedalwalker"
   },
   "compstat_bw_energy_cv_rl": {
-    "sha256": "1cd5735a5db72de5519e0294346cd756e9206abf1d2d6cf60a0b91da07a543d1",
-    "source": "results.csv comp/energy_mean across 44 runs on env=bipedalwalker"
+    "sha256": "697db5ee2261539ad33db88b899bab4ebe1cca91879049778fcc3e3ac73fadb2",
+    "source": "results.csv comp/energy_mean across 49 runs on env=bipedalwalker"
   },
   "compstat_bw_shaping_cv_rl": {
-    "sha256": "5d6e55a8ad1554c7b71db326a90c0f034a6c1f801f26b987a8c057f0cc3273a6",
-    "source": "results.csv comp/shaping_mean across 44 runs on env=bipedalwalker"
+    "sha256": "e3873de6f512715ac8b022081e4c113dc28f0bc0f6bd83c04ac126c4bb540338",
+    "source": "results.csv comp/shaping_mean across 49 runs on env=bipedalwalker"
   },
   "compstat_hc_ctrl_cost_cv_rl": {
-    "sha256": "e993927bfaa2760a6a1210e9d4586ba33c222321f792918abd8f57c5ac95674e",
-    "source": "results.csv comp/ctrl_cost_mean across 55 runs on env=halfcheetah"
+    "sha256": "8b7f282449f9c6e5f4be8fe85a5b2ba48eb3356791ab95f60be8c3f2078b6f0d",
+    "source": "results.csv comp/ctrl_cost_mean across 60 runs on env=halfcheetah"
   },
   "compstat_hc_run_cv_rl": {
-    "sha256": "b28d3e4bc89658ab4c8d768f013ddf92a3612e20edf922a81d177f1bd8c35b25",
-    "source": "results.csv comp/run_mean across 55 runs on env=halfcheetah"
+    "sha256": "2a7832af2969e717ea4cbf8ea1a04161903e301b393bbdfa86359cdb0161dabe",
+    "source": "results.csv comp/run_mean across 60 runs on env=halfcheetah"
   },
   "compstat_ll_fuel_main_cv_rl": {
-    "sha256": "5cc6fa2f7a5b9dc411e81c7a7c1e3f49198012d5266868748e6ca47f77a10b5b",
-    "source": "results.csv comp/fuel_main_mean across 292 runs on env=lunarlander"
+    "sha256": "e993927bfaa2760a6a1210e9d4586ba33c222321f792918abd8f57c5ac95674e",
+    "source": "results.csv comp/fuel_main_mean across 317 runs on env=lunarlander"
   },
   "compstat_ll_fuel_side_cv_rl": {
-    "sha256": "3b33ebecccf2108a139d6b5c4db9abe9f45909493ce360ddb432eda02e295bd8",
-    "source": "results.csv comp/fuel_side_mean across 292 runs on env=lunarlander"
+    "sha256": "e4a0d328004cb6cf9aa69a4d93d98529a7f4210cc03c41396c83ccfc99c06b04",
+    "source": "results.csv comp/fuel_side_mean across 317 runs on env=lunarlander"
   },
   "compstat_ll_landing_cv_rl": {
-    "sha256": "3a753d5bd722208284aee313f8cf542ed57088cafea8c209b686949b8fa7a46f",
-    "source": "results.csv comp/landing_mean across 292 runs on env=lunarlander"
+    "sha256": "cff3a5c5ca2302c6d3f9beccd18688434589ab29c4df8f3bae2aaff16efddf1c",
+    "source": "results.csv comp/landing_mean across 317 runs on env=lunarlander"
   },
   "compstat_ll_shaping_cv_rl": {
-    "sha256": "c7e2f0c37cf423d238eabd7c70082b13a52075c4ba65dbf528ee7f700ddb086a",
-    "source": "results.csv comp/shaping_mean across 292 runs on env=lunarlander"
+    "sha256": "6c8592c62c822935c0062748009d228ebdc7cf30e59a9b2542ef814cfd5ac8c3",
+    "source": "results.csv comp/shaping_mean across 317 runs on env=lunarlander"
   },
   "grpoBW_1M_seeds": {
     "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
@@ -635,17 +715,9 @@
     "sha256": "82f5e82b4d25a3b144e5d75a04070bb9b79964f60bbd6ba8a4a1668dee7bc6e5",
     "source": "HP-fairness sweep env=lunarlander ts=500000 ppo best=flat/0.0003/cosine n=3"
   },
-  "hp19_k4_heterog_pcz_best_seeds": {
-    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
-    "source": "HP-fairness sweep env=lunarlander ts=500000 pcz best=heterog/0.0003/e00 n=3"
-  },
   "hp19_k4_heterog_pcz_best_stat": {
     "sha256": "8bb08c80f74476796da5499f48936109267f8dc4a123c851ca0bfbe857827150",
     "source": "HP-fairness sweep env=lunarlander ts=500000 pcz best=heterog/0.0003/e00 n=3"
-  },
-  "hp19_k4_heterog_ppo_best_seeds": {
-    "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
-    "source": "HP-fairness sweep env=lunarlander ts=500000 ppo best=heterog/0.0003/e00 n=3"
   },
   "hp19_k4_heterog_ppo_best_stat": {
     "sha256": "8f6af27c4713c8517c3ec9e2361a5ccf7513ead75c5fdf1834081126cde867f1",
@@ -666,6 +738,22 @@
   "hp19_k4_ncells_ppo": {
     "sha256": "a1fb50e6c86fae1679ef3351296fd6713411a08cf8dd1790a4fd05fae8688164",
     "source": "HP-fairness sweep env=lunarlander ts=500000 ppo best=flat/0.0003/cosine n=3"
+  },
+  "humanoid_delta": {
+    "sha256": "a24b9ed42407ccd02a8341eb8afffa2548074fa8dc1ed22d4ca464f1500ab183",
+    "source": "PCZ-PPO delta humanoid 2M"
+  },
+  "humanoid_n": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "humanoid 2M seeds per algo"
+  },
+  "humanoid_pcz_stat": {
+    "sha256": "19498105a5e10f7f316545cb465d5c343eb3ad03203b6094b47507f447dc146c",
+    "source": "PCZ humanoid 2M mean+/-std"
+  },
+  "humanoid_ppo_stat": {
+    "sha256": "11f5f53a000ae05b8406fcb132c14f674809d4a5e81e5d4d89993f2984368387",
+    "source": "PPO humanoid 2M mean+/-std"
   },
   "k2_delta": {
     "sha256": "16bde1526b8675813e23567f990f65faafc166b2b6c7d72f56c2454b25cbdea3",
@@ -720,67 +808,67 @@
     "source": "env=lunarlander ts=1000000 weights=10.00,5.00,0.50,0.50"
   },
   "k4_bca_ci": {
-    "sha256": "d2094235daa87a05541ed3619d562862b6ee45f9ada2a9500626c5a2fee31efb",
+    "sha256": "d777128d07038013b6b75c3ee90292ffc7668c57199d78d6600b7e2a0ade9c38",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
   },
   "k4_delta": {
-    "sha256": "75c16e283b3378b2bb300a9cf4e331e54e83504d14c3cb7bf6ab0c58c75baa4b",
+    "sha256": "96a93b2d2205986594f87d142854226cd1550444749d5a0ba1fda53018b7d0f7",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
   },
   "k4_holm_p": {
-    "sha256": "5b3af5cdf78c2af38cfc675ad50fc8728100c159ae9365ca875b405a7f6b51bf",
-    "source": "Holm\u2013Bonferroni across {k4,k8,k6} family of m=3"
+    "sha256": "ee8eef6273e51ddf6aacc8fb3f6199c865f5bfef5936afbbcc4b737a2ac28fb6",
+    "source": "Holm\u2013Bonferroni across {k4,k6,k8} family of m=3"
   },
   "k4_mwu_p": {
-    "sha256": "7405cbb02ef7f96a43695c1f502211332d11bf333e1c16f6cc6c554283d1771a",
+    "sha256": "e531f93fa6db59aeec9b074895514574fffab4c9320399149d4935a7545a4b0d",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
   },
   "k4_pcz_iqm": {
-    "sha256": "131680f0a2da6f51a93cc63647296628b848dcd0cc387fe90f42fab013644116",
+    "sha256": "21ab51d32b8f0d76b267438cf8da7e3b64387f4005833882e16b8f873d91d99d",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
   },
   "k4_pcz_iqm_ci": {
-    "sha256": "bb0324e71a6a674cb310a32d84a343a05405550bfac9d5490ed227967c3b9601",
+    "sha256": "85d2fca47445f5ff1cf14e07c8853d60b29aaf8e1136e6763fcb220c77ad6a08",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
   },
   "k4_pcz_seeds": {
-    "sha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+    "sha256": "64aeb9975f234becd55bb4635e6e2f2da7a6b7bf0a896f0c07763bdfbfb31420",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
   },
   "k4_pcz_stat": {
-    "sha256": "8b15d0c5405e0188b047be1760224fac6ff3bc94dcabc57d2f1afc9b9fad759d",
+    "sha256": "158621e2bf09ba83d1ce0572b1dade108d36eba277271672cd4321a7979fc75d",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
   },
   "k4_perm_p": {
-    "sha256": "5783f398f6091412aa85fa1d8f7617c9800ad285909f0c245a8586743cc2654c",
+    "sha256": "d5efb2328f2cde864c6932233bb43badd733c77a4ba46dceaba9820c19f689b1",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
   },
   "k4_ppo_iqm": {
-    "sha256": "7477fd2875f6a0e54266d93ff04f5a5111cbcd93563742f0aff1ee91e343a89e",
+    "sha256": "2f7a31e16cbc793795f6abe84432b7238f54ed6bf8e346c6916abd8f1bad6743",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
   },
   "k4_ppo_iqm_ci": {
-    "sha256": "66c1fd8ecc3657c59a1c9dc82bd4b0acb9977efa1022fa288ad508ed78664582",
+    "sha256": "a4ce2884471a00113df69b9224aa7e8509ec4e36b5c95ff2d32821343d6707f0",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
   },
   "k4_ppo_seeds": {
-    "sha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+    "sha256": "64aeb9975f234becd55bb4635e6e2f2da7a6b7bf0a896f0c07763bdfbfb31420",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
   },
   "k4_ppo_stat": {
-    "sha256": "e4356af5a0a3aca2cac7798624b8c70a828bba04bb6388183b7f51dbfc15a1b2",
+    "sha256": "1acfcf8e950d9be6b5f6a98daa847cae7438b0a16f4a22cda94cacce7d591b02",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
   },
   "k4_prob_improvement": {
-    "sha256": "c637d2576135b78ae3b575683f6c7999e1b0240a2a3988abc8d9fe74848846b2",
+    "sha256": "d59a70d11c52bf620fcab17353ff8d33f28650780b3f65c68858a44383a31123",
     "source": "P(PCZ > PPO) at k4"
   },
   "k4_prob_sup": {
-    "sha256": "c637d2576135b78ae3b575683f6c7999e1b0240a2a3988abc8d9fe74848846b2",
+    "sha256": "d59a70d11c52bf620fcab17353ff8d33f28650780b3f65c68858a44383a31123",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
   },
   "k4_ratio": {
-    "sha256": "74b9f476d243f8d2448d5e40a5d91d37b32b582323a598c4b96a7dd7249cf440",
+    "sha256": "6311f085ec95836f8584d02d4250ef546b867a26aa9b049bf78e59602f6fe66a",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
   },
   "k4_symznorm_stat": {
@@ -788,32 +876,32 @@
     "source": "algo=torchrl-pcz-ppo-symznorm env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
   },
   "k4_var_ratio": {
-    "sha256": "b13078267da93c508622472851f9747734ddf0750c27696b324c9463e7162e43",
+    "sha256": "5b02189ab1f9bb5caa7611320f35cd6a072da88db0533f62c4b3194f8bee4b79",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50"
   },
   "k4_welch_ci": {
-    "sha256": "e3d52a3ce89c178af3b5e9f28e778e858b0e8057c2991fc9c7983fa2cb6988ca",
+    "sha256": "9e67437fecd20f4383c403d7512c972686eda39c4bef291e31e22225b4d4c83b",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
   },
   "k4_welch_d": {
-    "sha256": "da3a5d58acf0f5a11bff64accdf49d80f38a4cb52de9afd3b7adf7f1f77d2e2c",
+    "sha256": "df5cefa533d3869479d98d8ab560c3d69980831aba9f667b121f59703143e3a2",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
   },
   "k4_welch_p": {
-    "sha256": "2c521494b6104724983b9ba959ea91304ee2cb87b02a6b65a66732d19d9466c6",
+    "sha256": "e531f93fa6db59aeec9b074895514574fffab4c9320399149d4935a7545a4b0d",
     "source": "env=lunarlander ts=500000 weights=10.00,5.00,0.50,0.50 rule=chrono-latest"
   },
   "k6_bca_ci": {
-    "sha256": "ae02feba88bfa1a6ec480a07b5c0f499af694922e8c54e50081f981afcbde363",
+    "sha256": "edf21d7348c60bf8471e1ba8ddd93185804254c721e0350f1422075b9222207e",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
   },
   "k6_delta": {
-    "sha256": "4781e828ee55c1db31753265445ddf45b10b6da7fd7f7927279701fca5676f7d",
+    "sha256": "777992aa76f9e3c38db2749ef2781d6b437f54968fa2cf275d84ddb7dd9d5da4",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00"
   },
   "k6_holm_p": {
-    "sha256": "29410bcd658a8f64ba7e0bac0f66ce1f7dc874489777b6173bc7c1eabd1c960f",
-    "source": "Holm\u2013Bonferroni across {k4,k8,k6} family of m=3"
+    "sha256": "ee8eef6273e51ddf6aacc8fb3f6199c865f5bfef5936afbbcc4b737a2ac28fb6",
+    "source": "Holm\u2013Bonferroni across {k4,k6,k8} family of m=3"
   },
   "k6_mh_seeds": {
     "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
@@ -824,55 +912,55 @@
     "source": "algo=torchrl-ppo-multihead env=lunarlander-k6 ts=500000 weights=10.00,3.00"
   },
   "k6_mwu_p": {
-    "sha256": "f45f35f62aabf26230393ac5a2cfbb0fae2f6e6e4040a9ee78c86c50e05b5d38",
+    "sha256": "d5efb2328f2cde864c6932233bb43badd733c77a4ba46dceaba9820c19f689b1",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
   },
   "k6_pcz_iqm": {
-    "sha256": "c4f0c5ea1193611ac3dbdc88ff8f4a09ddf444dc1b01626a872c5d5cb0d56ee1",
+    "sha256": "5219e1f84c84080b2fa69ced3a6180827fa223f1084b76d6bace996ae88a9df9",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
   },
   "k6_pcz_iqm_ci": {
-    "sha256": "83f9595f201599f66a43385de91e4dae6892cda80f72b0b55bfb481a9a3cafbe",
+    "sha256": "bca70bbedc8c65abbf89b3d9e5875d2bf187fcbbe2626e92cd8e4ee5873274cf",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
   },
   "k6_pcz_seeds": {
-    "sha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+    "sha256": "64aeb9975f234becd55bb4635e6e2f2da7a6b7bf0a896f0c07763bdfbfb31420",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00"
   },
   "k6_pcz_stat": {
-    "sha256": "7787688beb345edff5b3e688a27ad2a3ddbc601b4488e2473fdbb8e8a7da9e15",
+    "sha256": "26e14e895c3c430a255956766ee4f5252a4bf78c8e4dc538ac5cba27100bfc68",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00"
   },
   "k6_perm_p": {
-    "sha256": "e29e6550bbd148e36539565fac99aa7b698a55eddd1fe5f32f1c0588fc0aecca",
+    "sha256": "d5efb2328f2cde864c6932233bb43badd733c77a4ba46dceaba9820c19f689b1",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
   },
   "k6_ppo_iqm": {
-    "sha256": "ec4c227e4d40798f61cf83944d43263d8fb48021fb53ea5906757966b49e89bc",
+    "sha256": "ceffcf87f957ffb734f39ebc7aadc488b6a82d959b293ee319aea81ec26cca5b",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
   },
   "k6_ppo_iqm_ci": {
-    "sha256": "908528fe78332f9da279e1a67f8168c44d7e97e1b5f1a1a57e67d523cdf4fdbe",
+    "sha256": "444302be7da72817e1743136064cff40f6d5e4e3200f560d97de2098570cf23c",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
   },
   "k6_ppo_seeds": {
-    "sha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+    "sha256": "64aeb9975f234becd55bb4635e6e2f2da7a6b7bf0a896f0c07763bdfbfb31420",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00"
   },
   "k6_ppo_stat": {
-    "sha256": "4780a77675763bd510dba30c41ae16bdb99549cfe8e01bacdff703d584d92dcb",
+    "sha256": "424d160541ce53f10308036524eb4431d2ee0408fd030c89722895bd5768bef4",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00"
   },
   "k6_prob_improvement": {
-    "sha256": "56f7f96e8411f9d1807984254ecfca6712581480872a42aaa68b2d5e483f48d3",
+    "sha256": "80bda618c8da9163d79ece34bbb4d7efcfaf8165448b168ed527a6c7854f9134",
     "source": "P(PCZ > PPO) at k6"
   },
   "k6_prob_sup": {
-    "sha256": "56f7f96e8411f9d1807984254ecfca6712581480872a42aaa68b2d5e483f48d3",
+    "sha256": "80bda618c8da9163d79ece34bbb4d7efcfaf8165448b168ed527a6c7854f9134",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
   },
   "k6_ratio": {
-    "sha256": "2a7832af2969e717ea4cbf8ea1a04161903e301b393bbdfa86359cdb0161dabe",
+    "sha256": "b1641c3ad059e8cd71cc1a56b0b508358b773093d43158790af268acc31279a2",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00"
   },
   "k6_symznorm_stat": {
@@ -880,83 +968,83 @@
     "source": "algo=torchrl-pcz-ppo-symznorm env=lunarlander-k6 ts=500000 weights=*"
   },
   "k6_var_ratio": {
-    "sha256": "1523e9e982ff804c6d979e1bb2c6f3d7bae35307e8ce458bffc0d12a442b98da",
+    "sha256": "66e4c000f2000eb1cca164f97c441e14d438ca2599c8e79f4de6ecade0de8b32",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00"
   },
   "k6_welch_ci": {
-    "sha256": "fc86afd43ec596b77b4b5a989744cb4a818d02f2d62640a4cabc128f6459a5ba",
+    "sha256": "422ec8a88cf7aefc8c25030ce790f43c8eb174c65873e49c82296640d324f85e",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
   },
   "k6_welch_d": {
-    "sha256": "52525cf82c11ac9ecc79d6e79270e8a1f669f69d404b21b18bb43ef7e3850c48",
+    "sha256": "d88a30fe58c1903da23e3192f5303249a2e537caae12c40b867632175e5772e2",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
   },
   "k6_welch_p": {
-    "sha256": "29410bcd658a8f64ba7e0bac0f66ce1f7dc874489777b6173bc7c1eabd1c960f",
+    "sha256": "e531f93fa6db59aeec9b074895514574fffab4c9320399149d4935a7545a4b0d",
     "source": "env=lunarlander-k6 ts=500000 weights=10.00,3.00 rule=chrono-latest"
   },
   "k8_bca_ci": {
-    "sha256": "bebee7c476ca489c786dd79fd399d0deefbf6d686923fc15fbe24eaaaad1db32",
+    "sha256": "eb8f82114f3a616537f8eb15586c00efaef91a2fddb948f7698c36cb4427d1aa",
     "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
   },
   "k8_delta": {
-    "sha256": "6f3108e69ce67976e39ba8c394b3db847ce5979f3fdeaea74a2b23b3fc700d03",
+    "sha256": "acc0097d1a11c19d024d57fc6546b1fac361e3a7542e5e41204d5985351801bf",
     "source": "env=lunarlander-k8 ts=500000 weights=*"
   },
   "k8_holm_p": {
-    "sha256": "090d286718ee27dd3a4dbabc37ca1e2a2f985d2435a0491ca283db0081002f60",
-    "source": "Holm\u2013Bonferroni across {k4,k8,k6} family of m=3"
+    "sha256": "608da6621b465af869f52516280e770f9645c3003e571ddd08e3bbf3abbd7e68",
+    "source": "Holm\u2013Bonferroni across {k4,k6,k8} family of m=3"
   },
   "k8_mwu_p": {
-    "sha256": "e3e12b386a45e56a05d669f106374e6708f086fbd41fb207cac7b5b9fa235e82",
+    "sha256": "102367c66003259281bb200d6e27b340595ee6270f71f4f9aec71513c9c64326",
     "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
   },
   "k8_pcz_iqm": {
-    "sha256": "dafa87bcd1b1ac5414a8e72398bffc1344ee6d3b3e81a1034511ff3428ba4c0e",
+    "sha256": "5cbf0858f32a2a32e94253069fc3f20247e3678b389d41153534d29a33a4af44",
     "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
   },
   "k8_pcz_iqm_ci": {
-    "sha256": "215fe291b7b3379e13f183ade885cd3b70ca02221a465f30f5c8a836c2f75b70",
+    "sha256": "9cc041b3868db6ae713fd6c6f8a4950d970bd5752b7e8a1df86eb3b75998ec0f",
     "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
   },
   "k8_pcz_seeds": {
-    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "sha256": "5378796307535df3ec8d8b15a2e2dc5641419c3d3060cfe32238c0fa973f7aa3",
     "source": "env=lunarlander-k8 ts=500000 weights=*"
   },
   "k8_pcz_stat": {
-    "sha256": "3242955c5f52a56dc7784d73b0e4d92badb148fb518b49003dc424fcada0635d",
+    "sha256": "f1bf84eed9abb9ff002ba3edce69c631f1c1fa79c67c3e94323fccabcffcea25",
     "source": "env=lunarlander-k8 ts=500000 weights=*"
   },
   "k8_perm_p": {
-    "sha256": "226b97e8a5afed18a39274efbbc91c14568f7c8ee92db277e83fda030fb8dc81",
+    "sha256": "e531f93fa6db59aeec9b074895514574fffab4c9320399149d4935a7545a4b0d",
     "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
   },
   "k8_ppo_iqm": {
-    "sha256": "02552a29f614c974ab5c091b356ef3a6fec5f6d1f97ed7bbeb4e2f2029ffa963",
+    "sha256": "dba34f726ae88511d8a4dabe9a5abc2c8ffecfd342cb8c7348e05fd0a39548ac",
     "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
   },
   "k8_ppo_iqm_ci": {
-    "sha256": "f1b6eac68560c54c32893d85d2158bad73e75fef2e3c942265e0ea4e8fc7b6e2",
+    "sha256": "0692e1a0de421bf9734b0eb6b2bc3110de9fbf6508749b4959ddeb16eb13a4e2",
     "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
   },
   "k8_ppo_seeds": {
-    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "sha256": "5378796307535df3ec8d8b15a2e2dc5641419c3d3060cfe32238c0fa973f7aa3",
     "source": "env=lunarlander-k8 ts=500000 weights=*"
   },
   "k8_ppo_stat": {
-    "sha256": "9923b216c7cf026e389f1f5806cc77f7ed56bab2974ab69773854a7bd5286e21",
+    "sha256": "0d9d65ffb004050f20c9606b9ed9502332d2bd1b5d0621c6cdb09f8e92261a0d",
     "source": "env=lunarlander-k8 ts=500000 weights=*"
   },
   "k8_prob_improvement": {
-    "sha256": "fcfeac542620f5ea464e3432cdcc554a4f4051c3c2f64d01fe558434faf90359",
+    "sha256": "d59a70d11c52bf620fcab17353ff8d33f28650780b3f65c68858a44383a31123",
     "source": "P(PCZ > PPO) at k8"
   },
   "k8_prob_sup": {
-    "sha256": "fcfeac542620f5ea464e3432cdcc554a4f4051c3c2f64d01fe558434faf90359",
+    "sha256": "d59a70d11c52bf620fcab17353ff8d33f28650780b3f65c68858a44383a31123",
     "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
   },
   "k8_ratio": {
-    "sha256": "659e1f038a44487fef4edffb102400a8c08d4dd49cf4aedd12d8595c60b470dd",
+    "sha256": "8df275443a931d5d2040f94e6ac54ce63c13da2dfb7c014ddf8bcfbea9745367",
     "source": "env=lunarlander-k8 ts=500000 weights=*"
   },
   "k8_symznorm_stat": {
@@ -964,19 +1052,19 @@
     "source": "algo=torchrl-pcz-ppo-symznorm env=lunarlander-k8 ts=500000 weights=*"
   },
   "k8_var_ratio": {
-    "sha256": "4578fbdf8389e75b874c84f4d887cc757536fe6f4f1673bca8a60b00a27ff6d1",
+    "sha256": "28deeb148bb32d21aaa7b4f9de85416765c666e040036e9d70331fca84131859",
     "source": "env=lunarlander-k8 ts=500000 weights=*"
   },
   "k8_welch_ci": {
-    "sha256": "e91c2dbbe4043a164997d0989d5ae59a5fca4dda3d53716ff0ad5eac8f5635c3",
+    "sha256": "a860af144567fa7f3c0ff20a3a322e8c46e6b1458e532728a8d00132eb0f579d",
     "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
   },
   "k8_welch_d": {
-    "sha256": "0ca356685ecccde1b12f745820e7cc12a6c81be21f1deb0bb35742f8dc734d37",
+    "sha256": "f6902591f1dd2ed6537d5f21725a71be681111692163a734f6f31c2946601792",
     "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
   },
   "k8_welch_p": {
-    "sha256": "76683514ebfa91333b6fb5c0ec8727336ed3f22542ad123cff7e2e0a798365f0",
+    "sha256": "608da6621b465af869f52516280e770f9645c3003e571ddd08e3bbf3abbd7e68",
     "source": "env=lunarlander-k8 ts=500000 weights=* rule=chrono-latest"
   },
   "rr16_equal_k8_4M_cohen_d": {
@@ -1051,8 +1139,16 @@
     "sha256": "a8f4a07457a2e8c2e60d79a6aacce95d7943ff51506fab501edda4f65826c29e",
     "source": "env=lunarlander-k8 ts=4000000 weights=10.00,1.00,1.00,1.00,1.00,1.00,0.50,0.50"
   },
+  "rr16h7_k8_4M_pcz_seeds": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "env=lunarlander-k8 ts=4000000 weights=10.00,1.00,1.00,1.00,1.00,1.00,0.50,0.50"
+  },
   "rr16h7_k8_4M_pcz_stat": {
     "sha256": "d4a614670f31ae5be8fafd5f333d5972e4c04800c862c63bec718ab77e53ff59",
+    "source": "env=lunarlander-k8 ts=4000000 weights=10.00,1.00,1.00,1.00,1.00,1.00,0.50,0.50"
+  },
+  "rr16h7_k8_4M_ppo_seeds": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
     "source": "env=lunarlander-k8 ts=4000000 weights=10.00,1.00,1.00,1.00,1.00,1.00,0.50,0.50"
   },
   "rr16h7_k8_4M_ppo_stat": {
@@ -1091,10 +1187,6 @@
     "sha256": "ae0f2b741e403e3c5f3cbc37fa17025ef4143a1fa42d53aefc77d89486e28183",
     "source": "env=trading-k4 ts=100000 weights='5.00,5.00,0.50,0.50' (exact)"
   },
-  "rr18_1_tradeK4_w5505_pcz_stat": {
-    "sha256": "26e9066a6b1dc165d02813d01d4ad3cb56b1b3c6001d9d68020678d2b94490e6",
-    "source": "env=trading-k4 ts=100000 weights='5.00,5.00,0.50,0.50' (exact)"
-  },
   "rr18_1_tradeK4_w5505_welch_p": {
     "sha256": "e0e449d62d029dd635e2c3b68e173f59b2e2339a1147f6e8b1f7c512ec7ac79b",
     "source": "env=trading-k4 100k weights=5.00,5.00,0.50,0.50"
@@ -1109,10 +1201,6 @@
   },
   "rr18_4_tradeK3c_eq_delta": {
     "sha256": "a67b5b961361fbb7296c243b057cdb31329d191625a8c2917b04111f893250d1",
-    "source": "env=trading-k3-clean ts=100000 weights='' (exact)"
-  },
-  "rr18_4_tradeK3c_eq_pcz_stat": {
-    "sha256": "4dae25598385a8489792a001822994fdbf9e25eacda4664de30a4fb029d850c1",
     "source": "env=trading-k3-clean ts=100000 weights='' (exact)"
   },
   "rr18_4_tradeK3c_eq_welch_p": {
@@ -1259,8 +1347,96 @@
     "sha256": "d2761d746ea3e3ba89b89c93d857cd43b6cb49c85951bb6177efaeb443804fe6",
     "source": "entropy-sweep torchrl-ppo lr=3e-4 ent=0.1 n=5"
   },
+  "tv170_delta": {
+    "sha256": "a80c2e2007973512e8005ea8c3639c2c97f1cc465421462ca428bf5f525867b2",
+    "source": "PCZ-PPO delta trading-k4 1M"
+  },
+  "tv170_n": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "trading-k4 1M seeds per algo"
+  },
+  "tv170_pcz_stat": {
+    "sha256": "8499e5d8edd367bc36090b20fc6de62fd15d65a627f6dee88c6d025b07349111",
+    "source": "PCZ trading-k4 1M mean\u00b1std"
+  },
+  "tv170_ppo_stat": {
+    "sha256": "5547c988a8255658f9132fadef0dcf4b373abd505b810d93375bab1c46c623ad",
+    "source": "PPO trading-k4 1M mean\u00b1std"
+  },
+  "tv170_welch_p": {
+    "sha256": "190ed6e8ba4b60b7ea14c74ae3b298155b77a6ddc7e806a398baf12abbbe36d7",
+    "source": "Welch p trading-k4 1M"
+  },
+  "tv171_hp_delta": {
+    "sha256": "814c30d60a5d306da60415cccaf78365dd1eb6c59b4dc29a3d813db84b91c0c7",
+    "source": "PCZ-PPO delta at lr=3e-4 ent=0.01"
+  },
+  "tv171_hp_p": {
+    "sha256": "ee8eef6273e51ddf6aacc8fb3f6199c865f5bfef5936afbbcc4b737a2ac28fb6",
+    "source": "Welch p PCZ vs PPO at lr=3e-4 ent=0.01"
+  },
+  "tv171_pcz_best_pct": {
+    "sha256": "eea8254c7500ba3de996aa8ad6af399183f04e17d4a8102fde539dbc93a90012",
+    "source": "PCZ best-HP %oracle"
+  },
+  "tv171_ppo_best_pct": {
+    "sha256": "e00e6031fc5e7ef95c526573343419859e112cebd550f10e2089bf393f5ed2bd",
+    "source": "PPO best-HP %oracle"
+  },
+  "tv172_delta": {
+    "sha256": "547eb5817e75d052c1c5d1c3e67ba5091719af078178bb8cab40915722c2c780",
+    "source": "PCZ-PPO delta trading-k4 5M"
+  },
+  "tv172_n": {
+    "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "source": "trading-k4 5M seeds per algo"
+  },
+  "tv172_pcz_stat": {
+    "sha256": "84c6a35b36b45ba9ecc4420ad190e43e6e6030ea2d19d9dffc734bf756b44579",
+    "source": "PCZ trading-k4 5M mean\u00b1std"
+  },
+  "tv172_ppo_stat": {
+    "sha256": "13e20e5b1972d6f1d32e215c054e2268d12e139032f5d92f30afb91cb9faae3c",
+    "source": "PPO trading-k4 5M mean\u00b1std"
+  },
+  "tv172_welch_d": {
+    "sha256": "7d8532e79b3c9f0fba71846c09c592518c3c3cd0cbf180df5e89c06b8a790a89",
+    "source": "Cohen d trading-k4 5M"
+  },
+  "tv172_welch_p": {
+    "sha256": "5b5374f53af508b26a7e69dbb8627ec6566e67cfc13d59bc04662594646d8a72",
+    "source": "Welch p trading-k4 5M"
+  },
+  "tv173_k2_d": {
+    "sha256": "3497e3419932474c88535004694f15c65e11540df2286f398e7ca8cdc609199a",
+    "source": "Cohen d trading-k2 5M"
+  },
+  "tv173_k2_delta": {
+    "sha256": "1c7f604f3af979670fc55f41cd49758b66447004c30a48b9a25c524ab4453520",
+    "source": "PCZ-PPO delta trading-k2 5M"
+  },
+  "tv173_k6_d": {
+    "sha256": "8f22a9927c790831403044a4b2dcb167b4be3e6af99f7b8289b1b64126c220d2",
+    "source": "Cohen d trading-k6 5M"
+  },
+  "tv173_k6_delta": {
+    "sha256": "b3e5c0a82b875e49a85dcabec4cb04f420ac1383542d7b08f9df59c6d3962125",
+    "source": "PCZ-PPO delta trading-k6 5M"
+  },
+  "tv173_k8_d": {
+    "sha256": "8f22a9927c790831403044a4b2dcb167b4be3e6af99f7b8289b1b64126c220d2",
+    "source": "Cohen d trading-k8 5M"
+  },
+  "tv173_k8_delta": {
+    "sha256": "7456350bb53033f196f772f4d38f552f866a5dd7bc517ce0830e7a7f4ff7b626",
+    "source": "PCZ-PPO delta trading-k8 5M"
+  },
+  "tv173_n": {
+    "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+    "source": "trading-k{2,6,8} 5M seeds per algo"
+  },
   "w10_bw_4M_delta": {
-    "sha256": "87c1088e4a489c2a4eaf7abc01f999c33df41092658e829f2c6fbcbbda46faa2",
+    "sha256": "9a72967d98741fff7021a3b53f4364874b7a5d22273bd8f6c8925949e5b40c8a",
     "source": "env=bipedalwalker ts=4000000 weights=*"
   },
   "w10_bw_4M_pcz_seeds": {
@@ -1268,11 +1444,11 @@
     "source": "env=bipedalwalker ts=4000000 weights=*"
   },
   "w10_bw_4M_var_ratio": {
-    "sha256": "81ada0cf87e9b7cb291b496a71c851eda634294c0ac9ffeeec54c82a3756bf86",
+    "sha256": "fdf276f0183c71742823b061f7342d581e56de0af10648339b525249e26ee94f",
     "source": "env=bipedalwalker ts=4000000 weights=*"
   },
   "w10_bw_pcz_stat": {
-    "sha256": "a46a3c025c0f4f40fa4b3cc053b046dde0b9501e06e3a23dffeaf01ad7dbfce9",
+    "sha256": "d5703b261f68d35dc2db7471026ff244d6ff68ba4a97ad2f2437d10f00b0c6bb",
     "source": "algo=torchrl-pcz-ppo-running env=bipedalwalker ts=4000000 weights=*"
   },
   "w10_bw_ppo_stat": {
@@ -1280,7 +1456,7 @@
     "source": "algo=torchrl-ppo env=bipedalwalker ts=4000000 weights=*"
   },
   "w10_hc_4M_delta": {
-    "sha256": "e66a172c4e99f8b6a17ae81115d86b9bf4a7be261033e720a667bc4fb8e3be18",
+    "sha256": "0b07cda3501eb329888dc76d8bc766b522010d47381bf7dc308e7fc43e4c52fb",
     "source": "env=halfcheetah ts=4000000 weights=*"
   },
   "w10_hc_4M_pcz_seeds": {
@@ -1288,11 +1464,11 @@
     "source": "env=halfcheetah ts=4000000 weights=*"
   },
   "w10_hc_4M_var_ratio": {
-    "sha256": "bf8bd8826b985abf5e6347211af927ee7130a5df00cfed5f1517cbcc1134b0c3",
+    "sha256": "a839ab0447b2d415fe1732387938b5e06aa9d5aba7ed0f0c927837f0e77027f2",
     "source": "env=halfcheetah ts=4000000 weights=*"
   },
   "w10_hc_pcz_stat": {
-    "sha256": "356bea1d1306d7a384736af4a51cb239e400170e47fe6134c028e61e34fb8dae",
+    "sha256": "11825eb11207aa523a4593b4c96239257e7b45cce94bae131d3e18aaf56a714d",
     "source": "algo=torchrl-pcz-ppo-running env=halfcheetah ts=4000000 weights=*"
   },
   "w10_hc_ppo_stat": {

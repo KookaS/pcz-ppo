@@ -24,6 +24,8 @@ from fig_data import load_results, query
 INPUTS = [
     "../data/results.csv",
 ]
+UNITS = "normalized,ratio"  # Layer 4: declared metric (rollout/eval/ratio/etc.)
+MIXED_UNITS_ACKNOWLEDGED = True  # Layer 4: figure mixes multiple metrics in one panel; caption explains the difference
 
 ENV_CONFIGS = [
     {"env": "lunarlander-k2", "K": 2, "mismatch": "Sparse/Dense", "display": "LL-K2"},
@@ -43,18 +45,23 @@ def main():
 
     rows = load_results()
 
-    # Canonical weight filters mirror render_claims.py
+    # Canonical weight filters mirror render_claims.py.  K=2 uses (10,6),
+    # K=4 uses primary heterogeneous (10,5,0.5,0.5), K=6 uses canonical
+    # (10,3,1,1,0.5,0.5).  K=8 has no weight filter (single canonical config).
     ENV_WEIGHTS = {
+        "lunarlander-k2": "10.00,6.00",
         "lunarlander": "10.00,5.00,0.50,0.50",
         "lunarlander-k6": "10.00,3.00,1.00,1.00,0.50,0.50",
     }
-    # Apply ent_coef filter only on LunarLander family (HP sweeps collide
-    # there); other envs use cosine schedule consistently.
+    # Apply ent_coef + canonical-LR filters on LunarLander family (HP sweeps
+    # collide there); other envs use cosine schedule + canonical LR
+    # consistently.
     LL_ENVS = {"lunarlander", "lunarlander-k2", "lunarlander-k6", "lunarlander-k8"}
     labels, pcz_m, pcz_s, ppo_m, ppo_s, k_values, ratios, seeds_str = [], [], [], [], [], [], [], []
     for cfg in ENV_CONFIGS:
         w = ENV_WEIGHTS.get(cfg["env"])
         ent = "0.1:0.01" if cfg["env"] in LL_ENVS else None
+        lr = "0.0003" if cfg["env"] in LL_ENVS else None
         pcz = query(
             rows,
             algorithm="torchrl-pcz-ppo-running",
@@ -62,6 +69,7 @@ def main():
             total_timesteps=args.timesteps,
             weights=w,
             ent_coef_schedule=ent,
+            learning_rate=lr,
         )
         ppo = query(
             rows,
@@ -70,6 +78,7 @@ def main():
             total_timesteps=args.timesteps,
             weights=w,
             ent_coef_schedule=ent,
+            learning_rate=lr,
         )
         if pcz["seeds"] == 0 or ppo["seeds"] == 0:
             print(f"  Skipping {cfg['env']}: missing data (PCZ={pcz['seeds']}s, PPO={ppo['seeds']}s)")
@@ -82,7 +91,7 @@ def main():
         k_values.append(cfg["K"])
         # Ratio is PCZ/PPO; undefined when PPO<=0 so we report signed difference instead for those
         ratios.append(pcz["mean"] / ppo["mean"] if ppo["mean"] > 0 else float("nan"))
-        seeds_str.append(f"{pcz['seeds']}s/{ppo['seeds']}s")
+        seeds_str.append(f"n={pcz['seeds']}/{ppo['seeds']}")
         print(
             f"  {cfg['env']}: PCZ {pcz['mean']:.1f}+/-{pcz['std']:.1f} ({pcz['seeds']}s) vs PPO {ppo['mean']:.1f}+/-{ppo['std']:.1f} ({ppo['seeds']}s)"
         )
@@ -135,7 +144,19 @@ def main():
         capsize=3,
         ecolor="#222",
     )
-    ylim_top = 1.25
+    # Adaptive ylim: ensure error bars fit (max bar+err) plus a small label
+    # clearance.  The previous hardcoded 1.25 clipped error bars at LL-K2/K6
+    # where the per-env normalized reward + std exceeded 1.25.
+    max_top = max(
+        max(pcz_norm[i] + pcz_norm_err[i] for i in range(len(pcz_norm))),
+        max(ppo_norm[i] + ppo_norm_err[i] for i in range(len(ppo_norm))),
+    )
+    min_bot = min(
+        min(pcz_norm[i] - pcz_norm_err[i] for i in range(len(pcz_norm))),
+        min(ppo_norm[i] - ppo_norm_err[i] for i in range(len(ppo_norm))),
+    )
+    ylim_top = max(1.25, max_top + 0.10)
+    ylim_bot = min(-0.12, min_bot - 0.05)
     label_bbox = dict(boxstyle="round,pad=0.15", facecolor="white", edgecolor="#333", linewidth=0.4)
     for i, (pm, om) in enumerate(zip(pcz_m, ppo_m)):
         ax.text(
@@ -166,7 +187,7 @@ def main():
     ax.set_xticklabels(labels, fontsize=8)
     ax.set_ylabel("Normalized Eval Reward  (per-env min-max, 0 = PPO-or-zero floor)", fontsize=10)
     ax.set_title(f"Cross-Environment Comparison ({args.timesteps // 1000}k Steps)", fontsize=12, fontweight="bold")
-    ax.set_ylim(-0.12, ylim_top)
+    ax.set_ylim(ylim_bot, ylim_top)
     ax.legend(fontsize=10, loc="upper right")
     ax.grid(True, alpha=0.2, axis="y")
 

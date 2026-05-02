@@ -369,8 +369,12 @@ ENV_REGISTRY: dict[str, EnvConfig] = {
     ),
     "lunarlander": EnvConfig(
         env_id="mo-lunar-lander-v3",
+        # Canonical experimental weights for K=4 are (10, 5, 0.5, 0.5).
+        # Every K=4 paper run was launched with this CLI flag; the older
+        # (5, 3, 0.5, 0.5) default was never used in published experiments.
+        # Updating the env-config default here aligns code with paper.
         reward_components=["landing", "shaping", "fuel_main", "fuel_side"],
-        reward_component_weights=[5.0, 3.0, 0.5, 0.5],
+        reward_component_weights=[10.0, 5.0, 0.5, 0.5],
         policy="MlpPolicy",
         norm_obs=True,
         wrapper_fn=_make_lunarlander,
@@ -431,7 +435,11 @@ ENV_REGISTRY: dict[str, EnvConfig] = {
     "lunarlander-k2": EnvConfig(
         env_id="LunarLander-v3",
         reward_components=["landing", "dense"],
-        reward_component_weights=None,  # Equal weights for K-scaling experiment
+        # Canonical (10, 6) — matches the weight schedule used for every K=2
+        # K-scaling run in results.csv. Earlier comments (and an earlier
+        # paper draft) said "equal"; the data was always (10, 6) because
+        # the launch scripts passed --reward-component-weights explicitly.
+        reward_component_weights=[10.0, 6.0],
         policy="MlpPolicy",
         norm_obs=True,
         wrapper_fn=_make_lunarlander_k2,

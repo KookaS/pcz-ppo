@@ -35,6 +35,7 @@ import numpy as np
 _RUNS_DIR = Path(__file__).resolve().parent.parent / ("l" + "lm_alignment") / "runs"
 
 INPUTS = []  # JSON inputs don't fit CSV/parquet contract; figure is manually rebuilt
+UNITS = "llm-composite"  # Layer 4: declared metric (rollout/eval/ratio/etc.)
 OUTPUTS = ["fig_alignment_results.pdf", "fig_alignment_results.png"]
 
 PCZ_COLOR = "#2196F3"

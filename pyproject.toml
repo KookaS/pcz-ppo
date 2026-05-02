@@ -5,7 +5,7 @@ description = "17 reward normalization strategies for PPO, built on Stable Basel
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "gymnasium[box2d]>=1.0",
+    "gymnasium[box2d,mujoco]>=1.0",
     "mo-gymnasium>=1.0",
     "stable-baselines3[extra]>=2.7",
     "torch>=2.0",
@@ -35,6 +35,8 @@ llm = [
 ]
 trading = [
     "gym-trading-env>=0.3",
+    "cvxpy>=1.4",
+    "osqp>=0.6",
 ]
 
 [tool.ruff]

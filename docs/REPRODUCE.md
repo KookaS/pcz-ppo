@@ -42,10 +42,10 @@ ls artifacts/pcz-ppo/data/metrics/*.parquet | wc -l   # should be > 100
 # Rebuild all stale stages (figures + generated/*.tex fragments)
 uv run python artifacts/pcz-ppo/paper/paper_build.py --build
 
-# Expected output: "Rebuilt N/7 stages" (or "All stages up-to-date")
+# Expected output: "Rebuilt N/12 stages" (or "All stages up-to-date")
 ```
 
-The build DAG has 7 stages:
+The build DAG has 12 stages:
 1. `fragments` — renders all `generated/*.tex` numerical claims from `results.csv`
 2. `fig_ablation_bar` — ablation bar chart
 3. `fig_cross_env` — cross-environment comparison figure
@@ -62,7 +62,7 @@ Wall-clock for a full rebuild from scratch: ~3–5 min (figures) + ~30 s (PDF).
 uv run python artifacts/pcz-ppo/paper/paper_build.py --build --pdf
 ```
 
-Output: `artifacts/pcz-ppo/paper/pcz_ppo.pdf` (35 pages).
+Output: `artifacts/pcz-ppo/paper/pcz_ppo.pdf` (36 pages).
 
 ## Step 5: Run Paper Tests
 

@@ -67,6 +67,52 @@ repos:
         pass_filenames: false
         files: '^(paper/.*\.tex|paper/generated/.*_seeds\.tex)$'
 
+      # Figure-integrity Layer 1 safety net (winner-coverage): every
+      # \cnum{X_winner|loser|direction|summary|winner_verb} reference in
+      # the .tex must correspond to a paired (PCZ, PPO) emit in
+      # render_claims.py.  Catches future drift where a caption uses a
+      # winner-fragment that has no emitter.
+      - id: pcz-lint-winner-coverage
+        name: PCZ Layer-1 winner fragments have emitters
+        entry: uv run python paper/lint_winner_coverage.py
+        language: system
+        pass_filenames: false
+        files: '^(paper/.*\.tex|paper/render_claims\.py)$'
+
+      # Figure-integrity Layer 2 (figure-claim drift detector): any
+      # figure caption containing a hand-typed direction claim ("PCZ
+      # wins", "PPO outperforms", etc.) must reference a data-derived
+      # \cnum{} fragment within ~120 chars or be explicitly allow-listed.
+      # See paper/FIGURE_INTEGRITY.md.
+      - id: pcz-lint-caption-claims
+        name: PCZ figure captions back direction claims with data
+        entry: uv run python paper/lint_caption_claims.py
+        language: system
+        pass_filenames: false
+        files: '^paper/.*\.tex$'
+
+      # Figure-integrity Layer 3 (geometric sanity): render every fig_*.py
+      # and verify text annotations are inside axis bounds, error bars
+      # don't extend past panel edges, and legends don't bleed past the
+      # figure boundary. Slow (renders 11 figures, ~30 s).
+      - id: pcz-lint-figure-geometry
+        name: PCZ figures have no clipped annotations / out-of-bounds error bars
+        entry: uv run python paper/lint_figure_geometry.py
+        language: system
+        pass_filenames: false
+        files: '^paper/fig_.*\.py$'
+
+      # Figure-integrity Layer 4 (mixed-unit detector): every fig_*.py
+      # must declare a UNITS module-level constant; mixed-metric figures
+      # must set MIXED_UNITS_ACKNOWLEDGED=True and call out the mixing
+      # in the LaTeX caption.
+      - id: pcz-lint-figure-units
+        name: PCZ figure UNITS declarations match captions
+        entry: uv run python paper/lint_figure_units.py
+        language: system
+        pass_filenames: false
+        files: '^(paper/fig_.*\.py|paper/pcz_ppo\.tex)$'
+
       # Manifest schema lint: experiment manifest.json files must be
       # config-snapshot only. Forbid prose (verdict, interpretation) and
       # numeric-result fields (results, derived_ratios, headline_metric,

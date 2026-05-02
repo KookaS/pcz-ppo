@@ -537,13 +537,17 @@ def _train_single_tabular(args) -> dict[str, float] | None:
         log_fn = _log_fn
 
     # Create and train
-    model = ModelClass(
-        args.env,
+    init_kwargs = dict(
         reward_component_names=components,
         component_weights=component_weights,
         gamma=args.gamma,
         seed=args.seed,
     )
+    sig = inspect.signature(ModelClass.__init__)
+    if "horizon" in sig.parameters and getattr(args, "mpc_horizon", None) is not None:
+        init_kwargs["horizon"] = args.mpc_horizon
+        mlflow_params["horizon"] = args.mpc_horizon
+    model = ModelClass(args.env, **init_kwargs)
     eval_metrics = model.learn(
         total_timesteps=args.total_timesteps,
         log_fn=log_fn,
@@ -732,12 +736,37 @@ def _train_single_torchrl(args) -> dict[str, float] | None:
         **config_kwargs,
     )
 
+    # Build periodic eval callback if requested.  Each call evaluates the
+    # *current* policy weights (passed by reference) on a small number of
+    # episodes and returns metrics merged into the same row that log_fn
+    # writes — so eval/mean_reward becomes a parquet time series.
+    eval_every = getattr(args, "eval_every_n_steps", None)
+    eval_fn = None
+    if eval_every:
+        from .torchrl.training import evaluate_policy as torchrl_evaluate_periodic
+
+        # Use a smaller episode count for periodic eval than the post-training
+        # final eval — periodic eval is for trajectory shape, not the headline.
+        n_periodic = max(1, min(getattr(args, "n_eval_episodes", 10) // 2, 5))
+
+        def _eval_fn(step: int) -> dict[str, float]:
+            return torchrl_evaluate_periodic(
+                model.policy,
+                args.env,
+                n_episodes=n_periodic,
+                seed=args.seed + 1000 + step,
+            )
+
+        eval_fn = _eval_fn
+
     # Train
     render = getattr(args, "render", False)
     model.learn(
         total_frames=args.total_timesteps,
         render=render,
         log_fn=log_fn,
+        eval_fn=eval_fn,
+        eval_every_n_frames=eval_every,
     )
 
     # Evaluate trained policy

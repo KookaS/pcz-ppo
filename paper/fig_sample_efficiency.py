@@ -23,6 +23,8 @@ from fig_data import load_results, query
 INPUTS = [
     "../data/results.csv",
 ]
+UNITS = "eval-mean-final,ratio"  # Layer 4: declared metric (rollout/eval/ratio/etc.)
+MIXED_UNITS_ACKNOWLEDGED = True  # Layer 4: figure mixes multiple metrics in one panel; caption explains the difference
 
 TIMESTEPS = [100_000, 200_000, 500_000, 1_000_000]
 TIMESTEP_LABELS = ["100k", "200k", "500k", "1M"]
@@ -36,8 +38,11 @@ def main():
 
     rows = load_results()
 
-    # Filter to primary weight config for lunarlander
+    # Filter to primary weight config for lunarlander. `learning_rate="0.0003"`
+    # mirrors the canonical-LR guard in render_claims.py so curve points equal
+    # the corresponding fragments (k4_pcz_stat etc.).
     weights = "10.00,5.00,0.50,0.50" if args.env == "lunarlander" else None
+    learning_rate = "0.0003" if args.env == "lunarlander" else None
 
     pcz_mean, pcz_std, ppo_mean, ppo_std = [], [], [], []
     for ts in TIMESTEPS:
@@ -48,6 +53,7 @@ def main():
             total_timesteps=ts,
             weights=weights,
             ent_coef_schedule="0.1:0.01",
+            learning_rate=learning_rate,
         )
         ppo = query(
             rows,
@@ -56,6 +62,7 @@ def main():
             total_timesteps=ts,
             weights=weights,
             ent_coef_schedule="0.1:0.01",
+            learning_rate=learning_rate,
         )
         pcz_mean.append(pcz["mean"])
         pcz_std.append(pcz["std"])
@@ -110,7 +117,7 @@ def main():
 
     lines1, labels1 = ax2.get_legend_handles_labels()
     lines2, labels2 = ax2_twin.get_legend_handles_labels()
-    ax2.legend(lines1 + lines2, labels1 + labels2, fontsize=9, loc="upper left")
+    ax2.legend(lines1 + lines2, labels1 + labels2, fontsize=9, loc="upper right")
     ax2.grid(True, alpha=0.2)
 
     plt.tight_layout()

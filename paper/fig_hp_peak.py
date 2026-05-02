@@ -24,6 +24,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from fig_data import load_results
 
 INPUTS = ["../data/results.csv"]
+UNITS = "hp-grid"  # Layer 4: declared metric (rollout/eval/ratio/etc.)
 OUTPUTS = ["fig_hp_peak.pdf", "fig_hp_peak.png"]
 
 PCZ_COLOR = "#2196F3"
@@ -185,14 +186,21 @@ def main():
     ax.grid(True, alpha=0.2, axis="y")
     ax.legend(fontsize=10, loc="upper right")
 
-    all_tops = []
+    all_tops, all_bots = [], []
     for algo, _, _ in ALGOS:
         for _, w_prefix in WEIGHT_TIERS.items():
             cell = _best_cell(rows, algo, w_prefix)
             if cell:
                 all_tops.append(cell["mean"] + cell["std"])
+                all_bots.append(cell["mean"] - cell["std"])
     if all_tops:
-        ax.set_ylim(bottom=min(0, min(all_tops) - 30), top=max(all_tops) + 80)
+        # ylim_bot must include the LOWEST error-bar bottom (mean-std), not just
+        # the lowest bar top — otherwise error bars dipping below zero get
+        # clipped at the panel edge (the negative-bar collapse case).
+        ax.set_ylim(
+            bottom=min(0, min(all_bots) - 20),
+            top=max(all_tops) + 80,
+        )
 
     out = Path(__file__).parent / "fig_hp_peak.pdf"
     plt.tight_layout()

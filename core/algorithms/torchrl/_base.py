@@ -111,6 +111,8 @@ class TorchRLAlgorithm:
         total_frames: int | None = None,
         render: bool = False,
         log_fn: Callable | None = None,
+        eval_fn: Callable | None = None,
+        eval_every_n_frames: int | None = None,
     ) -> int:
         """Train the agent.
 
@@ -118,6 +120,12 @@ class TorchRLAlgorithm:
             total_frames: Override ``config.total_frames``.
             render: Launch decoupled renderer subprocess.
             log_fn: Optional callback ``(metrics_dict, step)`` for MLflow etc.
+            eval_fn: Optional callback ``(step) -> dict`` returning eval
+                metrics (``eval/mean_reward``, etc.); merged into the same
+                metrics dict that ``log_fn`` receives.
+            eval_every_n_frames: Trigger ``eval_fn`` every N training frames.
+                ``None`` disables periodic eval (legacy single end-of-training
+                eval still happens via the caller).
 
         Returns:
             Total number of frames collected.
@@ -193,6 +201,8 @@ class TorchRLAlgorithm:
                 _save_fn,
                 advantage_fn=_adv_fn,
                 log_fn=log_fn,
+                eval_fn=eval_fn,
+                eval_every_n_frames=eval_every_n_frames,
             )
             elapsed = time.time() - t0
             print(f"\nTraining complete in {elapsed:.1f}s")

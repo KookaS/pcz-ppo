@@ -64,6 +64,10 @@ FLAG_PATTERNS = [
     # Verb-form comparators (these ARE the claim, not a hedge on a number).
     # Almost always need to be wired or allow-listed.
     (r"\b(?:halves|doubles|triples|quadruples)\b", "verb-comparator"),
+    # Bare $n=N$ or $n{=}N$ — seed-count claims should be wired via \cnum.
+    # Catches drift like "n=15" prose lingering after data extension to n=25.
+    # \cnum{} values are masked before this match, so wired cases are excluded.
+    (r"\$n\s*\{?=\}?\s*\d+\$", "n=N hardcoded"),
 ]
 
 # Allow-list: legitimately hand-typed numbers that are NOT data-derived.
@@ -107,6 +111,30 @@ ALLOW_PATTERNS = [
     # (Equal-weights ablation now wired to fragments abl_eqw_*; TODO resolved.)
     # SB3-vs-TorchRL hyperparameter variant (118.6 ± 26.8) — separate data pipeline
     (r"optimal.*LR annealing.*cosine entropy", "hyperparameter-fairness experiment — TODO wire"),
+    # ----- n=N allow-list: legitimate design-intent / pre-registered references -----
+    # The principle: hardcoded n=N is OK if it documents a fixed design choice
+    # (sweep cell size, pre-reg target, exploratory threshold) rather than a
+    # current data state. Drift bugs fixed in this round looked like
+    # "Marginal at n=15" — narrative claims about current data that didn't
+    # update when seeds were extended.
+    (r"pre-registered", "pre-registered design (history, not current data)"),
+    (r"per cell|seeds per cell|seeds each|each cell", "fixed sweep design"),
+    (r"environment\$?[\\\$]*times?\$?\$?K\$?\s*cells|\bK\$?\s*cells", "cell count, not seed count"),
+    (r"budget-recovery test", "single-seed exploratory test"),
+    (r"seeds 42--\d", "seed-range narration (e.g. seeds 42--46)"),
+    (r"4M.*plateau|plateau.*4M", "4M plateau-tier design"),
+    (r"4M \(moderate\)|4M \(flat\)|4M \(equal\)|4M \(heterog\)", "4M weight-tier row design"),
+    (r"robustness seeds|Holm-extension", "seed-history narration"),
+    (r"100k/200k/1M", "sample-efficiency design points"),
+    (r"chrono-latest dedupe", "weight-sensitivity row design"),
+    (r"bars are exploratory|n.{0,3}=.{0,3}3 bars", "exploratory-bar threshold"),
+    (r"hardened replication at\s+\$n|hardened.*\$n\{=\}|D1 cell.*A6 cell", "hardened-replication threshold/factorial"),
+    (r"SIGNAL.*\$n\{=\}", "trading exploratory SIGNAL tier"),
+    (r"extended to.*\$n\{=\}|subsequently extended", "extension narration"),
+    (r"earlier.*read missed|earlier.*\$n\{=\}\d+\$.*read", "historical n-extension comparison"),
+    (r"\$n\{=\}10\$ replication", "specific replication-tier reference"),
+    (r"indistinguishable at \$n", "LLM regime narrative"),
+    (r"trading-k\d|trading-hk\d|tradeK\d", "trading sub-experiment design"),
 ]
 
 CNUM_RE = re.compile(r"\\cnum\{[^}]+\}")

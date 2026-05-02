@@ -13,6 +13,7 @@ from ._common import (
     _weighted_component_sum,
     _znorm,
 )
+from .baselines.mpc_lq import LQMPCAgent
 from .baselines.ppo import StandardPPO
 from .baselines.ppo_adv_only import PPOAdvOnly
 from .baselines.ppo_multihead import PPOMultiHead
@@ -21,6 +22,8 @@ from .baselines.ppo_popart import PPOPopArt
 from .baselines.ppo_znorm import PPOZnorm
 from .baselines.ppo_znorm_post import PPOZnormPost
 from .baselines.qlearning import TabularQLearning
+from .baselines.random_agent import RandomAgent
+from .baselines.static_weight_agent import StaticWeightAgent
 from .pcz.pcz_grpo import PCZGRPO
 
 # PCZ-PPO variants (per-component normalization + GAE)
@@ -75,6 +78,10 @@ __all__ = [
     "PPOMultiHead",
     # Tabular
     "TabularQLearning",
+    # Planners (classical baselines, no gradient learning)
+    "LQMPCAgent",
+    "RandomAgent",
+    "StaticWeightAgent",
     # Infrastructure
     "ComponentRolloutBuffer",
     "PopArtMixin",
@@ -110,6 +117,9 @@ ALGORITHM_REGISTRY = {
     "ppo-popart": PPOPopArt,
     "ppo-multihead": PPOMultiHead,
     "qlearning": TabularQLearning,
+    "mpc-lq": LQMPCAgent,
+    "random-action": RandomAgent,
+    "static-weight": StaticWeightAgent,
 }
 
 # Merge TorchRL algorithms into the main registry

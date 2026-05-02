@@ -291,6 +291,175 @@ def q_required(
 # --- Claim definitions ----------------------------------------------------
 
 
+# FIGURE INTEGRITY LAYER 1: data-driven winner/direction fragments.
+#
+# For every paired (PCZ-PPO, PPO) cell with stats fragments, automatically
+# emit fragments that describe the winner, the verb, and the direction --- so
+# captions can reference them via \cnum{} instead of hand-typing "PCZ wins"
+# or "PPO outperforms" (which silently drift when the underlying data
+# changes). See FIGURE_INTEGRITY.md for the full design rationale.
+#
+# Classification rule (post-Bug-1/Bug-2 fix, 2026-05-01):
+#
+#   1. **Zero-variance special case** (both std == 0):
+#        if |delta| > _WINNER_DELTA_EPSILON → directional winner.
+#        else → matched.
+#      Reason: at zero variance, ANY nonzero delta is a perfect signal,
+#      not noise. The earlier d-only logic returned "matched" for the
+#      strongest possible difference, which was a real bug.
+#
+#   2. **General case** (at least one std > 0): a directional winner is
+#      declared only when BOTH conditions hold:
+#        Cohen's d >= 0.2 (small-effect threshold, Cohen 1988)
+#        AND
+#        Welch p < 0.05 (statistical significance at α=0.05)
+#      Otherwise → matched.
+#
+#      The α=0.05 requirement is intentional: it matches the paper's own
+#      framing convention.  "Directional but not significant" (e.g. K=4/4M
+#      Δ=+29 with p=0.10, or trading K=6/8 Δ=+18 with p=0.285) is treated
+#      as **matched** at this layer.  Captions that want to disclose a
+#      directional effect should cite the ``_delta`` and ``_welch_p``
+#      fragments explicitly rather than the ``_winner`` label.
+#
+#      When ``pcz_n`` / ``ppo_n`` are not provided (legacy callers), we
+#      fall back to d-only (the old, less safe behavior).  All current
+#      callers should pass n.
+_WINNER_D_THRESHOLD = 0.2
+_WINNER_P_THRESHOLD = 0.05
+_WINNER_DELTA_EPSILON = 1e-6  # Below this, deterministic difference treated as zero.
+
+
+def _winner_fragments(
+    pcz_mean: float,
+    pcz_std: float,
+    ppo_mean: float,
+    ppo_std: float,
+    pcz_n: int | None = None,
+    ppo_n: int | None = None,
+) -> dict[str, str]:
+    """Compute winner/verb/direction strings from a paired (PCZ, PPO) comparison.
+
+    Args:
+        pcz_mean, pcz_std: PCZ-PPO sample mean and sample SD (ddof=1).
+        ppo_mean, ppo_std: PPO sample mean and sample SD.
+        pcz_n, ppo_n: optional sample sizes. When provided, used to compute
+            Welch's p-value and to apply the n-aware tier (n>=5 OR p<0.05).
+            When omitted, only the d-threshold is checked (legacy behavior;
+            avoid for new code).
+
+    Returns:
+        Dict with ``winner``, ``loser``, ``winner_verb``, ``direction``,
+        ``summary`` keys, to be emitted as Layer 1 fragments.
+    """
+    delta = pcz_mean - ppo_mean
+
+    # --- Bug #1 fix: zero-std deterministic case ---------------------------
+    # Both stds are 0 → perfect determinism.  Any nonzero delta is decisive.
+    if pcz_std == 0.0 and ppo_std == 0.0:
+        if abs(delta) <= _WINNER_DELTA_EPSILON:
+            return {
+                "winner": "matched",
+                "loser": "matched",
+                "winner_verb": "matches",
+                "direction": "0",
+                "summary": "PCZ-PPO and PPO are matched",
+            }
+        if delta > 0:
+            return {
+                "winner": "PCZ-PPO",
+                "loser": "PPO",
+                "winner_verb": "outperforms",
+                "direction": "+",
+                "summary": "PCZ-PPO outperforms PPO",
+            }
+        return {
+            "winner": "PPO",
+            "loser": "PCZ-PPO",
+            "winner_verb": "outperforms",
+            "direction": "-",
+            "summary": "PPO outperforms PCZ-PPO",
+        }
+
+    # --- General case ------------------------------------------------------
+    pooled_var = (pcz_std**2 + ppo_std**2) / 2.0
+    pooled_sd = pooled_var**0.5 if pooled_var > 0 else 0.0
+    cohen_d = (delta / pooled_sd) if pooled_sd > 0 else 0.0
+    matched = abs(cohen_d) < _WINNER_D_THRESHOLD
+
+    # --- Bug #2 fix: require p<0.05 in addition to d ----------------------
+    # When n is provided, compute Welch's p.  A directional winner needs
+    # BOTH d>=0.2 AND p<0.05.  Otherwise downgrade to "matched".  This
+    # matches the paper's α=0.05 framing convention.
+    if not matched and pcz_n is not None and ppo_n is not None:
+        from scipy import stats as _stats  # local import: scipy is a heavy dep
+
+        try:
+            _t, p = _stats.ttest_ind_from_stats(
+                mean1=pcz_mean,
+                std1=pcz_std,
+                nobs1=pcz_n,
+                mean2=ppo_mean,
+                std2=ppo_std,
+                nobs2=ppo_n,
+                equal_var=False,
+            )
+            if p >= _WINNER_P_THRESHOLD:
+                matched = True
+        except (ValueError, ZeroDivisionError):
+            # If Welch fails (e.g., zero variance arm), fall back to d-only.
+            pass
+
+    if matched:
+        return {
+            "winner": "matched",
+            "loser": "matched",
+            "winner_verb": "matches",
+            "direction": "0",
+            "summary": "PCZ-PPO and PPO are matched",
+        }
+    if delta > 0:
+        return {
+            "winner": "PCZ-PPO",
+            "loser": "PPO",
+            "winner_verb": "outperforms",
+            "direction": "+",
+            "summary": "PCZ-PPO outperforms PPO",
+        }
+    return {
+        "winner": "PPO",
+        "loser": "PCZ-PPO",
+        "winner_verb": "outperforms",
+        "direction": "-",
+        "summary": "PPO outperforms PCZ-PPO",
+    }
+
+
+def _emit_winner_claims(reg: Registry, prefix: str, pcz_q: dict, ppo_q: dict, src: str) -> None:
+    """Emit Layer 1 winner/verb/direction/summary fragments for a paired query.
+
+    ``pcz_q`` / ``ppo_q`` should be query dicts from ``q_required`` (or
+    compatible) with at least ``mean_raw``, ``std_raw``, and ``seeds`` keys.
+    The seeds count is passed through so the n-aware classification (Bug #2
+    fix) applies.
+    """
+    pcz_n = pcz_q.get("seeds")
+    ppo_n = ppo_q.get("seeds")
+    w = _winner_fragments(
+        pcz_q["mean_raw"],
+        pcz_q["std_raw"],
+        ppo_q["mean_raw"],
+        ppo_q["std_raw"],
+        pcz_n=pcz_n,
+        ppo_n=ppo_n,
+    )
+    reg.add(f"{prefix}_winner", w["winner"], src)
+    reg.add(f"{prefix}_loser", w["loser"], src)
+    reg.add(f"{prefix}_winner_verb", w["winner_verb"], src)
+    reg.add(f"{prefix}_direction", w["direction"], src)
+    reg.add(f"{prefix}_summary", w["summary"], src)
+
+
 def _emit_pcz_ppo_pair(
     reg: Registry,
     rows: list[dict],
@@ -367,6 +536,9 @@ def _emit_pcz_ppo_pair(
             fmt_ratio((ppo["std_raw"] / pcz["std_raw"]) ** 2, decimals=1),
             src,
         )
+
+    # Figure-integrity Layer 1: data-driven winner/direction/summary fragments.
+    _emit_winner_claims(reg, prefix, pcz, ppo, src)
 
 
 def _emit_pcz_ppo_pair_exact_weights(
@@ -447,6 +619,9 @@ def _emit_pcz_ppo_pair_exact_weights(
             fmt_ratio((ppo["std_raw"] / pcz["std_raw"]) ** 2, decimals=1),
             src,
         )
+
+    # Figure-integrity Layer 1: data-driven winner/direction/summary fragments.
+    _emit_winner_claims(reg, prefix, pcz, ppo, src)
 
 
 # --- Seed-count confidence labels (G6 Multi-Seed Statistical Enforcement) -
@@ -899,11 +1074,18 @@ def _emit_k_inference(reg: Registry, rows: list[dict]) -> None:
         raw_ps.append((prefix, float(p_welch)))
         stats_by_k[prefix] = {"p_welch": float(p_welch), "d": d, "n_p": len(v_p), "n_o": len(v_o)}
 
-    # Holm–Bonferroni step-down across the three headline K-scaling tests
+    # Holm–Bonferroni step-down across the three headline K-scaling tests.
+    # Monotonicity is enforced: each adjusted p-value is at least the running
+    # max of all earlier (smaller-rank) adjusted p-values, per the standard
+    # Holm definition (Holm 1979).  Without this max, the implementation
+    # under-adjusts the largest p-values.
     sorted_ps = sorted(raw_ps, key=lambda x: x[1])
     m = len(sorted_ps)
+    running_max = 0.0
     for i, (prefix, p) in enumerate(sorted_ps):
-        p_holm = min(1.0, p * (m - i))
+        p_raw = min(1.0, p * (m - i))
+        p_holm = max(running_max, p_raw)
+        running_max = p_holm
         reg.add(
             f"{prefix}_holm_p",
             fmt_ratio(p_holm, decimals=3),
@@ -2320,6 +2502,467 @@ def build_registry(rows: list[dict], used_filter: set[str] | None = None) -> Reg
     _emit_pcz_ppo_pair(reg, rows, "w10_bw_4M", env="bipedalwalker", total_timesteps=4000000, weights=None, min_seeds=5)
     # Pair fragments for HC 4M — will auto-update from n=5 to n=10 once HC chain completes.
     _emit_pcz_ppo_pair(reg, rows, "w10_hc_4M", env="halfcheetah", total_timesteps=4000000, weights=None, min_seeds=3)
+
+    # --- TV1.5.4 Catastrophic failure rates at plateau (BW 4M, HC 4M) ---
+    # Pre-registered threshold: eval_mean < 0 = catastrophic failure.
+    # BW 4M n=10: PCZ 0/10, PPO 3/10=30% (seeds 47,50,51 at -92 floor).
+    # HC 4M n=10: PCZ 1/10 (s48, shared with PPO), PPO 3/10 (s48,s49,s51).
+    # Algorithm-specific PCZ failure = 0/10 for both envs (s48 shared instability).
+    import numpy as _np_fail
+
+    def _cfail_fragments(prefix: str, env: str, ts: int, threshold: float = 0.0) -> None:
+        def _dedup(rs: list[dict]) -> list[float]:
+            by_seed: dict[str, dict] = {}
+            for r in sorted(rs, key=lambda x: x.get("date", "")):
+                if r.get("eval_mean", "") not in ("", "nan", None):
+                    by_seed[r["seed"]] = r
+            return [float(v["eval_mean"]) for v in by_seed.values()]
+
+        pcz_vals = _np_fail.array(
+            _dedup(
+                [
+                    r
+                    for r in rows
+                    if r["algorithm"] == "torchrl-pcz-ppo-running"
+                    and r["env"] == env
+                    and r["total_timesteps"] == str(ts)
+                ]
+            )
+        )
+        ppo_vals = _np_fail.array(
+            _dedup(
+                [
+                    r
+                    for r in rows
+                    if r["algorithm"] == "torchrl-ppo" and r["env"] == env and r["total_timesteps"] == str(ts)
+                ]
+            )
+        )
+        if len(pcz_vals) == 0 or len(ppo_vals) == 0:
+            return
+        n = len(pcz_vals)
+        fail_pcz = int((pcz_vals < threshold).sum())
+        fail_ppo = int((ppo_vals < threshold).sum())
+        pct_pcz = round(100 * fail_pcz / n)
+        pct_ppo = round(100 * fail_ppo / n)
+        reg.add(f"{prefix}_n", fmt_int(n), f"n seeds plateau {env} {ts}ts")
+        reg.add(f"{prefix}_pcz_fail_n", fmt_int(fail_pcz), f"PCZ failures <{threshold} in {env} {ts}ts")
+        reg.add(f"{prefix}_ppo_fail_n", fmt_int(fail_ppo), f"PPO failures <{threshold} in {env} {ts}ts")
+        reg.add(f"{prefix}_pcz_pct", fmt_int(pct_pcz), f"PCZ failure% <{threshold} in {env} {ts}ts")
+        reg.add(f"{prefix}_ppo_pct", fmt_int(pct_ppo), f"PPO failure% <{threshold} in {env} {ts}ts")
+
+    _cfail_fragments("cfail_bw", "bipedalwalker", 4000000)
+    _cfail_fragments("cfail_hc", "halfcheetah", 4000000)
+
+    # --- TV1.8 zero-entropy subgroup analysis (BW/HC 4M, ent_coef=0.0, seeds 47-51) ---
+    # TV1.8 ran PCZ-PPO at ent_coef=0.0 (same zero-entropy config as PPO's failing seeds).
+    # Both algorithms fail at zero entropy:
+    #   BW: PCZ 5/5 FAIL (100%), PPO 3/5 FAIL (60%)
+    #   HC: PCZ 3/5 FAIL (60%), PPO 3/5 FAIL (60%)
+    # Confirms TV1.8.3 Outcome 1: the headline deployment-reliability difference is an
+    # entropy-config artifact, not an algorithmic property.
+    def _cfail_zeroent_fragments(prefix: str, env: str, ts: int, threshold: float = 0.0) -> None:
+        import numpy as _np_ze
+
+        def _dedup_ze(rs: list[dict]) -> list[float]:
+            by_seed: dict[str, dict] = {}
+            for r in sorted(rs, key=lambda x: x.get("date", "")):
+                if r.get("eval_mean", "") not in ("", "nan", None):
+                    by_seed[r["seed"]] = r
+            return [float(v["eval_mean"]) for v in by_seed.values()]
+
+        pcz_vals = _np_ze.array(
+            _dedup_ze(
+                [
+                    r
+                    for r in rows
+                    if r["algorithm"] == "torchrl-pcz-ppo-running"
+                    and r["env"] == env
+                    and r["total_timesteps"] == str(ts)
+                    and r.get("ent_coef", "") == "0.0"
+                ]
+            )
+        )
+        ppo_vals = _np_ze.array(
+            _dedup_ze(
+                [
+                    r
+                    for r in rows
+                    if r["algorithm"] == "torchrl-ppo"
+                    and r["env"] == env
+                    and r["total_timesteps"] == str(ts)
+                    and r.get("ent_coef", "") == "0.0"
+                ]
+            )
+        )
+        if len(pcz_vals) == 0 or len(ppo_vals) == 0:
+            return
+        n = len(pcz_vals)
+        fail_pcz = int((pcz_vals < threshold).sum())
+        fail_ppo = int((ppo_vals < threshold).sum())
+        pct_pcz = round(100 * fail_pcz / n)
+        pct_ppo = round(100 * fail_ppo / n)
+        reg.add(f"{prefix}_n", fmt_int(n), f"n seeds zero-ent {env} {ts}ts")
+        reg.add(f"{prefix}_pcz_fail_n", fmt_int(fail_pcz), f"PCZ zero-ent failures <{threshold} in {env} {ts}ts")
+        reg.add(f"{prefix}_ppo_fail_n", fmt_int(fail_ppo), f"PPO zero-ent failures <{threshold} in {env} {ts}ts")
+        reg.add(f"{prefix}_pcz_pct", fmt_int(pct_pcz), f"PCZ zero-ent failure% in {env} {ts}ts")
+        reg.add(f"{prefix}_ppo_pct", fmt_int(pct_ppo), f"PPO zero-ent failure% in {env} {ts}ts")
+
+    _cfail_zeroent_fragments("cfail_bw_zeroent", "bipedalwalker", 4000000)
+    _cfail_zeroent_fragments("cfail_hc_zeroent", "halfcheetah", 4000000)
+
+    # --- TV1.5.2 Humanoid 2M deployment-reliability pilot (n=10) ---
+    # humanoid at 2M, seeds 42-51, canonical HPs (lr=3e-4, cosine 0.1->0.01).
+    # Both algos 0/10 catastrophic failures; PPO 404.5+/-23.5, PCZ 365.5+/-20.6
+    # (Delta=-39.0). Pre-registered PPO ~30% failure-rate NOT confirmed; humanoid
+    # therefore does not extend the BW+HC deployment-reliability evidence base.
+    def _humanoid_fragments() -> None:
+        def _dedup(rs: list[dict]) -> list[float]:
+            by_seed: dict[str, dict] = {}
+            for r in sorted(rs, key=lambda x: x.get("date", "")):
+                if r.get("eval_mean", "") not in ("", "nan", None):
+                    by_seed[r["seed"]] = r
+            return [float(v["eval_mean"]) for v in by_seed.values()]
+
+        import numpy as _np_hum
+        from scipy import stats as _stats_hum
+
+        pcz_vals = _np_hum.array(
+            _dedup(
+                [
+                    r
+                    for r in rows
+                    if r["algorithm"] == "torchrl-pcz-ppo-running"
+                    and r["env"] == "humanoid"
+                    and r["total_timesteps"] == "2000000"
+                    and int(r["seed"]) in range(42, 52)
+                ]
+            )
+        )
+        ppo_vals = _np_hum.array(
+            _dedup(
+                [
+                    r
+                    for r in rows
+                    if r["algorithm"] == "torchrl-ppo"
+                    and r["env"] == "humanoid"
+                    and r["total_timesteps"] == "2000000"
+                    and int(r["seed"]) in range(42, 52)
+                ]
+            )
+        )
+        if len(pcz_vals) < 2 or len(ppo_vals) < 2:
+            return
+        n = min(len(pcz_vals), len(ppo_vals))
+        _t, p = _stats_hum.ttest_ind(pcz_vals, ppo_vals, equal_var=False)
+        delta = float(pcz_vals.mean() - ppo_vals.mean())
+        pooled = ((len(pcz_vals) - 1) * pcz_vals.std(ddof=1) ** 2 + (len(ppo_vals) - 1) * ppo_vals.std(ddof=1) ** 2) / (
+            len(pcz_vals) + len(ppo_vals) - 2
+        )
+        d = delta / float(_np_hum.sqrt(pooled)) if pooled > 0 else 0.0
+        fail_pcz = int((pcz_vals < 0.0).sum())
+        fail_ppo = int((ppo_vals < 0.0).sum())
+
+        reg.add("humanoid_ppo_stat", fmt_stat(ppo_vals.mean(), ppo_vals.std(ddof=1)), "PPO humanoid 2M mean+/-std")
+        reg.add("humanoid_pcz_stat", fmt_stat(pcz_vals.mean(), pcz_vals.std(ddof=1)), "PCZ humanoid 2M mean+/-std")
+        reg.add("humanoid_n", fmt_int(n), "humanoid 2M seeds per algo")
+        reg.add("humanoid_delta", fmt_signed(delta, decimals=1), "PCZ-PPO delta humanoid 2M")
+        reg.add("humanoid_welch_p", fmt_plain(float(p), decimals=2), "Welch p humanoid 2M")
+        reg.add("humanoid_welch_d", fmt_signed(d, decimals=2), "Cohen d humanoid 2M")
+        reg.add("humanoid_pcz_fail_n", fmt_int(fail_pcz), "PCZ failures <0 humanoid 2M")
+        reg.add("humanoid_ppo_fail_n", fmt_int(fail_ppo), "PPO failures <0 humanoid 2M")
+        # Layer 1 winner fragments (note: humanoid PPO has higher mean; PCZ is "loser" on mean)
+        _emit_winner_claims(
+            reg,
+            "humanoid",
+            {"mean_raw": float(pcz_vals.mean()), "std_raw": float(pcz_vals.std(ddof=1)), "seeds": len(pcz_vals)},
+            {"mean_raw": float(ppo_vals.mean()), "std_raw": float(ppo_vals.std(ddof=1)), "seeds": len(ppo_vals)},
+            "humanoid 2M",
+        )
+
+    _humanoid_fragments()
+
+    # --- TV1.7.0 Trading-k4 1M probe (Stage-0 learnability gate) ---
+    # trading-k4 at 1M steps, seeds 42-46, n=5. Both PPO and PCZ reach >50% of
+    # oracle (+81.3), confirming learnability; PCZ null persists (p=0.900, d=-0.08).
+    def _tv170_fragments() -> None:
+        def _dedup_tv170(rs: list[dict]) -> list[float]:
+            by_seed: dict[str, dict] = {}
+            for r in sorted(rs, key=lambda x: x.get("date", "")):
+                if r.get("eval_mean", "") not in ("", "nan", None):
+                    by_seed[r["seed"]] = r
+            return [float(v["eval_mean"]) for v in by_seed.values()]
+
+        import numpy as _np_tv170
+        from scipy import stats as _stats_tv170
+
+        pcz_vals = _np_tv170.array(
+            _dedup_tv170(
+                [
+                    r
+                    for r in rows
+                    if r["algorithm"] == "torchrl-pcz-ppo-running"
+                    and r["env"] == "trading-k4"
+                    and r["total_timesteps"] == "1000000"
+                    and int(r["seed"]) in [42, 43, 44, 45, 46]
+                ]
+            )
+        )
+        ppo_vals = _np_tv170.array(
+            _dedup_tv170(
+                [
+                    r
+                    for r in rows
+                    if r["algorithm"] == "torchrl-ppo"
+                    and r["env"] == "trading-k4"
+                    and r["total_timesteps"] == "1000000"
+                    and int(r["seed"]) in [42, 43, 44, 45, 46]
+                ]
+            )
+        )
+        if len(pcz_vals) < 2 or len(ppo_vals) < 2:
+            return
+        n = min(len(pcz_vals), len(ppo_vals))
+        _t_tv170, p = _stats_tv170.ttest_ind(pcz_vals, ppo_vals, equal_var=False)
+        delta = float(pcz_vals.mean() - ppo_vals.mean())
+        pooled = ((len(pcz_vals) - 1) * pcz_vals.std(ddof=1) ** 2 + (len(ppo_vals) - 1) * ppo_vals.std(ddof=1) ** 2) / (
+            len(pcz_vals) + len(ppo_vals) - 2
+        )
+        d = delta / float(_np_tv170.sqrt(pooled)) if pooled > 0 else 0.0
+
+        reg.add("tv170_ppo_stat", fmt_stat(ppo_vals.mean(), ppo_vals.std(ddof=1)), "PPO trading-k4 1M mean±std")
+        reg.add("tv170_pcz_stat", fmt_stat(pcz_vals.mean(), pcz_vals.std(ddof=1)), "PCZ trading-k4 1M mean±std")
+        reg.add("tv170_n", fmt_int(n), "trading-k4 1M seeds per algo")
+        reg.add("tv170_delta", fmt_signed(delta, decimals=1), "PCZ-PPO delta trading-k4 1M")
+        reg.add("tv170_welch_p", fmt_plain(float(p), decimals=3), "Welch p trading-k4 1M")
+        reg.add("tv170_welch_d", fmt_signed(d, decimals=2), "Cohen d trading-k4 1M")
+        # Layer 1 winner fragments
+        _emit_winner_claims(
+            reg,
+            "tv170",
+            {"mean_raw": float(pcz_vals.mean()), "std_raw": float(pcz_vals.std(ddof=1)), "seeds": len(pcz_vals)},
+            {"mean_raw": float(ppo_vals.mean()), "std_raw": float(ppo_vals.std(ddof=1)), "seeds": len(ppo_vals)},
+            "trading-k4 1M",
+        )
+
+    _tv170_fragments()
+
+    # --- TV1.7.1 Stage-1 HP sweep (trading-k4 at 1M, 9 cells × 2 algos × n=3) ---
+    # Key finding: canonical HP (lr=3e-4, cosine) is suboptimal for trading.
+    # PPO best: lr=1e-4, cosine → +89.1 ± 24.5 (110% oracle)
+    # PCZ best: lr=3e-4, ent=0.01 → +81.2 ± 2.5 (100% oracle, p=0.002 vs PPO at same HP)
+    def _tv171_fragments() -> None:
+        import numpy as _np171
+        from scipy import stats as _stats171
+
+        def _cell_vals(
+            algo: str,
+            lr: float,
+            is_cosine: bool,
+            ent_coef_val: float | None = None,
+        ) -> _np171.ndarray:
+            lr_str = f"{lr:.4f}"
+            by_seed: dict = {}
+            for r in rows:
+                if (
+                    r["algorithm"] == algo
+                    and r["env"] == "trading-k4"
+                    and r["total_timesteps"] == "1000000"
+                    and int(r["seed"]) in [42, 43, 44]
+                    and str(r.get("learning_rate", "")).startswith(lr_str[:6])
+                    and r.get("eval_mean", "") not in ("", "nan", None)
+                ):
+                    sched = str(r.get("ent_coef_schedule", "") or "")
+                    has_sched = sched not in ("", "nan", "NaN") and sched
+                    if is_cosine != bool(has_sched):
+                        continue
+                    if ent_coef_val is not None:
+                        try:
+                            if abs(float(r.get("ent_coef", "")) - ent_coef_val) > 1e-6:
+                                continue
+                        except (ValueError, TypeError):
+                            continue
+                    by_seed[r["seed"]] = float(r["eval_mean"])
+            return _np171.array(list(by_seed.values()))
+
+        # PPO best: lr=1e-4, cosine
+        ppo_best = _cell_vals("torchrl-ppo", 0.0001, True)
+        # PCZ best: lr=3e-4, fixed ent=0.01
+        pcz_best = _cell_vals("torchrl-pcz-ppo-running", 0.0003, False, ent_coef_val=0.01)
+        # PPO at PCZ's best HP (lr=3e-4, fixed ent=0.01) — for head-to-head
+        ppo_at_pcz_hp = _cell_vals("torchrl-ppo", 0.0003, False, ent_coef_val=0.01)
+
+        if len(ppo_best) < 1 or len(pcz_best) < 1:
+            return
+
+        oracle = 81.3
+        reg.add(
+            "tv171_ppo_best_stat", fmt_stat(ppo_best.mean(), ppo_best.std(ddof=1)), "PPO best-HP stat trading-k4 1M"
+        )
+        reg.add("tv171_ppo_best_n", fmt_int(len(ppo_best)), "PPO best-HP n trading-k4 1M")
+        reg.add("tv171_ppo_best_pct", fmt_int(round(100 * ppo_best.mean() / oracle)), "PPO best-HP %oracle")
+        reg.add(
+            "tv171_pcz_best_stat", fmt_stat(pcz_best.mean(), pcz_best.std(ddof=1)), "PCZ best-HP stat trading-k4 1M"
+        )
+        reg.add("tv171_pcz_best_n", fmt_int(len(pcz_best)), "PCZ best-HP n trading-k4 1M")
+        reg.add("tv171_pcz_best_pct", fmt_int(round(100 * pcz_best.mean() / oracle)), "PCZ best-HP %oracle")
+
+        # PCZ vs PPO at the same HP (lr=3e-4, ent=0.01) — the decisive cell
+        if len(ppo_at_pcz_hp) >= 2 and len(pcz_best) >= 2:
+            delta = float(pcz_best.mean() - ppo_at_pcz_hp.mean())
+            _t171, p171 = _stats171.ttest_ind(pcz_best, ppo_at_pcz_hp, equal_var=False)
+            reg.add("tv171_hp_delta", fmt_signed(delta, decimals=1), "PCZ-PPO delta at lr=3e-4 ent=0.01")
+            reg.add("tv171_hp_p", fmt_plain(float(p171), decimals=3), "Welch p PCZ vs PPO at lr=3e-4 ent=0.01")
+
+    _tv171_fragments()
+
+    # --- TV1.7.2 Stage-2 (trading-k4 at 5M, n=10, best HPs per algo) ---
+    # PPO best HP: lr=1e-4, cosine entropy 0.1→0.01
+    # PCZ best HP: lr=3e-4, fixed ent=0.01
+    # Pre-registered null hypothesis confirmed: Δ=+10.1, p=0.530, d=0.29
+    # Neither algorithm reaches 80%-of-oracle competence at 5M (PCZ 74%, PPO 61%).
+    def _tv172_fragments() -> None:
+        import numpy as _np172
+        from scipy import stats as _stats172
+
+        def _dedup_tv172(rs: list[dict]) -> list[float]:
+            by_seed: dict[str, dict] = {}
+            for r in sorted(rs, key=lambda x: x.get("date", "")):
+                if r.get("eval_mean", "") not in ("", "nan", None):
+                    by_seed[r["seed"]] = r
+            return [float(v["eval_mean"]) for v in by_seed.values()]
+
+        pcz_vals = _np172.array(
+            _dedup_tv172(
+                [
+                    r
+                    for r in rows
+                    if r["algorithm"] == "torchrl-pcz-ppo-running"
+                    and r["env"] == "trading-k4"
+                    and r["total_timesteps"] == "5000000"
+                    and int(r["seed"]) in range(42, 52)
+                ]
+            )
+        )
+        ppo_vals = _np172.array(
+            _dedup_tv172(
+                [
+                    r
+                    for r in rows
+                    if r["algorithm"] == "torchrl-ppo"
+                    and r["env"] == "trading-k4"
+                    and r["total_timesteps"] == "5000000"
+                    and int(r["seed"]) in range(42, 52)
+                ]
+            )
+        )
+        if len(pcz_vals) < 2 or len(ppo_vals) < 2:
+            return
+        n = min(len(pcz_vals), len(ppo_vals))
+        _t_tv172, p = _stats172.ttest_ind(pcz_vals, ppo_vals, equal_var=False)
+        delta = float(pcz_vals.mean() - ppo_vals.mean())
+        pooled = ((len(pcz_vals) - 1) * pcz_vals.std(ddof=1) ** 2 + (len(ppo_vals) - 1) * ppo_vals.std(ddof=1) ** 2) / (
+            len(pcz_vals) + len(ppo_vals) - 2
+        )
+        d = delta / float(_np172.sqrt(pooled)) if pooled > 0 else 0.0
+
+        reg.add("tv172_ppo_stat", fmt_stat(ppo_vals.mean(), ppo_vals.std(ddof=1)), "PPO trading-k4 5M mean±std")
+        reg.add("tv172_pcz_stat", fmt_stat(pcz_vals.mean(), pcz_vals.std(ddof=1)), "PCZ trading-k4 5M mean±std")
+        reg.add("tv172_n", fmt_int(n), "trading-k4 5M seeds per algo")
+        reg.add("tv172_delta", fmt_signed(delta, decimals=1), "PCZ-PPO delta trading-k4 5M")
+        reg.add("tv172_welch_p", fmt_plain(float(p), decimals=2), "Welch p trading-k4 5M")
+        reg.add("tv172_welch_d", fmt_signed(d, decimals=2), "Cohen d trading-k4 5M")
+        # Layer 1 winner fragments
+        _emit_winner_claims(
+            reg,
+            "tv172",
+            {"mean_raw": float(pcz_vals.mean()), "std_raw": float(pcz_vals.std(ddof=1)), "seeds": len(pcz_vals)},
+            {"mean_raw": float(ppo_vals.mean()), "std_raw": float(ppo_vals.std(ddof=1)), "seeds": len(ppo_vals)},
+            "trading-k4 5M",
+        )
+
+    _tv172_fragments()
+
+    # --- TV1.7.3.1 Trading K-scaling extension at 5M (k=2,6,8, n=5) ---
+    # Best HPs per algo (PPO lr=1e-4 cosine; PCZ lr=3e-4 fixed ent=0.01),
+    # seeds 42-46. Pre-registered null confirmed across all K (all p>0.05).
+    # Notable: K=6/K=8 both show ~18-unit PCZ trend with d~0.73, underpowered
+    # at n=5 (would need n>=15 for 80% power).
+    def _tv173_fragments() -> None:
+        import numpy as _np173
+        from scipy import stats as _stats173
+
+        def _dedup(rs: list[dict]) -> list[float]:
+            by_seed: dict[str, dict] = {}
+            for r in sorted(rs, key=lambda x: x.get("date", "")):
+                if r.get("eval_mean", "") not in ("", "nan", None):
+                    by_seed[r["seed"]] = r
+            return [float(v["eval_mean"]) for v in by_seed.values()]
+
+        common_n = None
+        for k in (2, 6, 8):
+            env = f"trading-k{k}"
+            pcz_vals = _np173.array(
+                _dedup(
+                    [
+                        r
+                        for r in rows
+                        if r["algorithm"] == "torchrl-pcz-ppo-running"
+                        and r["env"] == env
+                        and r["total_timesteps"] == "5000000"
+                        and int(r["seed"]) in range(42, 47)
+                    ]
+                )
+            )
+            ppo_vals = _np173.array(
+                _dedup(
+                    [
+                        r
+                        for r in rows
+                        if r["algorithm"] == "torchrl-ppo"
+                        and r["env"] == env
+                        and r["total_timesteps"] == "5000000"
+                        and int(r["seed"]) in range(42, 47)
+                    ]
+                )
+            )
+            if len(pcz_vals) < 2 or len(ppo_vals) < 2:
+                continue
+            n = min(len(pcz_vals), len(ppo_vals))
+            common_n = n if common_n is None else min(common_n, n)
+            _t, p = _stats173.ttest_ind(pcz_vals, ppo_vals, equal_var=False)
+            delta = float(pcz_vals.mean() - ppo_vals.mean())
+            pooled = (
+                (len(pcz_vals) - 1) * pcz_vals.std(ddof=1) ** 2 + (len(ppo_vals) - 1) * ppo_vals.std(ddof=1) ** 2
+            ) / (len(pcz_vals) + len(ppo_vals) - 2)
+            d = delta / float(_np173.sqrt(pooled)) if pooled > 0 else 0.0
+
+            reg.add(
+                f"tv173_k{k}_pcz_stat",
+                fmt_stat(pcz_vals.mean(), pcz_vals.std(ddof=1)),
+                f"PCZ trading-k{k} 5M mean+/-std",
+            )
+            reg.add(
+                f"tv173_k{k}_ppo_stat",
+                fmt_stat(ppo_vals.mean(), ppo_vals.std(ddof=1)),
+                f"PPO trading-k{k} 5M mean+/-std",
+            )
+            reg.add(f"tv173_k{k}_delta", fmt_signed(delta, decimals=1), f"PCZ-PPO delta trading-k{k} 5M")
+            reg.add(f"tv173_k{k}_p", fmt_plain(float(p), decimals=3), f"Welch p trading-k{k} 5M")
+            reg.add(f"tv173_k{k}_d", fmt_signed(d, decimals=2), f"Cohen d trading-k{k} 5M")
+            # Layer 1 winner fragments
+            _emit_winner_claims(
+                reg,
+                f"tv173_k{k}",
+                {"mean_raw": float(pcz_vals.mean()), "std_raw": float(pcz_vals.std(ddof=1)), "seeds": len(pcz_vals)},
+                {"mean_raw": float(ppo_vals.mean()), "std_raw": float(ppo_vals.std(ddof=1)), "seeds": len(ppo_vals)},
+                f"trading-k{k} 5M",
+            )
+
+        if common_n is not None:
+            reg.add("tv173_n", fmt_int(common_n), "trading-k{2,6,8} 5M seeds per algo")
+
+    _tv173_fragments()
 
     # --- Clean-decomposition trading ablation ---
     # trading-k3-clean = [pnl_gain, pnl_loss, txn_cost]. Tests whether dropping
